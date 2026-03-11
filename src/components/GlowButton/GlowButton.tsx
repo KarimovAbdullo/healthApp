@@ -21,21 +21,21 @@ const styles = StyleSheet.create({
   blur: {
     flexDirection: "row",
     // paddingVertical: 14,
-    borderRadius: 100,
+    // borderRadius: 100,
     paddingHorizontal: 8,
 
     // overflow: "hidden",
 
-    backgroundColor: "rgba(255, 255, 255, 0.05)",
+    backgroundColor: "rgba(255, 255, 255, 0.35)",
 
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.08)",
+    // borderLeftWidth: 1,
+    // borderColor: "rgba(255,255,255,0.08)",
 
-    shadowColor: "rgba(208, 213, 212, 0.1)",
+    shadowColor: "white",
     shadowOpacity: 0.9,
     shadowRadius: 20,
     shadowOffset: { width: 0, height: 10 },
 
-    elevation: 22,
+    // elevation: 22,
   },
 });

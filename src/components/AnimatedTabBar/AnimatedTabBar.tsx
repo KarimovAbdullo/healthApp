@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     flex: 1,
     borderRadius: 28,
     overflow: "hidden",
-    backgroundColor: "rgba(37, 99, 235, 0.35)",
+    backgroundColor: "rgba(89, 137, 240, 0.71)",
   },
   tabsWrapper: {
     flex: 1,

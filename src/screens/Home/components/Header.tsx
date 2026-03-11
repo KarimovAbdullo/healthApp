@@ -1,3 +1,4 @@
+import HideIcon from "@/assets/icons/hideIcon";
 import { AppText } from "@/components/AppText";
 import GlassTabBar from "@/components/GlowButton/GlowButton";
 import { getBodyCategory } from "@/utils/bodyMetrics";
@@ -8,6 +9,7 @@ import {
   Image,
   Platform,
   StyleSheet,
+  Text,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -105,6 +107,7 @@ const Header = ({ metrics, onEditPress }: HeaderProps) => {
           style={styles.heroImage}
           resizeMode="contain"
         />
+
         <View style={styles.heroContent}>
           <View style={styles.heroLeft}>
             <View style={styles.headerTopRow}>
@@ -151,6 +154,7 @@ const Header = ({ metrics, onEditPress }: HeaderProps) => {
                   </View>
                 </GlassTabBar>
               </NeonBorderWrapper>
+
               <View style={{ paddingHorizontal: 2 }} />
               <NeonBorderWrapper style={{ flex: 1 }}>
                 <GlassTabBar style={{ borderRadius: 20, width: "100%" }}>
@@ -171,6 +175,27 @@ const Header = ({ metrics, onEditPress }: HeaderProps) => {
                 </GlassTabBar>
               </NeonBorderWrapper>
             </View>
+
+            <TouchableOpacity
+              style={{
+                backgroundColor: "yellow",
+                alignSelf: "flex-start",
+                borderRadius: 8,
+                paddingHorizontal: 4,
+                height: 20,
+                alignItems: "center",
+                justifyContent: "center",
+                flexDirection: "row",
+                marginVertical: 5,
+              }}
+            >
+              <Text
+                style={{ fontSize: 12, fontWeight: "bold", color: "black" }}
+              >
+                Show info
+              </Text>
+              <HideIcon />
+            </TouchableOpacity>
             <Info metrics={metrics} />
           </View>
         </View>
