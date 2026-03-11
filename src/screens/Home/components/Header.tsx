@@ -27,9 +27,11 @@ import Animated, {
 import type { UserMetrics } from "../HomeScreen";
 import Info from "./Info";
 
-const { height: SCREEN_HEIGHT } = Dimensions.get("window");
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 const HEADER_HEIGHT = SCREEN_HEIGHT * 0.45;
 const COLLAPSED_HEADER_HEIGHT = 200;
+const HERO_IMAGE_WIDTH = SCREEN_WIDTH * 0.55;
+const HERO_IMAGE_LEFT = SCREEN_WIDTH - HERO_IMAGE_WIDTH;
 
 function NeonBorderWrapper({
   children,
@@ -319,8 +321,8 @@ const styles = StyleSheet.create({
     height: 430,
   },
   heroImage: {
-    width: 350,
-    height: 430,
+    width: 300,
+    height: 400,
   },
   statsCard: {
     marginHorizontal: 20,
