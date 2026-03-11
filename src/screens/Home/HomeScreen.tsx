@@ -38,21 +38,25 @@ export function HomeScreen() {
   const [gender, setGender] = useState<Gender | "">("");
   const [activityLevel, setActivityLevel] = useState<ActivityLevel | "">("");
 
+  const heightNum = Number(height);
+  const weightNum = Number(weight);
+  const ageNum = Number(age);
+
   const canConfirm =
     name.trim().length > 0 &&
     name.trim().length <= 9 &&
-    !!Number(height) &&
-    !!Number(weight) &&
-    !!Number(age) &&
+    !!heightNum &&
+    !!weightNum &&
+    !!ageNum &&
+    heightNum >= 50 &&
+    weightNum >= 45 &&
+    weightNum <= 160 &&
     age.trim().length > 0 &&
     (gender === "male" || gender === "female") &&
     ["sedentary", "light", "moderate", "active"].includes(activityLevel);
 
   const handleConfirm = () => {
     if (!canConfirm) return;
-    const heightNum = Number(height);
-    const weightNum = Number(weight);
-    const ageNum = Number(age);
     if (
       !(gender === "male" || gender === "female") ||
       !["sedentary", "light", "moderate", "active"].includes(activityLevel)

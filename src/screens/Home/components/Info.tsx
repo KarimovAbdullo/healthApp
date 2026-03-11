@@ -14,11 +14,17 @@ import {
 } from "@/utils/bodyMetrics";
 import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
+import { useEffect, useRef, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import type { UserMetrics } from "../HomeScreen";
 
+const SCROLL_STEP = 1;
+const SCROLL_INTERVAL_MS = 80;
+const SCROLL_PAUSE_AT_END_MS = 1500;
+
 type InfoProps = {
   metrics: UserMetrics | null;
+  isExpanded?: boolean;
 };
 
 const categoryLabel: Record<BodyCategory, string> = {
@@ -110,7 +116,65 @@ const GradientNumber = ({
   );
 };
 
-const Info = ({ metrics }: InfoProps) => {
+const Info = ({ metrics, isExpanded = true }: InfoProps) => {
+  const scrollRef = useRef<ScrollView>(null);
+  const scrollY = useRef(0);
+  const contentHeight = useRef(0);
+  const [contentHeightState, setContentHeightState] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const scrollViewHeight = 220;
+  const isAtBottom = useRef(false);
+  const pauseTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (isExpanded) {
+      setIsPaused(false);
+      scrollY.current = 0;
+      isAtBottom.current = false;
+      scrollRef.current?.scrollTo({ y: 0, animated: false });
+    }
+  }, [isExpanded]);
+
+  useEffect(() => {
+    if (contentHeightState <= scrollViewHeight) return;
+    if (isPaused) return;
+
+    const scroll = () => {
+      if (isAtBottom.current) return;
+
+      scrollY.current += SCROLL_STEP;
+      const maxScroll = contentHeight.current - scrollViewHeight;
+
+      if (scrollY.current >= maxScroll) {
+        scrollY.current = maxScroll;
+        isAtBottom.current = true;
+        scrollRef.current?.scrollTo({
+          y: scrollY.current,
+          animated: true,
+        });
+        pauseTimeout.current = setTimeout(() => {
+          isAtBottom.current = false;
+          scrollY.current = 0;
+          scrollRef.current?.scrollTo({
+            y: 0,
+            animated: true,
+          });
+        }, SCROLL_PAUSE_AT_END_MS);
+      } else {
+        scrollRef.current?.scrollTo({
+          y: scrollY.current,
+          animated: false,
+        });
+      }
+    };
+
+    const interval = setInterval(scroll, SCROLL_INTERVAL_MS);
+    return () => {
+      clearInterval(interval);
+      if (pauseTimeout.current) clearTimeout(pauseTimeout.current);
+    };
+  }, [metrics, contentHeightState, isPaused]);
+
   if (!metrics) {
     return null;
   }
@@ -157,10 +221,16 @@ const Info = ({ metrics }: InfoProps) => {
         }}
       >
         <ScrollView
+          ref={scrollRef}
           style={infoStyles.scroll}
           contentContainerStyle={infoStyles.scrollContent}
           showsVerticalScrollIndicator={false}
           bounces={true}
+          onScrollBeginDrag={() => setIsPaused(true)}
+          onContentSizeChange={(_, h) => {
+            contentHeight.current = h;
+            setContentHeightState(h);
+          }}
         >
           <View style={{ paddingVertical: 4 }}>
             <AppText

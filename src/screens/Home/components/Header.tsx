@@ -237,7 +237,7 @@ const Header = ({ metrics, onEditPress }: HeaderProps) => {
               style={infoAnimatedStyle}
               pointerEvents={isInfoExpanded ? "auto" : "none"}
             >
-              <Info metrics={metrics} />
+              <Info metrics={metrics} isExpanded={isInfoExpanded} />
             </Animated.View>
           </View>
         </View>
