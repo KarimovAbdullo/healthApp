@@ -26,12 +26,12 @@ const styles = StyleSheet.create({
 
     // overflow: "hidden",
 
-    backgroundColor: "rgba(255, 255, 255, 0.35)",
+    backgroundColor: "rgba(255, 255, 255, 0.05)",
 
     borderWidth: 1,
     borderColor: "rgba(255,255,255,0.08)",
 
-    shadowColor: "white",
+    shadowColor: "rgba(208, 213, 212, 0.1)",
     shadowOpacity: 0.9,
     shadowRadius: 20,
     shadowOffset: { width: 0, height: 10 },

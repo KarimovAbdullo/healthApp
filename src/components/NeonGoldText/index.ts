@@ -1,0 +1,1 @@
+export { NeonGoldText } from "./NeonGoldText";

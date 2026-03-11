@@ -1,4 +1,7 @@
-import { Platform, StyleSheet } from "react-native";
+import { Dimensions, Platform, StyleSheet } from "react-native";
+
+const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get("window");
+const HEADER_HEIGHT = SCREEN_HEIGHT * 0.45;
 
 export const styles = StyleSheet.create({
   title: {
@@ -12,21 +15,24 @@ export const styles = StyleSheet.create({
     backgroundColor: "black",
   },
   headerSection: {
-    position: "relative",
+    height: HEADER_HEIGHT,
   },
   heroCard: {
+    flex: 1,
     paddingHorizontal: 20,
-    paddingBottom: 12,
+    paddingBottom: 24,
     borderBottomLeftRadius: 40,
     borderBottomRightRadius: 40,
-    height: "100%",
-    // overflow: "hidden",
     paddingTop: 40,
+    flexDirection: "row",
+    alignItems: "flex-end",
+    justifyContent: "space-between",
   },
   heroContent: {
     flex: 1,
-    // position: "relative",
     paddingTop: Platform.OS === "ios" ? 30 : 0,
+    paddingRight: 16,
+    paddingLeft: 4,
   },
   heroLeft: {
     flex: 1,
@@ -49,11 +55,12 @@ export const styles = StyleSheet.create({
     marginBottom: 2,
   },
   heroImage: {
-    width: 280,
-    height: 400,
+    width: 240,
+    height: 300,
     position: "absolute",
-    right: -40,
-    top: 20,
+    left: 120,
+    top: 50,
+    zIndex: 1,
   },
   statsCard: {
     marginHorizontal: 20,

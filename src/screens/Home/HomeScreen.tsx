@@ -1,203 +1,190 @@
 import { AppText } from "@/components/AppText";
-import GlassTabBar from "@/components/GlowButton/GlowButton";
-import { Image } from "expo-image";
-import { LinearGradient } from "expo-linear-gradient";
-import { useRef } from "react";
-import { ScrollView, View } from "react-native";
+import { useRef, useState } from "react";
+import {
+  Modal,
+  ScrollView,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "./HomeScreen.styles";
+import Header from "./components/Header";
 
-const MOCK_DATA = {
-  userName: "John",
-  weightToLose: 2.5,
-  currentWeight: 82,
-  height: 180,
-  dailyCalories: 2450,
-  consumedCalories: 1376,
-  goalWeight: 80,
-  goalProgress: 50,
-  meals: {
-    breakfast: 423,
-    lunch: 530,
-    dinner: 670,
-    snack: 0,
-  },
-  mealPlans: [
-    { time: "8:00 AM", type: "Breakfast", kcal: 423 },
-    { time: "12:30 PM", type: "Lunch", kcal: 530 },
-    { time: "7:00 PM", type: "Dinner", kcal: 670 },
-  ],
+export type UserMetrics = {
+  name: string;
+  heightCm: number;
+  weightKg: number;
 };
 
 export function HomeScreen() {
   const scrollRef = useRef<ScrollView>(null);
+  const [metrics, setMetrics] = useState<UserMetrics | null>(null);
+  const [isSetupVisible, setIsSetupVisible] = useState(true);
+
+  const [name, setName] = useState("");
+  const [height, setHeight] = useState("");
+  const [weight, setWeight] = useState("");
+
+  const canConfirm =
+    name.trim().length > 0 &&
+    name.trim().length <= 9 &&
+    !!Number(height) &&
+    !!Number(weight);
+
+  const handleConfirm = () => {
+    if (!canConfirm) return;
+    const heightNum = Number(height);
+    const weightNum = Number(weight);
+    setMetrics({
+      name: name.trim(),
+      heightCm: heightNum,
+      weightKg: weightNum,
+    });
+    setIsSetupVisible(false);
+  };
+
+  const handleOpenEdit = () => {
+    if (metrics) {
+      setName(metrics.name);
+      setHeight(String(metrics.heightCm));
+      setWeight(String(metrics.weightKg));
+    }
+    setIsSetupVisible(true);
+  };
 
   return (
-    <SafeAreaView style={styles.container} edges={["bottom"]}>
-      <ScrollView ref={scrollRef} showsVerticalScrollIndicator={false}>
-        <View style={styles.headerSection}>
-          <LinearGradient
-            colors={["#1A2B5B", "#2D2B6E", "#4D3E8C"]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={styles.heroCard}
-          >
-            <Image
-              source={require("../../assets/images/nor.png")}
-              style={styles.heroImage}
-              contentFit="contain"
-            />
-            <View style={styles.heroContent}>
-              <View style={styles.heroLeft}>
-                <AppText variant="subtitle" weight="medium" color="#E5E7EB">
-                  Welcome Back
+    <>
+      <SafeAreaView style={styles.container} edges={["bottom"]}>
+        <ScrollView ref={scrollRef} showsVerticalScrollIndicator={false}>
+          <Header metrics={metrics} onEditPress={handleOpenEdit} />
+        </ScrollView>
+      </SafeAreaView>
+
+      <Modal
+        visible={isSetupVisible}
+        animationType="slide"
+        presentationStyle="fullScreen"
+      >
+        <SafeAreaView style={modalStyles.container}>
+          <View style={modalStyles.content}>
+            <AppText variant="title" weight="bold" style={modalStyles.title}>
+              Welcome
+            </AppText>
+            <AppText size={14} color="#9CA3AF" style={modalStyles.subtitle}>
+              Please enter your details to personalise your plan.
+            </AppText>
+
+            <View style={modalStyles.field}>
+              <AppText size={14} weight="medium" style={modalStyles.label}>
+                Name
+              </AppText>
+              <TextInput
+                value={name}
+                onChangeText={(text) => {
+                  if (text.length <= 9) setName(text);
+                }}
+                placeholder="Your name"
+                maxLength={9}
+                style={modalStyles.input}
+                placeholderTextColor="rgba(148,163,184,0.8)"
+              />
+            </View>
+
+            <View style={modalStyles.row}>
+              <View style={[modalStyles.field, { flex: 1 }]}>
+                <AppText size={14} weight="medium" style={modalStyles.label}>
+                  Height (cm)
                 </AppText>
-                <AppText
-                  variant="title"
-                  weight="bold"
-                  color="#FFFFFF"
-                  style={{ marginTop: 4 }}
-                >
-                  {MOCK_DATA.userName}
+                <TextInput
+                  value={height}
+                  onChangeText={setHeight}
+                  placeholder="170"
+                  keyboardType="number-pad"
+                  maxLength={3}
+                  style={modalStyles.input}
+                  placeholderTextColor="rgba(148,163,184,0.8)"
+                />
+              </View>
+              <View style={{ width: 12 }} />
+              <View style={[modalStyles.field, { flex: 1 }]}>
+                <AppText size={14} weight="medium" style={modalStyles.label}>
+                  Weight (kg)
                 </AppText>
-                <View style={{ flexDirection: "row" }}>
-                  <GlassTabBar style={{ borderRadius: 20, width: "100%" }}>
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <AppText
-                        size={12}
-                        color="black"
-                        style={{ marginRight: 4 }}
-                      >
-                        Weight:
-                      </AppText>
-                      <AppText size={10} weight="semibold" color="black">
-                        110 kg
-                      </AppText>
-                    </View>
-                  </GlassTabBar>
-                  <View style={{ paddingHorizontal: 2 }} />
-                  <GlassTabBar style={{ borderRadius: 20, width: "100%" }}>
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <AppText
-                        size={12}
-                        color="black"
-                        style={{ marginRight: 4 }}
-                      >
-                        Height:
-                      </AppText>
-                      <AppText size={10} weight="semibold" color="black">
-                        170 cm
-                      </AppText>
-                    </View>
-                  </GlassTabBar>
-                </View>
-
-                <View style={{ width: "70%", marginTop: 10 }}>
-                  <GlassTabBar
-                    style={{
-                      borderRadius: 80,
-                      shadowColor: "white",
-                      elevation: 44,
-                    }}
-                  >
-                    <View
-                      style={{
-                        paddingHorizontal: 16,
-                        paddingVertical: 16,
-                        // width: "100%",
-                      }}
-                    >
-                      <View
-                        style={{
-                          alignSelf: "center",
-                          borderBottomWidth: 1,
-                          // width: "100%",
-                        }}
-                      >
-                        <AppText size={24} weight="semibold">
-                          Owerweight
-                        </AppText>
-                      </View>
-
-                      <View
-                        style={{
-                          // flexDirection: "row",
-                          justifyContent: "space-between",
-                          width: "100%",
-                        }}
-                      >
-                        <View
-                          style={{
-                            // borderWidth: 1,
-                            // borderColor: "red",
-                            flexDirection: "row",
-                            alignItems: "center",
-                            gap: 4,
-                            width: "100%",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <AppText size={18} weight="light">
-                            Abovew
-                          </AppText>
-                          <AppText size={22} weight="medium">
-                            100 kg
-                          </AppText>
-                        </View>
-                        <View
-                          style={{
-                            flexDirection: "row",
-                            alignItems: "center",
-                            gap: 4,
-                            width: "100%",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <AppText size={18} weight="light">
-                            Abovew
-                          </AppText>
-                          <AppText size={22} weight="medium">
-                            100 kg
-                          </AppText>
-                        </View>
-
-                        <View
-                          style={{
-                            flexDirection: "row",
-                            alignItems: "center",
-                            gap: 4,
-                            width: "100%",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <AppText size={18} weight="light">
-                            Abovew
-                          </AppText>
-                          <AppText size={22} weight="medium">
-                            100 kg
-                          </AppText>
-                        </View>
-                      </View>
-                    </View>
-                  </GlassTabBar>
-                </View>
+                <TextInput
+                  value={weight}
+                  onChangeText={setWeight}
+                  placeholder="70"
+                  keyboardType="number-pad"
+                  maxLength={3}
+                  style={modalStyles.input}
+                  placeholderTextColor="rgba(148,163,184,0.8)"
+                />
               </View>
             </View>
-          </LinearGradient>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+
+            <TouchableOpacity
+              style={[modalStyles.button, !canConfirm && { opacity: 0.5 }]}
+              activeOpacity={0.8}
+              onPress={handleConfirm}
+              disabled={!canConfirm}
+            >
+              <AppText weight="bold" color="#0F172A">
+                OK
+              </AppText>
+            </TouchableOpacity>
+          </View>
+        </SafeAreaView>
+      </Modal>
+    </>
   );
 }
+
+const modalStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#020617",
+    paddingHorizontal: 24,
+    justifyContent: "center",
+  },
+  content: {
+    backgroundColor: "rgba(15,23,42,0.95)",
+    borderRadius: 24,
+    padding: 24,
+    borderWidth: 1,
+    borderColor: "rgba(148,163,253,0.6)",
+  },
+  title: {
+    marginBottom: 4,
+  },
+  subtitle: {
+    marginBottom: 16,
+  },
+  field: {
+    marginBottom: 16,
+  },
+  label: {
+    marginBottom: 6,
+  },
+  input: {
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: "rgba(148,163,184,0.4)",
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    color: "#E5E7EB",
+    backgroundColor: "rgba(15,23,42,0.9)",
+  },
+  row: {
+    flexDirection: "row",
+    marginBottom: 24,
+  },
+  button: {
+    marginTop: 4,
+    backgroundColor: "#22C55E",
+    paddingVertical: 14,
+    borderRadius: 16,
+    alignItems: "center",
+  },
+});
