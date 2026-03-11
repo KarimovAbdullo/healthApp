@@ -1,9 +1,11 @@
+import EditeIcon from "@/assets/icons/EditeIcon";
 import HideIcon from "@/assets/icons/hideIcon";
+import ShowIcon from "@/assets/icons/showIcon";
 import { AppText } from "@/components/AppText";
 import GlassTabBar from "@/components/GlowButton/GlowButton";
 import { getBodyCategory } from "@/utils/bodyMetrics";
 import { LinearGradient } from "expo-linear-gradient";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Dimensions,
   Image,
@@ -20,12 +22,14 @@ import Animated, {
   useSharedValue,
   withRepeat,
   withSpring,
+  withTiming,
 } from "react-native-reanimated";
 import type { UserMetrics } from "../HomeScreen";
 import Info from "./Info";
 
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 const HEADER_HEIGHT = SCREEN_HEIGHT * 0.45;
+const COLLAPSED_HEADER_HEIGHT = 200;
 
 function NeonBorderWrapper({
   children,
@@ -88,25 +92,58 @@ const bodyImages = {
 };
 
 const Header = ({ metrics, onEditPress }: HeaderProps) => {
+  const [isInfoExpanded, setIsInfoExpanded] = useState(true);
+  const expandAnim = useSharedValue(1);
+
   const name = metrics?.name ?? "Friend";
   const weight = metrics?.weightKg ?? 110;
   const height = metrics?.heightCm ?? 170;
   const category = getBodyCategory(weight, height);
   const personImage = bodyImages[category];
 
+  const handleToggleInfo = () => {
+    setIsInfoExpanded((prev) => !prev);
+    expandAnim.value = withTiming(isInfoExpanded ? 0 : 1, {
+      duration: 300,
+    });
+  };
+
+  const headerAnimatedStyle = useAnimatedStyle(() => ({
+    height: interpolate(
+      expandAnim.value,
+      [0, 1],
+      [COLLAPSED_HEADER_HEIGHT, HEADER_HEIGHT],
+    ),
+  }));
+
+  const infoAnimatedStyle = useAnimatedStyle(() => ({
+    opacity: expandAnim.value,
+    maxHeight: interpolate(expandAnim.value, [0, 1], [0, 400]),
+    overflow: "hidden" as const,
+  }));
+
+  const imageAnimatedStyle = useAnimatedStyle(() => ({
+    opacity: expandAnim.value,
+  }));
+
   return (
-    <View style={styles.headerSection}>
+    <Animated.View style={[styles.headerSection, headerAnimatedStyle]}>
       <LinearGradient
         colors={["#1A2B5B", "#2D2B6E", "#4D3E8C"]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={styles.heroCard}
       >
-        <Image
-          source={personImage}
-          style={styles.heroImage}
-          resizeMode="contain"
-        />
+        <Animated.View
+          style={[styles.heroImageWrapper, imageAnimatedStyle]}
+          pointerEvents="none"
+        >
+          <Image
+            source={personImage}
+            style={styles.heroImage}
+            resizeMode="contain"
+          />
+        </Animated.View>
 
         <View style={styles.heroContent}>
           <View style={styles.heroLeft}>
@@ -120,19 +157,15 @@ const Header = ({ metrics, onEditPress }: HeaderProps) => {
                   style={{ marginBottom: 4 }}
                 >
                   {name}
+                  <TouchableOpacity
+                    onPress={onEditPress}
+                    activeOpacity={0.8}
+                    style={{ paddingLeft: 20 }}
+                  >
+                    <EditeIcon />
+                  </TouchableOpacity>
                 </AppText>
               </AppText>
-              <View style={styles.editButtonWrapper}>
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  onPress={onEditPress}
-                  style={{ position: "absolute", right: 0, top: 0, zIndex: 10 }}
-                >
-                  <AppText size={12} weight="medium" color="black" align="left">
-                    Edit
-                  </AppText>
-                </TouchableOpacity>
-              </View>
             </View>
 
             <View style={{ flexDirection: "row", width: "60%" }}>
@@ -177,6 +210,8 @@ const Header = ({ metrics, onEditPress }: HeaderProps) => {
             </View>
 
             <TouchableOpacity
+              onPress={handleToggleInfo}
+              activeOpacity={0.8}
               style={{
                 backgroundColor: "yellow",
                 alignSelf: "flex-start",
@@ -192,15 +227,22 @@ const Header = ({ metrics, onEditPress }: HeaderProps) => {
               <Text
                 style={{ fontSize: 12, fontWeight: "bold", color: "black" }}
               >
-                Show info
+                {isInfoExpanded ? "Hide info" : "Show info"}
               </Text>
-              <HideIcon />
+              <View style={{ marginLeft: 4 }}>
+                {isInfoExpanded ? <HideIcon /> : <ShowIcon />}
+              </View>
             </TouchableOpacity>
-            <Info metrics={metrics} />
+            <Animated.View
+              style={infoAnimatedStyle}
+              pointerEvents={isInfoExpanded ? "auto" : "none"}
+            >
+              <Info metrics={metrics} />
+            </Animated.View>
           </View>
         </View>
       </LinearGradient>
-    </View>
+    </Animated.View>
   );
 };
 
@@ -268,13 +310,17 @@ const styles = StyleSheet.create({
     color: "rgba(209,213,219,0.9)",
     marginBottom: 2,
   },
-  heroImage: {
-    width: 300,
-    height: 430,
+  heroImageWrapper: {
     position: "absolute",
     left: 120,
     top: 0,
     zIndex: 1,
+    width: 300,
+    height: 430,
+  },
+  heroImage: {
+    width: 350,
+    height: 430,
   },
   statsCard: {
     marginHorizontal: 20,

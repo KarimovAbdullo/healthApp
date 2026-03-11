@@ -51,7 +51,7 @@ const infoStyles = StyleSheet.create({
   rowBorder: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 4,
+    gap: 8,
     width: "100%",
     justifyContent: "space-between",
     borderBottomWidth: 1,
@@ -60,15 +60,23 @@ const infoStyles = StyleSheet.create({
   rowLast: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 4,
+    gap: 8,
     width: "100%",
     justifyContent: "space-between",
+  },
+  label: {
+    flex: 1,
+    flexShrink: 1,
+  },
+  value: {
+    flexShrink: 0,
   },
   scroll: {
     maxHeight: 220,
   },
   scrollContent: {
     paddingBottom: 16,
+    paddingHorizontal: 12,
   },
 });
 
@@ -134,10 +142,10 @@ const Info = ({ metrics }: InfoProps) => {
   return (
     <View
       style={{
-        width: "65%",
+        width: "78%",
         marginTop: 10,
         backgroundColor: "rgba(255, 255, 255, 0.05)",
-        // paddingRight: 10,
+        paddingRight: 4,
         zIndex: 3,
       }}
     >
@@ -164,27 +172,42 @@ const Info = ({ metrics }: InfoProps) => {
               Body
             </AppText>
             <View style={infoStyles.rowBorder}>
-              <AppText size={14} weight="light">
-                Category
-              </AppText>
-              <AppText size={14} weight="medium">
-                {categoryLabel[category]}
-              </AppText>
+              <View style={infoStyles.label}>
+                <AppText size={14} weight="light">
+                  Category
+                </AppText>
+              </View>
+              <View style={infoStyles.value}>
+                <AppText size={14} weight="medium">
+                  {categoryLabel[category]}
+                </AppText>
+              </View>
             </View>
             <View style={infoStyles.rowBorder}>
-              <AppText size={14} weight="light">
-                BMI
-              </AppText>
-              <GradientNumber value={String(roundedBmi)} category={category} />
+              <View style={infoStyles.label}>
+                <AppText size={14} weight="light">
+                  BMI
+                </AppText>
+              </View>
+              <View style={infoStyles.value}>
+                <GradientNumber
+                  value={String(roundedBmi)}
+                  category={category}
+                />
+              </View>
             </View>
             <View style={infoStyles.rowLast}>
-              <AppText size={14} weight="light">
-                Body fat
-              </AppText>
-              <GradientNumber
-                value={`${bodyFatRounded} %`}
-                category={category}
-              />
+              <View style={infoStyles.label}>
+                <AppText size={14} weight="light">
+                  Body fat
+                </AppText>
+              </View>
+              <View style={infoStyles.value}>
+                <GradientNumber
+                  value={`${bodyFatRounded} %`}
+                  category={category}
+                />
+              </View>
             </View>
 
             <AppText
@@ -196,19 +219,27 @@ const Info = ({ metrics }: InfoProps) => {
               Weight
             </AppText>
             <View style={infoStyles.rowBorder}>
-              <AppText size={14} weight="light">
-                Ideal weight range
-              </AppText>
-              <GradientNumber
-                value={`${min} – ${max} kg`}
-                category={category}
-              />
+              <View style={infoStyles.label}>
+                <AppText size={14} weight="light">
+                  Ideal weight range
+                </AppText>
+              </View>
+              <View style={infoStyles.value}>
+                <GradientNumber
+                  value={`${min} – ${max} kg`}
+                  category={category}
+                />
+              </View>
             </View>
             <View style={infoStyles.rowLast}>
-              <AppText size={14} weight="light">
-                Extra / missing weight
-              </AppText>
-              <GradientNumber value={extraLabel} category={category} />
+              <View style={infoStyles.label}>
+                <AppText size={14} weight="light">
+                  Extra / missing weight
+                </AppText>
+              </View>
+              <View style={infoStyles.value}>
+                <GradientNumber value={extraLabel} category={category} />
+              </View>
             </View>
 
             <AppText
@@ -220,30 +251,44 @@ const Info = ({ metrics }: InfoProps) => {
               Calories
             </AppText>
             <View style={infoStyles.rowBorder}>
-              <AppText size={14} weight="light">
-                BMR
-              </AppText>
-              <GradientNumber value={`${bmr} kcal/day`} category={category} />
+              <View style={infoStyles.label}>
+                <AppText size={14} weight="light">
+                  BMR
+                </AppText>
+              </View>
+              <View style={infoStyles.value}>
+                <GradientNumber value={`${bmr} kcal/day`} category={category} />
+              </View>
             </View>
             <View style={infoStyles.rowBorder}>
-              <AppText size={14} weight="light">
-                Daily calories
-              </AppText>
-              <GradientNumber value={`${tdee} kcal`} category={category} />
+              <View style={infoStyles.label}>
+                <AppText size={14} weight="light">
+                  Daily calories
+                </AppText>
+              </View>
+              <View style={infoStyles.value}>
+                <GradientNumber value={`${tdee} kcal`} category={category} />
+              </View>
             </View>
             <View style={infoStyles.rowBorder}>
-              <AppText size={14} weight="light">
-                Calories for weight loss
-              </AppText>
-              <GradientNumber
-                value={`${weightLossCal} kcal/day`}
-                category={category}
-              />
+              <View style={infoStyles.label}>
+                <AppText size={14} weight="light">
+                  Calories for weight loss
+                </AppText>
+              </View>
+              <View style={infoStyles.value}>
+                <GradientNumber
+                  value={`${weightLossCal} kcal/day`}
+                  category={category}
+                />
+              </View>
             </View>
             <View style={infoStyles.rowLast}>
-              <AppText size={12} weight="light" color="#9CA3AF">
-                Expected loss ≈ 0.5 kg per week
-              </AppText>
+              <View style={infoStyles.label}>
+                <AppText size={12} weight="light" color="#9CA3AF">
+                  Expected loss ≈ 0.5 kg per week
+                </AppText>
+              </View>
             </View>
 
             <AppText
@@ -255,40 +300,56 @@ const Info = ({ metrics }: InfoProps) => {
               Health
             </AppText>
             <View style={infoStyles.rowBorder}>
-              <AppText size={14} weight="light">
-                Recommended water
-              </AppText>
-              <GradientNumber
-                value={`${waterRounded} L/day`}
-                category={category}
-              />
+              <View style={infoStyles.label}>
+                <AppText size={14} weight="light">
+                  Recommended water
+                </AppText>
+              </View>
+              <View style={infoStyles.value}>
+                <GradientNumber
+                  value={`${waterRounded} L/day`}
+                  category={category}
+                />
+              </View>
             </View>
             <View style={infoStyles.rowBorder}>
-              <AppText size={14} weight="light">
-                Protein
-              </AppText>
-              <GradientNumber
-                value={`${macros.proteinGrams} g`}
-                category={category}
-              />
+              <View style={infoStyles.label}>
+                <AppText size={14} weight="light">
+                  Protein
+                </AppText>
+              </View>
+              <View style={infoStyles.value}>
+                <GradientNumber
+                  value={`${macros.proteinGrams} g`}
+                  category={category}
+                />
+              </View>
             </View>
             <View style={infoStyles.rowBorder}>
-              <AppText size={14} weight="light">
-                Carbs
-              </AppText>
-              <GradientNumber
-                value={`${macros.carbGrams} g`}
-                category={category}
-              />
+              <View style={infoStyles.label}>
+                <AppText size={14} weight="light">
+                  Carbs
+                </AppText>
+              </View>
+              <View style={infoStyles.value}>
+                <GradientNumber
+                  value={`${macros.carbGrams} g`}
+                  category={category}
+                />
+              </View>
             </View>
             <View style={infoStyles.rowLast}>
-              <AppText size={14} weight="light">
-                Fat
-              </AppText>
-              <GradientNumber
-                value={`${macros.fatGrams} g`}
-                category={category}
-              />
+              <View style={infoStyles.label}>
+                <AppText size={14} weight="light">
+                  Fat
+                </AppText>
+              </View>
+              <View style={infoStyles.value}>
+                <GradientNumber
+                  value={`${macros.fatGrams} g`}
+                  category={category}
+                />
+              </View>
             </View>
           </View>
         </ScrollView>
