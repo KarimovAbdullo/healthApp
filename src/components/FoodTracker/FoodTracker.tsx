@@ -1,21 +1,32 @@
 import { AppText } from "@/components/AppText";
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
-import { StyleSheet, View, ViewStyle } from "react-native";
+import {
+  Image,
+  ImageSourcePropType,
+  StyleSheet,
+  View,
+  ViewStyle,
+} from "react-native";
 import Animated, { useAnimatedStyle } from "react-native-reanimated";
+import LogWaterButton from "../LogWaterButton/LogWaterButton";
 
 type Props = {
   breakfast: number;
   current: number;
   totalCalories: number;
   style?: ViewStyle;
+  onLogPress?: () => void;
 };
+
+const dishImg: ImageSourcePropType = require("@/assets/images/dish.png");
 
 const FoodTracker = ({
   breakfast: _breakfast,
   current,
   totalCalories,
   style,
+  onLogPress,
 }: Props) => {
   const safeTotal = totalCalories > 0 ? totalCalories : 1;
   const filledProgress = Math.min(1, current / safeTotal);
@@ -32,38 +43,45 @@ const FoodTracker = ({
         end={{ x: 1, y: 1 }}
         style={styles.gradient}
       >
-        <View style={styles.headerRow}>
-          <AppText size={14} weight="semibold" color="#F9FAFB">
-            Daily Food Tracker
-          </AppText>
-        </View>
-
-        <View style={{ flexDirection: "row" }}>
-          <View style={styles.labelRow}></View>
-
-          <View style={styles.valueRow}>
-            <AppText size={16} weight="light" color="#9CA3AF">
-              {current} / {totalCalories} kcal
-            </AppText>
+        <View style={styles.row}>
+          <View style={styles.dishWrapper}>
+            <Image source={dishImg} style={styles.dish} resizeMode="contain" />
           </View>
-        </View>
 
-        <View style={styles.progressCard}>
-          <View style={styles.progressRow}>
-            <View style={styles.progressTrack}>
-              <View
-                style={[
-                  styles.progressFillNeon,
-                  {
-                    position: "absolute",
-                    left: 0,
-                    top: 0,
-                    bottom: 0,
-                    width: `${filledProgress * 100}%`,
-                  },
-                ]}
-              />
+          <View style={styles.rightColumn}>
+            <View style={styles.headerRow}>
+              <AppText size={14} weight="semibold" color="#F9FAFB">
+                Daily Food Tracker
+              </AppText>
             </View>
+
+            <View style={styles.valueRow}>
+              <AppText size={16} weight="light" color="#9CA3AF">
+                {current} / {totalCalories} kcal
+              </AppText>
+            </View>
+
+            <View style={styles.progressCard}>
+              <View style={styles.progressRow}>
+                <View style={styles.progressTrack}>
+                  <View
+                    style={[
+                      styles.progressFillNeon,
+                      {
+                        position: "absolute",
+                        left: 0,
+                        top: 0,
+                        bottom: 0,
+                        width: `${filledProgress * 100}%`,
+                      },
+                    ]}
+                  />
+                </View>
+              </View>
+            </View>
+          </View>
+          <View style={styles.rightSection}>
+            <LogWaterButton onPress={onLogPress} text="Log Food" />
           </View>
         </View>
       </LinearGradient>
@@ -88,6 +106,13 @@ const styles = StyleSheet.create({
     borderRadius: 22,
   },
   headerRow: {},
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  rightColumn: {
+    flex: 1,
+  },
   labelRow: {
     flexDirection: "row",
     alignItems: "center",
@@ -125,5 +150,19 @@ const styles = StyleSheet.create({
   progressFillNeon: {
     borderRadius: 999,
     backgroundColor: "#39FF14",
+  },
+  dishWrapper: {
+    width: 60,
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 8,
+  },
+  dish: {
+    width: 50,
+    height: 80,
+  },
+  rightSection: {
+    paddingLeft: 10,
+    justifyContent: "center",
   },
 });

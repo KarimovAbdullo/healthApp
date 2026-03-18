@@ -31,10 +31,10 @@ const styles = StyleSheet.create({
     // borderLeftWidth: 1,
     // borderColor: "rgba(255,255,255,0.08)",
 
-    shadowColor: "white",
-    shadowOpacity: 0.9,
-    shadowRadius: 20,
-    shadowOffset: { width: 0, height: 10 },
+    // shadowColor: "white",
+    // shadowOpacity: 0.9,
+    // shadowRadius: 20,
+    // shadowOffset: { width: 0, height: 10 },
 
     // elevation: 22,
   },

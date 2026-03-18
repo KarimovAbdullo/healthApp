@@ -1,5 +1,4 @@
 import { AppText } from "@/components/AppText";
-import type { ActivityLevel, Gender } from "../HomeScreen";
 import React from "react";
 import {
   Modal,
@@ -10,10 +9,10 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import type { ActivityLevel, Gender } from "../HomeScreen";
 
 type SetupModalProps = {
   visible: boolean;
-  canConfirm: boolean;
   name: string;
   height: string;
   weight: string;
@@ -31,7 +30,6 @@ type SetupModalProps = {
 
 export function SetupModal({
   visible,
-  canConfirm,
   name,
   height,
   weight,
@@ -46,121 +44,159 @@ export function SetupModal({
   onSelectActivity,
   onConfirm,
 }: SetupModalProps) {
+  const heightNum = Number(height);
+  const weightNum = Number(weight);
+  const ageNum = Number(age);
+
+  const heightError =
+    height.length > 0 &&
+    (isNaN(heightNum) || heightNum < 100 || heightNum > 250);
+
+  const weightError =
+    weight.length > 0 &&
+    (isNaN(weightNum) || weightNum < 30 || weightNum > 300);
+
+  const ageError =
+    age.length > 0 && (isNaN(ageNum) || ageNum < 5 || ageNum > 120);
+
+  const canConfirm =
+    name.length > 0 &&
+    height.length > 0 &&
+    weight.length > 0 &&
+    age.length > 0 &&
+    !heightError &&
+    !weightError &&
+    !ageError &&
+    gender !== "" &&
+    activityLevel !== "";
+
   return (
     <Modal
       visible={visible}
       animationType="slide"
       presentationStyle="fullScreen"
     >
-      <SafeAreaView style={modalStyles.container}>
+      <SafeAreaView style={styles.container}>
         <ScrollView
-          contentContainerStyle={modalStyles.scrollContent}
-          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.scrollContent}
           keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
         >
-          <View style={modalStyles.content}>
-            <AppText variant="title" weight="bold" style={modalStyles.title}>
+          <View style={styles.content}>
+            <AppText variant="title" weight="bold" style={styles.title}>
               Welcome
             </AppText>
-            <AppText size={14} color="#9CA3AF" style={modalStyles.subtitle}>
+
+            <AppText size={14} color="#9CA3AF" style={styles.subtitle}>
               Please enter your details to personalise your plan.
             </AppText>
 
-            <View style={modalStyles.field}>
-              <AppText size={14} weight="medium" style={modalStyles.label}>
-                Name
-              </AppText>
+            {/* NAME */}
+            <View style={styles.field}>
+              <AppText style={styles.label}>Name</AppText>
               <TextInput
                 value={name}
                 onChangeText={(text) => {
                   if (text.length <= 9) onChangeName(text);
                 }}
-                placeholder="Your name"
+                placeholder="Enter your name"
                 maxLength={9}
-                style={modalStyles.input}
-                placeholderTextColor="rgba(148,163,184,0.8)"
+                style={styles.input}
+                placeholderTextColor="#94A3B8"
               />
             </View>
 
-            <View style={modalStyles.rowFields}>
-              <View style={[modalStyles.field, { flex: 1 }]}>
-                <AppText size={14} weight="medium" style={modalStyles.label}>
-                  Height (cm)
-                </AppText>
+            {/* HEIGHT + WEIGHT */}
+            <View style={styles.rowFields}>
+              <View style={[styles.field, { flex: 1 }]}>
+                <AppText style={styles.label}>Height (cm)</AppText>
                 <TextInput
                   value={height}
                   onChangeText={onChangeHeight}
                   placeholder="170"
                   keyboardType="number-pad"
                   maxLength={3}
-                  style={modalStyles.input}
-                  placeholderTextColor="rgba(148,163,184,0.8)"
+                  style={[styles.input, heightError && styles.inputError]}
+                  placeholderTextColor="#94A3B8"
                 />
+                {heightError && (
+                  <AppText style={styles.errorText}>
+                    Height must be between 100–250 cm
+                  </AppText>
+                )}
               </View>
+
               <View style={{ width: 12 }} />
-              <View style={[modalStyles.field, { flex: 1 }]}>
-                <AppText size={14} weight="medium" style={modalStyles.label}>
-                  Weight (kg)
-                </AppText>
+
+              <View style={[styles.field, { flex: 1 }]}>
+                <AppText style={styles.label}>Weight (kg)</AppText>
                 <TextInput
                   value={weight}
                   onChangeText={onChangeWeight}
                   placeholder="70"
                   keyboardType="number-pad"
                   maxLength={3}
-                  style={modalStyles.input}
-                  placeholderTextColor="rgba(148,163,184,0.8)"
+                  style={[styles.input, weightError && styles.inputError]}
+                  placeholderTextColor="#94A3B8"
                 />
+                {weightError && (
+                  <AppText style={styles.errorText}>
+                    Weight must be between 30–300 kg
+                  </AppText>
+                )}
               </View>
             </View>
 
-            <View style={modalStyles.field}>
-              <AppText size={14} weight="medium" style={modalStyles.label}>
-                Age
-              </AppText>
+            {/* AGE */}
+            <View style={styles.field}>
+              <AppText style={styles.label}>Age</AppText>
               <TextInput
                 value={age}
                 onChangeText={onChangeAge}
                 placeholder="25"
                 keyboardType="number-pad"
                 maxLength={3}
-                style={modalStyles.input}
-                placeholderTextColor="rgba(148,163,184,0.8)"
+                style={[styles.input, ageError && styles.inputError]}
+                placeholderTextColor="#94A3B8"
               />
+              {ageError && (
+                <AppText style={styles.errorText}>
+                  Age must be between 5–120
+                </AppText>
+              )}
             </View>
 
-            <View style={modalStyles.field}>
-              <AppText size={14} weight="medium" style={modalStyles.label}>
-                Gender
-              </AppText>
-              <View style={modalStyles.row}>
+            {/* GENDER */}
+            <View style={styles.field}>
+              <AppText style={styles.label}>Gender</AppText>
+              <View style={styles.row}>
                 <TouchableOpacity
                   style={[
-                    modalStyles.optionButton,
-                    gender === "male" && modalStyles.optionButtonActive,
+                    styles.optionButton,
+                    gender === "male" && styles.optionButtonActive,
                   ]}
                   onPress={() => onSelectGender("male")}
                 >
                   <AppText
-                    size={14}
-                    weight="medium"
                     color={gender === "male" ? "#0F172A" : "#E5E7EB"}
+                    weight="medium"
                   >
                     Male
                   </AppText>
                 </TouchableOpacity>
+
                 <View style={{ width: 12 }} />
+
                 <TouchableOpacity
                   style={[
-                    modalStyles.optionButton,
-                    gender === "female" && modalStyles.optionButtonActive,
+                    styles.optionButton,
+                    gender === "female" && styles.optionButtonActive,
                   ]}
                   onPress={() => onSelectGender("female")}
                 >
                   <AppText
-                    size={14}
-                    weight="medium"
                     color={gender === "female" ? "#0F172A" : "#E5E7EB"}
+                    weight="medium"
                   >
                     Female
                   </AppText>
@@ -168,25 +204,29 @@ export function SetupModal({
               </View>
             </View>
 
-            <View style={modalStyles.field}>
-              <AppText size={14} weight="medium" style={modalStyles.label}>
-                Activity level
-              </AppText>
-              <View style={modalStyles.activityRow}>
+            {/* ACTIVITY */}
+            <View style={styles.field}>
+              <AppText style={styles.label}>Activity level</AppText>
+
+              <View style={styles.activityRow}>
                 {(
-                  ["sedentary", "light", "moderate", "active"] as ActivityLevel[]
+                  [
+                    "sedentary",
+                    "light",
+                    "moderate",
+                    "active",
+                  ] as ActivityLevel[]
                 ).map((level) => (
                   <TouchableOpacity
                     key={level}
                     style={[
-                      modalStyles.activityOption,
-                      activityLevel === level && modalStyles.optionButtonActive,
+                      styles.activityOption,
+                      activityLevel === level && styles.optionButtonActive,
                     ]}
                     onPress={() => onSelectActivity(level)}
                   >
                     <AppText
                       size={12}
-                      weight="medium"
                       color={activityLevel === level ? "#0F172A" : "#E5E7EB"}
                       style={{ textAlign: "center" }}
                     >
@@ -203,11 +243,12 @@ export function SetupModal({
               </View>
             </View>
 
+            {/* BUTTON */}
             <TouchableOpacity
-              style={[modalStyles.button, !canConfirm && { opacity: 0.5 }]}
-              activeOpacity={0.8}
-              onPress={onConfirm}
+              style={[styles.button, !canConfirm && { opacity: 0.5 }]}
               disabled={!canConfirm}
+              onPress={onConfirm}
+              activeOpacity={0.8}
             >
               <AppText weight="bold" color="#0F172A">
                 OK
@@ -220,17 +261,19 @@ export function SetupModal({
   );
 }
 
-const modalStyles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#020617",
     paddingHorizontal: 24,
   },
+
   scrollContent: {
     flexGrow: 1,
     justifyContent: "center",
     paddingVertical: 24,
   },
+
   content: {
     backgroundColor: "rgba(15,23,42,0.95)",
     borderRadius: 24,
@@ -238,18 +281,19 @@ const modalStyles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "rgba(148,163,253,0.6)",
   },
-  title: {
-    marginBottom: 4,
-  },
-  subtitle: {
-    marginBottom: 16,
-  },
-  field: {
-    marginBottom: 16,
-  },
+
+  title: { marginBottom: 4 },
+
+  subtitle: { marginBottom: 16 },
+
+  field: { marginBottom: 16 },
+
   label: {
     marginBottom: 6,
+    color: "#E5E7EB",
+    fontSize: 14,
   },
+
   input: {
     borderRadius: 12,
     borderWidth: 1,
@@ -259,14 +303,25 @@ const modalStyles = StyleSheet.create({
     color: "#E5E7EB",
     backgroundColor: "rgba(15,23,42,0.9)",
   },
+
+  inputError: {
+    borderColor: "#EF4444",
+  },
+
+  errorText: {
+    color: "#EF4444",
+    fontSize: 12,
+    marginTop: 4,
+  },
+
   row: {
     flexDirection: "row",
-    marginBottom: 0,
   },
+
   rowFields: {
     flexDirection: "row",
-    marginBottom: 16,
   },
+
   optionButton: {
     flex: 1,
     borderRadius: 12,
@@ -276,15 +331,18 @@ const modalStyles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "rgba(15,23,42,0.9)",
   },
+
   optionButtonActive: {
     borderColor: "#22C55E",
     backgroundColor: "rgba(34,197,94,0.25)",
   },
+
   activityRow: {
     flexDirection: "row",
     flexWrap: "wrap",
     gap: 8,
   },
+
   activityOption: {
     flex: 1,
     minWidth: "45%",
@@ -295,6 +353,7 @@ const modalStyles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "rgba(15,23,42,0.9)",
   },
+
   button: {
     marginTop: 4,
     backgroundColor: "#22C55E",
@@ -303,4 +362,3 @@ const modalStyles = StyleSheet.create({
     alignItems: "center",
   },
 });
-

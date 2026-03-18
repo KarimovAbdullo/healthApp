@@ -1,0 +1,1470 @@
+[
+  { "name": "Tuxum", "unit": "1 pcs", "calories": 70, "category": "protein" },
+  { "name": "Sut", "unit": "100ml", "calories": 60, "category": "dairy" },
+  { "name": "Qatiq", "unit": "100g", "calories": 61, "category": "dairy" },
+  { "name": "Pishloq", "unit": "100g", "calories": 350, "category": "dairy" },
+  {
+    "name": "Tovuqli go‘sht",
+    "unit": "100g",
+    "calories": 165,
+    "category": "meat"
+  },
+  {
+    "name": "Mol go‘shti",
+    "unit": "100g",
+    "calories": 250,
+    "category": "meat"
+  },
+  {
+    "name": "Baliq (losos)",
+    "unit": "100g",
+    "calories": 208,
+    "category": "meat"
+  },
+  {
+    "name": "Kolbasa",
+    "unit": "100g",
+    "calories": 300,
+    "category": "processed_meat"
+  },
+  {
+    "name": "Sosiska",
+    "unit": "100g",
+    "calories": 300,
+    "category": "processed_meat"
+  },
+  { "name": "Ketchup", "unit": "100g", "calories": 100, "category": "sauce" },
+  { "name": "Mayonez", "unit": "100g", "calories": 680, "category": "sauce" },
+  {
+    "name": "Shokolad",
+    "unit": "100g",
+    "calories": 546,
+    "category": "processed_food"
+  },
+  {
+    "name": "Chips",
+    "unit": "100g",
+    "calories": 536,
+    "category": "processed_food"
+  },
+  {
+    "name": "Gazli ichimlik",
+    "unit": "100ml",
+    "calories": 40,
+    "category": "drink"
+  },
+  {
+    "name": "Choy (shakar bilan)",
+    "unit": "100ml",
+    "calories": 20,
+    "category": "drink"
+  },
+  {
+    "name": "Qahva (shakar bilan)",
+    "unit": "100ml",
+    "calories": 50,
+    "category": "drink"
+  },
+  { "name": "Sharbat", "unit": "100ml", "calories": 45, "category": "drink" },
+  { "name": "Olma", "unit": "100g", "calories": 52, "category": "fruit" },
+  { "name": "Banan", "unit": "100g", "calories": 89, "category": "fruit" },
+  { "name": "Apelsin", "unit": "100g", "calories": 47, "category": "fruit" },
+  { "name": "Nok", "unit": "100g", "calories": 57, "category": "fruit" },
+  { "name": "Anor", "unit": "100g", "calories": 83, "category": "fruit" },
+  { "name": "O‘rik", "unit": "100g", "calories": 48, "category": "fruit" },
+  { "name": "Sabzi", "unit": "100g", "calories": 41, "category": "vegetable" },
+  {
+    "name": "Pomidor",
+    "unit": "100g",
+    "calories": 18,
+    "category": "vegetable"
+  },
+  {
+    "name": "Bodring",
+    "unit": "100g",
+    "calories": 16,
+    "category": "vegetable"
+  },
+  { "name": "Karam", "unit": "100g", "calories": 25, "category": "vegetable" },
+  { "name": "Piyoz", "unit": "100g", "calories": 40, "category": "vegetable" },
+  {
+    "name": "Brokkoli",
+    "unit": "100g",
+    "calories": 34,
+    "category": "vegetable"
+  },
+  { "name": "Guruch", "unit": "100g", "calories": 130, "category": "grain" },
+  { "name": "Makaron", "unit": "100g", "calories": 131, "category": "grain" },
+  { "name": "Non oq", "unit": "100g", "calories": 265, "category": "grain" },
+  { "name": "Non qora", "unit": "100g", "calories": 230, "category": "grain" },
+  { "name": "Jo‘xori", "unit": "100g", "calories": 365, "category": "grain" },
+  { "name": "Sariyog‘", "unit": "100g", "calories": 717, "category": "fat" },
+  {
+    "name": "Zaytun yog‘i",
+    "unit": "100g",
+    "calories": 900,
+    "category": "fat"
+  },
+  { "name": "Yog", "unit": "100g", "calories": 900, "category": "fat" },
+  { "name": "No‘xat", "unit": "100g", "calories": 164, "category": "legumes" },
+  { "name": "Lobya", "unit": "100g", "calories": 347, "category": "legumes" },
+  {
+    "name": "Qovoq urug‘i",
+    "unit": "100g",
+    "calories": 559,
+    "category": "seed"
+  },
+  { "name": "Bodom", "unit": "100g", "calories": 579, "category": "seed" },
+  { "name": "Yong‘oq", "unit": "100g", "calories": 654, "category": "seed" },
+  {
+    "name": "Kungaboqar yog‘i",
+    "unit": "100g",
+    "calories": 884,
+    "category": "fat"
+  },
+  {
+    "name": "Kakao (chang)",
+    "unit": "100g",
+    "calories": 228,
+    "category": "processed_food"
+  },
+  {
+    "name": "Baliq (tuna)",
+    "unit": "100g",
+    "calories": 132,
+    "category": "meat"
+  },
+  {
+    "name": "Baliq (skumbriya)",
+    "unit": "100g",
+    "calories": 205,
+    "category": "meat"
+  },
+  {
+    "name": "Mol go‘shti (qaynatilgan)",
+    "unit": "100g",
+    "calories": 250,
+    "category": "meat"
+  },
+  {
+    "name": "Tuxum oqi",
+    "unit": "1 pcs",
+    "calories": 17,
+    "category": "protein"
+  },
+  {
+    "name": "Tuxum sarig‘i",
+    "unit": "1 pcs",
+    "calories": 55,
+    "category": "protein"
+  },
+  {
+    "name": "Sardina (konserva)",
+    "unit": "100g",
+    "calories": 208,
+    "category": "meat"
+  },
+  {
+    "name": "Qaynatilgan tuxum",
+    "unit": "1 pcs",
+    "calories": 78,
+    "category": "protein"
+  },
+  { "name": "Pangasius", "unit": "100g", "calories": 120, "category": "meat" },
+  { "name": "Tvorog", "unit": "100g", "calories": 98, "category": "dairy" },
+  {
+    "name": "Ryaba (tovuq go‘shti)",
+    "unit": "100g",
+    "calories": 165,
+    "category": "meat"
+  },
+  { "name": "Krevetka", "unit": "100g", "calories": 99, "category": "meat" },
+  {
+    "name": "Krab stick",
+    "unit": "100g",
+    "calories": 95,
+    "category": "processed_meat"
+  },
+  {
+    "name": "Brokolli pyuresi",
+    "unit": "100g",
+    "calories": 35,
+    "category": "vegetable"
+  },
+  {
+    "name": "Karrot pyuresi",
+    "unit": "100g",
+    "calories": 41,
+    "category": "vegetable"
+  },
+  {
+    "name": "Pechene",
+    "unit": "100g",
+    "calories": 502,
+    "category": "processed_food"
+  },
+  {
+    "name": "Kakao ichimligi",
+    "unit": "100ml",
+    "calories": 50,
+    "category": "drink"
+  },
+  {
+    "name": "Pasta (pomidor sous bilan)",
+    "unit": "100g",
+    "calories": 160,
+    "category": "grain"
+  },
+  {
+    "name": "Tort",
+    "unit": "100g",
+    "calories": 450,
+    "category": "processed_food"
+  },
+  {
+    "name": "Shakar",
+    "unit": "10g",
+    "calories": 40,
+    "category": "processed_food"
+  },
+  {
+    "name": "Med",
+    "unit": "100g",
+    "calories": 304,
+    "category": "processed_food"
+  },
+  { "name": "Qaymoq", "unit": "100g", "calories": 340, "category": "dairy" },
+  { "name": "Soya sousi", "unit": "100g", "calories": 53, "category": "sauce" },
+  {
+    "name": "Olma sharbati",
+    "unit": "100ml",
+    "calories": 46,
+    "category": "drink"
+  },
+  { "name": "Shaftoli", "unit": "100g", "calories": 39, "category": "fruit" },
+  { "name": "Ananas", "unit": "100g", "calories": 50, "category": "fruit" },
+  {
+    "name": "Qovurilgan kartoshka",
+    "unit": "100g",
+    "calories": 312,
+    "category": "processed_food"
+  },
+  {
+    "name": "Kartoshka (pishgan)",
+    "unit": "100g",
+    "calories": 77,
+    "category": "vegetable"
+  },
+  {
+    "name": "Sutli shokolad",
+    "unit": "100g",
+    "calories": 535,
+    "category": "processed_food"
+  },
+  {
+    "name": "Qaynatilgan guruch",
+    "unit": "100g",
+    "calories": 130,
+    "category": "grain"
+  },
+  {
+    "name": "Muzqaymoq",
+    "unit": "100g",
+    "calories": 207,
+    "category": "processed_food"
+  },
+  {
+    "name": "Donut",
+    "unit": "100g",
+    "calories": 452,
+    "category": "processed_food"
+  },
+  {
+    "name": "Kakao kukuni",
+    "unit": "100g",
+    "calories": 228,
+    "category": "processed_food"
+  },
+  {
+    "name": "Bodring pyuresi",
+    "unit": "100g",
+    "calories": 16,
+    "category": "vegetable"
+  },
+  {
+    "name": "Pomidor pyuresi",
+    "unit": "100g",
+    "calories": 18,
+    "category": "vegetable"
+  },
+  {
+    "name": "Kakao ichimligi (qaymoq bilan)",
+    "unit": "100ml",
+    "calories": 60,
+    "category": "drink"
+  },
+  {
+    "name": "Pechenye (shokoladli)",
+    "unit": "100g",
+    "calories": 502,
+    "category": "processed_food"
+  },
+  { "name": "Qora non", "unit": "100g", "calories": 230, "category": "grain" },
+  {
+    "name": "Jo‘xori uni",
+    "unit": "100g",
+    "calories": 365,
+    "category": "grain"
+  },
+  { "name": "Soya yog‘i", "unit": "100g", "calories": 884, "category": "fat" },
+  { "name": "Zaytun", "unit": "100g", "calories": 115, "category": "fruit" },
+  {
+    "name": "Qovurilgan tofu",
+    "unit": "100g",
+    "calories": 144,
+    "category": "protein"
+  },
+  { "name": "Tofu", "unit": "100g", "calories": 76, "category": "protein" },
+  {
+    "name": "Makkajo‘xori",
+    "unit": "100g",
+    "calories": 86,
+    "category": "grain"
+  },
+  {
+    "name": "Qaynatilgan loviya",
+    "unit": "100g",
+    "calories": 127,
+    "category": "legumes"
+  },
+  {
+    "name": "Qaynatilgan no‘xat",
+    "unit": "100g",
+    "calories": 164,
+    "category": "legumes"
+  },
+  {
+    "name": "Qaynatilgan loviya",
+    "unit": "100g",
+    "calories": 347,
+    "category": "legumes"
+  },
+  {
+    "name": "Qaynatilgan sabzi",
+    "unit": "100g",
+    "calories": 41,
+    "category": "vegetable"
+  },
+  {
+    "name": "Qaynatilgan karam",
+    "unit": "100g",
+    "calories": 25,
+    "category": "vegetable"
+  },
+  {
+    "name": "Shirin kartoshka",
+    "unit": "100g",
+    "calories": 86,
+    "category": "vegetable"
+  },
+  {
+    "name": "Pechene (yupqa)",
+    "unit": "100g",
+    "calories": 502,
+    "category": "processed_food"
+  },
+  {
+    "name": "Sutli qatiq",
+    "unit": "100g",
+    "calories": 61,
+    "category": "dairy"
+  },
+  {
+    "name": "Bodring (qaynatilgan)",
+    "unit": "100g",
+    "calories": 16,
+    "category": "vegetable"
+  },
+  {
+    "name": "Pomidor (qaynatilgan)",
+    "unit": "100g",
+    "calories": 18,
+    "category": "vegetable"
+  },
+  {
+    "name": "Qaynatilgan brokkoli",
+    "unit": "100g",
+    "calories": 34,
+    "category": "vegetable"
+  },
+  {
+    "name": "Qaynatilgan tuxum sarig‘i",
+    "unit": "1 pcs",
+    "calories": 55,
+    "category": "protein"
+  },
+  {
+    "name": "Qaynatilgan tuxum oqi",
+    "unit": "1 pcs",
+    "calories": 17,
+    "category": "protein"
+  },
+  {
+    "name": "Kakao shokolad",
+    "unit": "100g",
+    "calories": 546,
+    "category": "processed_food"
+  },
+  {
+    "name": "Sariq qalampir",
+    "unit": "100g",
+    "calories": 27,
+    "category": "vegetable"
+  },
+  {
+    "name": "Qora qalampir",
+    "unit": "100g",
+    "calories": 40,
+    "category": "vegetable"
+  },
+  {
+    "name": "Bodring (yangi)",
+    "unit": "100g",
+    "calories": 16,
+    "category": "vegetable"
+  },
+  {
+    "name": "Karam (yangi)",
+    "unit": "100g",
+    "calories": 25,
+    "category": "vegetable"
+  },
+  { "name": "Qovoq", "unit": "100g", "calories": 26, "category": "vegetable" },
+  {
+    "name": "Shalap (pomidorli)",
+    "unit": "100g",
+    "calories": 18,
+    "category": "vegetable"
+  },
+  {
+    "name": "Olma quritilgan",
+    "unit": "100g",
+    "calories": 243,
+    "category": "fruit"
+  },
+  { "name": "Anjir", "unit": "100g", "calories": 74, "category": "fruit" },
+  { "name": "Mayiz", "unit": "100g", "calories": 299, "category": "fruit" },
+  {
+    "name": "Apelsin sharbat",
+    "unit": "100ml",
+    "calories": 45,
+    "category": "drink"
+  },
+  { "name": "Limmon", "unit": "100g", "calories": 29, "category": "fruit" },
+  { "name": "Gilos", "unit": "100g", "calories": 50, "category": "fruit" },
+  { "name": "Malina", "unit": "100g", "calories": 52, "category": "fruit" },
+  { "name": "Qulupnay", "unit": "100g", "calories": 33, "category": "fruit" },
+  {
+    "name": "O‘rik quritilgan",
+    "unit": "100g",
+    "calories": 241,
+    "category": "fruit"
+  },
+  {
+    "name": "Shakar (qadoqlangan)",
+    "unit": "100g",
+    "calories": 400,
+    "category": "processed_food"
+  },
+  {
+    "name": "Med (tabiiy)",
+    "unit": "100g",
+    "calories": 304,
+    "category": "processed_food"
+  },
+  {
+    "name": "Yog‘ (zaytun)",
+    "unit": "100g",
+    "calories": 900,
+    "category": "fat"
+  },
+  {
+    "name": "Yog‘ (bodom)",
+    "unit": "100g",
+    "calories": 654,
+    "category": "fat"
+  },
+  {
+    "name": "Yog‘ (kungaboqar)",
+    "unit": "100g",
+    "calories": 884,
+    "category": "fat"
+  },
+  {
+    "name": "Sariyog‘ (qaymoqli)",
+    "unit": "100g",
+    "calories": 717,
+    "category": "fat"
+  },
+  {
+    "name": "Qaymoq (100%)",
+    "unit": "100g",
+    "calories": 340,
+    "category": "dairy"
+  },
+  {
+    "name": "Kakao (suyuqlik)",
+    "unit": "100ml",
+    "calories": 50,
+    "category": "drink"
+  },
+  {
+    "name": "Qahva (suv bilan)",
+    "unit": "100ml",
+    "calories": 2,
+    "category": "drink"
+  },
+  {
+    "name": "Choy (suv bilan)",
+    "unit": "100ml",
+    "calories": 1,
+    "category": "drink"
+  },
+  {
+    "name": "Gazli ichimlik (diet)",
+    "unit": "100ml",
+    "calories": 0,
+    "category": "drink"
+  },
+  { "name": "Soya sosu", "unit": "100g", "calories": 53, "category": "sauce" },
+  { "name": "Spagetti", "unit": "100g", "calories": 131, "category": "grain" },
+  { "name": "Lasagna", "unit": "100g", "calories": 150, "category": "grain" },
+  {
+    "name": "Tort (shokoladli)",
+    "unit": "100g",
+    "calories": 450,
+    "category": "processed_food"
+  },
+  {
+    "name": "Kek",
+    "unit": "100g",
+    "calories": 400,
+    "category": "processed_food"
+  },
+  {
+    "name": "Pechene (quritilgan)",
+    "unit": "100g",
+    "calories": 502,
+    "category": "processed_food"
+  },
+  {
+    "name": "Muzqaymoq (sutli)",
+    "unit": "100g",
+    "calories": 207,
+    "category": "processed_food"
+  },
+  {
+    "name": "Muzqaymoq (shokoladli)",
+    "unit": "100g",
+    "calories": 230,
+    "category": "processed_food"
+  },
+  {
+    "name": "Qaynatilgan loviya",
+    "unit": "100g",
+    "calories": 127,
+    "category": "legumes"
+  },
+  {
+    "name": "Qaynatilgan no‘xat",
+    "unit": "100g",
+    "calories": 164,
+    "category": "legumes"
+  },
+  {
+    "name": "Qaynatilgan makaron",
+    "unit": "100g",
+    "calories": 131,
+    "category": "grain"
+  },
+  {
+    "name": "Qaynatilgan guruch",
+    "unit": "100g",
+    "calories": 130,
+    "category": "grain"
+  },
+  {
+    "name": "Qaynatilgan tuxum",
+    "unit": "1 pcs",
+    "calories": 78,
+    "category": "protein"
+  },
+  {
+    "name": "Qaynatilgan tofu",
+    "unit": "100g",
+    "calories": 76,
+    "category": "protein"
+  },
+  {
+    "name": "Qaynatilgan pangasius",
+    "unit": "100g",
+    "calories": 120,
+    "category": "meat"
+  },
+  {
+    "name": "Qaynatilgan sardina",
+    "unit": "100g",
+    "calories": 208,
+    "category": "meat"
+  },
+  {
+    "name": "Qaynatilgan losos",
+    "unit": "100g",
+    "calories": 208,
+    "category": "meat"
+  },
+  {
+    "name": "Qaynatilgan mol go‘shti",
+    "unit": "100g",
+    "calories": 250,
+    "category": "meat"
+  },
+  {
+    "name": "Qaynatilgan tovuqli go‘sht",
+    "unit": "100g",
+    "calories": 165,
+    "category": "meat"
+  },
+  {
+    "name": "Qaynatilgan brokkoli pyuresi",
+    "unit": "100g",
+    "calories": 34,
+    "category": "vegetable"
+  },
+  {
+    "name": "Qaynatilgan karrot pyuresi",
+    "unit": "100g",
+    "calories": 41,
+    "category": "vegetable"
+  },
+  {
+    "name": "Qaynatilgan kartoshka",
+    "unit": "100g",
+    "calories": 77,
+    "category": "vegetable"
+  },
+  {
+    "name": "Qaynatilgan shirin kartoshka",
+    "unit": "100g",
+    "calories": 86,
+    "category": "vegetable"
+  },
+  {
+    "name": "Qaynatilgan qovoq",
+    "unit": "100g",
+    "calories": 26,
+    "category": "vegetable"
+  },
+  {
+    "name": "Qaynatilgan piyoz",
+    "unit": "100g",
+    "calories": 40,
+    "category": "vegetable"
+  },
+  {
+    "name": "Qaynatilgan pomidor pyuresi",
+    "unit": "100g",
+    "calories": 18,
+    "category": "vegetable"
+  },
+  {
+    "name": "Qaynatilgan bodring pyuresi",
+    "unit": "100g",
+    "calories": 16,
+    "category": "vegetable"
+  },
+  {
+    "name": "Qaynatilgan karam pyuresi",
+    "unit": "100g",
+    "calories": 25,
+    "category": "vegetable"
+  },
+  {
+    "name": "Qaynatilgan shakar",
+    "unit": "10g",
+    "calories": 40,
+    "category": "processed_food"
+  },
+  {
+    "name": "Qaynatilgan med",
+    "unit": "100g",
+    "calories": 304,
+    "category": "processed_food"
+  },
+  {
+    "name": "Qaynatilgan sariyog‘",
+    "unit": "100g",
+    "calories": 717,
+    "category": "fat"
+  },
+  {
+    "name": "Qaynatilgan zaytun yog‘i",
+    "unit": "100g",
+    "calories": 900,
+    "category": "fat"
+  },
+  {
+    "name": "Qaynatilgan kungaboqar yog‘i",
+    "unit": "100g",
+    "calories": 884,
+    "category": "fat"
+  },
+  {
+    "name": "Qaynatilgan yog‘",
+    "unit": "100g",
+    "calories": 900,
+    "category": "fat"
+  },
+  {
+    "name": "Qaynatilgan badam",
+    "unit": "100g",
+    "calories": 579,
+    "category": "seed"
+  },
+  {
+    "name": "Qaynatilgan yong‘oq",
+    "unit": "100g",
+    "calories": 654,
+    "category": "seed"
+  },
+  {
+    "name": "Qaynatilgan qovoq urug‘i",
+    "unit": "100g",
+    "calories": 559,
+    "category": "seed"
+  },
+  [
+    { "name": "Kivi", "unit": "100g", "calories": 61, "category": "fruit" },
+    { "name": "Mandarin", "unit": "100g", "calories": 53, "category": "fruit" },
+    {
+      "name": "Ananas (quritilgan)",
+      "unit": "100g",
+      "calories": 50,
+      "category": "fruit"
+    },
+    {
+      "name": "Qulupnay (quritilgan)",
+      "unit": "100g",
+      "calories": 360,
+      "category": "fruit"
+    },
+    {
+      "name": "Malina (quritilgan)",
+      "unit": "100g",
+      "calories": 320,
+      "category": "fruit"
+    },
+    {
+      "name": "Qulupnay pyuresi",
+      "unit": "100g",
+      "calories": 33,
+      "category": "fruit"
+    },
+    { "name": "Olxo‘ri", "unit": "100g", "calories": 41, "category": "fruit" },
+    {
+      "name": "Bodom yog‘i",
+      "unit": "100g",
+      "calories": 654,
+      "category": "fat"
+    },
+    {
+      "name": "Pistachio",
+      "unit": "100g",
+      "calories": 560,
+      "category": "seed"
+    },
+    {
+      "name": "Shokoladli kruassan",
+      "unit": "100g",
+      "calories": 406,
+      "category": "processed_food"
+    },
+    {
+      "name": "Pechenye (yog‘li)",
+      "unit": "100g",
+      "calories": 502,
+      "category": "processed_food"
+    },
+    {
+      "name": "Tort (mevali)",
+      "unit": "100g",
+      "calories": 380,
+      "category": "processed_food"
+    },
+    { "name": "Krem", "unit": "100g", "calories": 330, "category": "dairy" },
+    {
+      "name": "Muzqaymoq (vanil)",
+      "unit": "100g",
+      "calories": 207,
+      "category": "processed_food"
+    },
+    {
+      "name": "Qahva (latte)",
+      "unit": "100ml",
+      "calories": 45,
+      "category": "drink"
+    },
+    {
+      "name": "Choy (limon bilan)",
+      "unit": "100ml",
+      "calories": 2,
+      "category": "drink"
+    },
+    {
+      "name": "Gazli ichimlik (cola)",
+      "unit": "100ml",
+      "calories": 40,
+      "category": "drink"
+    },
+    {
+      "name": "Gazli ichimlik (sprite)",
+      "unit": "100ml",
+      "calories": 38,
+      "category": "drink"
+    },
+    {
+      "name": "Gazli ichimlik (fanta)",
+      "unit": "100ml",
+      "calories": 45,
+      "category": "drink"
+    },
+    {
+      "name": "Sut (yog‘siz)",
+      "unit": "100ml",
+      "calories": 35,
+      "category": "dairy"
+    },
+    {
+      "name": "Qatiq (yog‘siz)",
+      "unit": "100g",
+      "calories": 50,
+      "category": "dairy"
+    },
+    {
+      "name": "Pishloq (kam yog‘li)",
+      "unit": "100g",
+      "calories": 280,
+      "category": "dairy"
+    },
+    {
+      "name": "Tofu (qaynatilgan)",
+      "unit": "100g",
+      "calories": 76,
+      "category": "protein"
+    },
+    {
+      "name": "Seitan",
+      "unit": "100g",
+      "calories": 140,
+      "category": "protein"
+    },
+    {
+      "name": "Tempeh",
+      "unit": "100g",
+      "calories": 192,
+      "category": "protein"
+    },
+    {
+      "name": "Qovurilgan tofu",
+      "unit": "100g",
+      "calories": 144,
+      "category": "protein"
+    },
+    {
+      "name": "Qaynatilgan tofu",
+      "unit": "100g",
+      "calories": 76,
+      "category": "protein"
+    },
+    {
+      "name": "Qaynatilgan seitan",
+      "unit": "100g",
+      "calories": 140,
+      "category": "protein"
+    },
+    {
+      "name": "Qaynatilgan tempeh",
+      "unit": "100g",
+      "calories": 192,
+      "category": "protein"
+    },
+    {
+      "name": "Tovuq qanoti",
+      "unit": "100g",
+      "calories": 203,
+      "category": "meat"
+    },
+    {
+      "name": "Tovuq soni",
+      "unit": "100g",
+      "calories": 165,
+      "category": "meat"
+    },
+    {
+      "name": "Mol go‘shti (qovurilgan)",
+      "unit": "100g",
+      "calories": 250,
+      "category": "meat"
+    },
+    {
+      "name": "Baliq (qovurilgan)",
+      "unit": "100g",
+      "calories": 220,
+      "category": "meat"
+    },
+    {
+      "name": "Sardina (qovurilgan)",
+      "unit": "100g",
+      "calories": 208,
+      "category": "meat"
+    },
+    {
+      "name": "Skumbriya (qovurilgan)",
+      "unit": "100g",
+      "calories": 205,
+      "category": "meat"
+    },
+    {
+      "name": "Tuna (qovurilgan)",
+      "unit": "100g",
+      "calories": 132,
+      "category": "meat"
+    },
+    {
+      "name": "Kolbasa (qovurilgan)",
+      "unit": "100g",
+      "calories": 300,
+      "category": "processed_meat"
+    },
+    {
+      "name": "Sosiska (qovurilgan)",
+      "unit": "100g",
+      "calories": 300,
+      "category": "processed_meat"
+    },
+    {
+      "name": "Ketchup (pishirilgan)",
+      "unit": "100g",
+      "calories": 100,
+      "category": "sauce"
+    },
+    {
+      "name": "Mayonez (pishirilgan)",
+      "unit": "100g",
+      "calories": 680,
+      "category": "sauce"
+    },
+    {
+      "name": "Soya sousi (pishirilgan)",
+      "unit": "100g",
+      "calories": 53,
+      "category": "sauce"
+    },
+    {
+      "name": "Barbekyu sous",
+      "unit": "100g",
+      "calories": 150,
+      "category": "sauce"
+    },
+    {
+      "name": "Pesto sous",
+      "unit": "100g",
+      "calories": 450,
+      "category": "sauce"
+    },
+    { "name": "Avokado", "unit": "100g", "calories": 160, "category": "fruit" },
+    { "name": "Pomelo", "unit": "100g", "calories": 38, "category": "fruit" },
+    {
+      "name": "Limon (quritilgan)",
+      "unit": "100g",
+      "calories": 250,
+      "category": "fruit"
+    },
+    { "name": "Qovun", "unit": "100g", "calories": 34, "category": "fruit" },
+    { "name": "Karpuz", "unit": "100g", "calories": 30, "category": "fruit" },
+    {
+      "name": "Qora uzum",
+      "unit": "100g",
+      "calories": 69,
+      "category": "fruit"
+    },
+    { "name": "Oq uzum", "unit": "100g", "calories": 69, "category": "fruit" },
+    {
+      "name": "Shaftoli (quritilgan)",
+      "unit": "100g",
+      "calories": 239,
+      "category": "fruit"
+    },
+    {
+      "name": "O‘rik (quritilgan)",
+      "unit": "100g",
+      "calories": 241,
+      "category": "fruit"
+    },
+    {
+      "name": "Med (quritilgan)",
+      "unit": "100g",
+      "calories": 304,
+      "category": "processed_food"
+    },
+    {
+      "name": "Shakar (quritilgan)",
+      "unit": "100g",
+      "calories": 400,
+      "category": "processed_food"
+    },
+    {
+      "name": "Pechenye (shokoladli)",
+      "unit": "100g",
+      "calories": 502,
+      "category": "processed_food"
+    },
+    {
+      "name": "Tort (shokoladli)",
+      "unit": "100g",
+      "calories": 450,
+      "category": "processed_food"
+    },
+    {
+      "name": "Kek (shokoladli)",
+      "unit": "100g",
+      "calories": 400,
+      "category": "processed_food"
+    },
+    {
+      "name": "Muzqaymoq (shokoladli)",
+      "unit": "100g",
+      "calories": 230,
+      "category": "processed_food"
+    },
+    {
+      "name": "Muzqaymoq (vanil)",
+      "unit": "100g",
+      "calories": 207,
+      "category": "processed_food"
+    },
+    {
+      "name": "Muzqaymoq (mevali)",
+      "unit": "100g",
+      "calories": 210,
+      "category": "processed_food"
+    },
+    {
+      "name": "Chips (kartoshka)",
+      "unit": "100g",
+      "calories": 536,
+      "category": "processed_food"
+    },
+    {
+      "name": "Chips (yog‘li)",
+      "unit": "100g",
+      "calories": 540,
+      "category": "processed_food"
+    },
+    {
+      "name": "Pizza (margherita)",
+      "unit": "100g",
+      "calories": 250,
+      "category": "processed_food"
+    },
+    {
+      "name": "Pizza (pepperoni)",
+      "unit": "100g",
+      "calories": 300,
+      "category": "processed_food"
+    },
+    {
+      "name": "Spagetti (pomidorli sous bilan)",
+      "unit": "100g",
+      "calories": 160,
+      "category": "grain"
+    },
+    {
+      "name": "Lasagna (go‘shtli)",
+      "unit": "100g",
+      "calories": 180,
+      "category": "grain"
+    },
+    [
+      { "name": "Mango", "unit": "100g", "calories": 60, "category": "fruit" },
+      { "name": "Papaya", "unit": "100g", "calories": 43, "category": "fruit" },
+      { "name": "Guava", "unit": "100g", "calories": 68, "category": "fruit" },
+      {
+        "name": "Ajdar meva",
+        "unit": "100g",
+        "calories": 50,
+        "category": "fruit"
+      },
+      {
+        "name": "Marakuya",
+        "unit": "100g",
+        "calories": 97,
+        "category": "fruit"
+      },
+      { "name": "Liçi", "unit": "100g", "calories": 66, "category": "fruit" },
+      {
+        "name": "Yulduz meva",
+        "unit": "100g",
+        "calories": 31,
+        "category": "fruit"
+      },
+      { "name": "Tut", "unit": "100g", "calories": 43, "category": "fruit" },
+      {
+        "name": "Qizil uzum (gooseberry)",
+        "unit": "100g",
+        "calories": 44,
+        "category": "fruit"
+      },
+      {
+        "name": "Qora olxo‘ri",
+        "unit": "100g",
+        "calories": 43,
+        "category": "fruit"
+      },
+      {
+        "name": "Malmolar",
+        "unit": "100g",
+        "calories": 52,
+        "category": "fruit"
+      },
+      {
+        "name": "Ko‘kberry",
+        "unit": "100g",
+        "calories": 57,
+        "category": "fruit"
+      },
+      {
+        "name": "Qizil karam",
+        "unit": "100g",
+        "calories": 31,
+        "category": "vegetable"
+      },
+      {
+        "name": "Qizil lavlagi",
+        "unit": "100g",
+        "calories": 43,
+        "category": "vegetable"
+      },
+      {
+        "name": "Ismaloq",
+        "unit": "100g",
+        "calories": 23,
+        "category": "vegetable"
+      },
+      {
+        "name": "Kale (kale karam)",
+        "unit": "100g",
+        "calories": 49,
+        "category": "vegetable"
+      },
+      {
+        "name": "Arugula (rukola)",
+        "unit": "100g",
+        "calories": 25,
+        "category": "vegetable"
+      },
+      {
+        "name": "Shveytsariya karam",
+        "unit": "100g",
+        "calories": 19,
+        "category": "vegetable"
+      },
+      {
+        "name": "Bok choy (xitoy karam)",
+        "unit": "100g",
+        "calories": 13,
+        "category": "vegetable"
+      },
+      {
+        "name": "Piyoz (leek)",
+        "unit": "100g",
+        "calories": 61,
+        "category": "vegetable"
+      },
+      {
+        "name": "Qovun",
+        "unit": "100g",
+        "calories": 26,
+        "category": "vegetable"
+      },
+      {
+        "name": "Zukini",
+        "unit": "100g",
+        "calories": 17,
+        "category": "vegetable"
+      },
+      {
+        "name": "Bodring (baqlajon)",
+        "unit": "100g",
+        "calories": 25,
+        "category": "vegetable"
+      },
+      {
+        "name": "Tuzlangan bodring",
+        "unit": "100g",
+        "calories": 12,
+        "category": "vegetable"
+      },
+      {
+        "name": "Kinova",
+        "unit": "100g",
+        "calories": 120,
+        "category": "grain"
+      },
+      { "name": "Bulgur", "unit": "100g", "calories": 83, "category": "grain" },
+      {
+        "name": "Jo‘xori uni",
+        "unit": "100g",
+        "calories": 68,
+        "category": "grain"
+      },
+      {
+        "name": "Grechka",
+        "unit": "100g",
+        "calories": 92,
+        "category": "grain"
+      },
+      { "name": "Arpa", "unit": "100g", "calories": 123, "category": "grain" },
+      {
+        "name": "Bagel (non)",
+        "unit": "100g",
+        "calories": 250,
+        "category": "grain"
+      },
+      {
+        "name": "Baguette",
+        "unit": "100g",
+        "calories": 270,
+        "category": "grain"
+      },
+      {
+        "name": "Kruassan",
+        "unit": "100g",
+        "calories": 406,
+        "category": "processed_food"
+      },
+      {
+        "name": "Muffin",
+        "unit": "100g",
+        "calories": 377,
+        "category": "processed_food"
+      },
+      {
+        "name": "Brauni",
+        "unit": "100g",
+        "calories": 466,
+        "category": "processed_food"
+      },
+      {
+        "name": "Granola bar",
+        "unit": "100g",
+        "calories": 471,
+        "category": "processed_food"
+      },
+      {
+        "name": "Trail mix (aralash yong‘oq)",
+        "unit": "100g",
+        "calories": 457,
+        "category": "processed_food"
+      },
+      {
+        "name": "Yer yong‘og‘i yog‘i",
+        "unit": "100g",
+        "calories": 588,
+        "category": "processed_food"
+      },
+      {
+        "name": "Bodom yog‘i",
+        "unit": "100g",
+        "calories": 614,
+        "category": "processed_food"
+      },
+      {
+        "name": "Tahini (kunjut pastasi)",
+        "unit": "100g",
+        "calories": 595,
+        "category": "processed_food"
+      },
+      {
+        "name": "Xumus",
+        "unit": "100g",
+        "calories": 166,
+        "category": "processed_food"
+      },
+      {
+        "name": "Avokado yog‘i",
+        "unit": "100g",
+        "calories": 884,
+        "category": "fat"
+      },
+      {
+        "name": "Kokos yog‘i",
+        "unit": "100g",
+        "calories": 862,
+        "category": "fat"
+      },
+      {
+        "name": "Sariyog‘ (ghee)",
+        "unit": "100g",
+        "calories": 900,
+        "category": "fat"
+      },
+      {
+        "name": "Yong‘oq",
+        "unit": "100g",
+        "calories": 654,
+        "category": "seed"
+      },
+      { "name": "Keshyu", "unit": "100g", "calories": 553, "category": "seed" },
+      {
+        "name": "Chia urug‘i",
+        "unit": "100g",
+        "calories": 486,
+        "category": "seed"
+      },
+      {
+        "name": "Zefir urug‘i (Flax seed)",
+        "unit": "100g",
+        "calories": 534,
+        "category": "seed"
+      },
+      {
+        "name": "Quyosh urug‘i",
+        "unit": "100g",
+        "calories": 584,
+        "category": "seed"
+      },
+      {
+        "name": "Qovoq urug‘i",
+        "unit": "100g",
+        "calories": 559,
+        "category": "seed"
+      },
+      {
+        "name": "Matcha choyi",
+        "unit": "100ml",
+        "calories": 3,
+        "category": "drink"
+      },
+      {
+        "name": "Yashil smuzi",
+        "unit": "100ml",
+        "calories": 50,
+        "category": "drink"
+      },
+      {
+        "name": "Protein smuzi",
+        "unit": "100ml",
+        "calories": 120,
+        "category": "drink"
+      },
+      {
+        "name": "Kombucha",
+        "unit": "100ml",
+        "calories": 30,
+        "category": "drink"
+      },
+      {
+        "name": "Kokos suvi",
+        "unit": "100ml",
+        "calories": 19,
+        "category": "drink"
+      },
+      {
+        "name": "Bodom suti",
+        "unit": "100ml",
+        "calories": 15,
+        "category": "drink"
+      },
+      {
+        "name": "Soya suti",
+        "unit": "100ml",
+        "calories": 33,
+        "category": "drink"
+      },
+      {
+        "name": "Jo‘xori suti",
+        "unit": "100ml",
+        "calories": 40,
+        "category": "drink"
+      },
+      {
+        "name": "G‘alla suti",
+        "unit": "100ml",
+        "calories": 47,
+        "category": "drink"
+      },
+      {
+        "name": "Qora choy",
+        "unit": "100ml",
+        "calories": 1,
+        "category": "drink"
+      },
+      {
+        "name": "O‘simlik choyi",
+        "unit": "100ml",
+        "calories": 1,
+        "category": "drink"
+      },
+      {
+        "name": "Espresso",
+        "unit": "100ml",
+        "calories": 2,
+        "category": "drink"
+      },
+      {
+        "name": "Kapuchino",
+        "unit": "100ml",
+        "calories": 45,
+        "category": "drink"
+      },
+      { "name": "Latte", "unit": "100ml", "calories": 50, "category": "drink" },
+      {
+        "name": "Muzli kofe",
+        "unit": "100ml",
+        "calories": 30,
+        "category": "drink"
+      },
+      {
+        "name": "Meva sharbati (aralash)",
+        "unit": "100ml",
+        "calories": 45,
+        "category": "drink"
+      },
+      {
+        "name": "Sabzavot sharbati (aralash)",
+        "unit": "100ml",
+        "calories": 25,
+        "category": "drink"
+      },
+      {
+        "name": "Pomidor sharbati",
+        "unit": "100ml",
+        "calories": 17,
+        "category": "drink"
+      },
+      {
+        "name": "Sabzi sharbati",
+        "unit": "100ml",
+        "calories": 41,
+        "category": "drink"
+      },
+      {
+        "name": "Lavlagi sharbati",
+        "unit": "100ml",
+        "calories": 43,
+        "category": "drink"
+      }
+    ]
+  ]
+]

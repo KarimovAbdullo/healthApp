@@ -1,8 +1,9 @@
 import FoodTracker from "@/components/FoodTracker/FoodTracker";
-import { useRef, useState } from "react";
-import {
-  ScrollView,
-} from "react-native";
+import { WaterTracker } from "@/components/WaterTracker/WaterTracker";
+import { loadWaterState } from "@/utils/waterStorage";
+import { useFocusEffect, useRouter } from "expo-router";
+import { useCallback, useRef, useState } from "react";
+import { ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "./HomeScreen.styles";
 import Header from "./components/Header";
@@ -22,9 +23,13 @@ export type UserMetrics = {
 };
 
 export function HomeScreen() {
+  const router = useRouter();
   const scrollRef = useRef<ScrollView>(null);
   const [metrics, setMetrics] = useState<UserMetrics | null>(null);
   const [isSetupVisible, setIsSetupVisible] = useState(true);
+
+  const [waterLiters, setWaterLiters] = useState(0);
+  const waterGoal = 3;
 
   const [name, setName] = useState("");
   const [height, setHeight] = useState("");
@@ -36,6 +41,24 @@ export function HomeScreen() {
   const heightNum = Number(height);
   const weightNum = Number(weight);
   const ageNum = Number(age);
+
+  useFocusEffect(
+    useCallback(() => {
+      let alive = true;
+      (async () => {
+        try {
+          const state = await loadWaterState();
+          if (!alive) return;
+          setWaterLiters(state.currentLiters);
+        } catch {
+          // ignore
+        }
+      })();
+      return () => {
+        alive = false;
+      };
+    }, []),
+  );
 
   const canConfirm =
     name.trim().length > 0 &&
@@ -85,13 +108,23 @@ export function HomeScreen() {
       <SafeAreaView style={styles.container} edges={["bottom"]}>
         <ScrollView ref={scrollRef} showsVerticalScrollIndicator={false}>
           <Header metrics={metrics} onEditPress={handleOpenEdit} />
-          <FoodTracker breakfast={0} current={900} totalCalories={1800} />
+          <FoodTracker
+            breakfast={0}
+            current={900}
+            totalCalories={1800}
+            onLogPress={() => router.push("/food")}
+          />
+          <WaterTracker
+            currentLiters={waterLiters}
+            goalLiters={waterGoal}
+            onLogPress={() => router.push("/water")}
+          />
         </ScrollView>
       </SafeAreaView>
 
       <SetupModal
         visible={isSetupVisible}
-        canConfirm={canConfirm}
+        // canConfirm={canConfirm}
         name={name}
         height={height}
         weight={weight}

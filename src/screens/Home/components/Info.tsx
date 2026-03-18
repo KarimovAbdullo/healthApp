@@ -18,13 +18,8 @@ import { useEffect, useRef, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import type { UserMetrics } from "../HomeScreen";
 
-const SCROLL_STEP = 1;
-const SCROLL_INTERVAL_MS = 80;
-const SCROLL_PAUSE_AT_END_MS = 1500;
-
 type InfoProps = {
   metrics: UserMetrics | null;
-  isExpanded?: boolean;
 };
 
 const categoryLabel: Record<BodyCategory, string> = {
@@ -35,66 +30,42 @@ const categoryLabel: Record<BodyCategory, string> = {
   veryObese: "Very obese",
 };
 
-const getGradientColorsByCategory = (
-  category: BodyCategory,
-): [string, string] => {
-  if (category === "veryThin") {
-    return ["#FACC15", "#FBBF24"];
-  }
-  if (category === "normal") {
-    return ["#22C55E", "#4ADE80"];
-  }
-  if (category === "overweight") {
-    return ["#FACC15", "#FBBF24"];
-  }
-  if (category === "obese") {
-    return ["#FB7185", "#F97316"];
-  }
-  return ["#EF4444", "#DC2626"];
-};
+const GOLD_COLORS: [string, string, string] = ["#FDE68A", "#FACC15", "#F97316"];
 
-const infoStyles = StyleSheet.create({
-  rowBorder: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-    width: "100%",
-    justifyContent: "space-between",
-    borderBottomWidth: 1,
-    borderColor: "rgba(238, 230, 230, 0.79)",
+const styles = StyleSheet.create({
+  container: {
+    width: "60%",
+    marginTop: 10,
+    paddingRight: 6,
+    zIndex: 3,
   },
-  rowLast: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-    width: "100%",
-    justifyContent: "space-between",
-  },
-  label: {
-    flex: 1,
-    flexShrink: 1,
-  },
-  value: {
-    flexShrink: 0,
-  },
-  scroll: {
-    maxHeight: 220,
-  },
-  scrollContent: {
-    paddingBottom: 16,
+  chipsWrapper: {
+    paddingVertical: 4,
     paddingHorizontal: 12,
+  },
+  sectionTitle: {
+    marginBottom: 8,
+  },
+  chip: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderRadius: 14,
+    backgroundColor: "transparent",
+    marginBottom: 6,
+  },
+  chipLabel: {
+    marginRight: 6,
   },
 });
 
 const GradientNumber = ({
   value,
-  category,
 }: {
   value: string;
-  category: BodyCategory;
 }) => {
-  const colors = getGradientColorsByCategory(category);
-
   return (
     <MaskedView
       maskElement={
@@ -104,7 +75,7 @@ const GradientNumber = ({
       }
     >
       <LinearGradient
-        colors={colors}
+        colors={GOLD_COLORS}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
       >
@@ -116,55 +87,40 @@ const GradientNumber = ({
   );
 };
 
-const Info = ({ metrics, isExpanded = true }: InfoProps) => {
+const Info = ({ metrics }: InfoProps) => {
   const scrollRef = useRef<ScrollView>(null);
+  const [contentHeight, setContentHeight] = useState(0);
   const scrollY = useRef(0);
-  const contentHeight = useRef(0);
-  const [contentHeightState, setContentHeightState] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-  const scrollViewHeight = 220;
   const isAtBottom = useRef(false);
+  const [isPaused, setIsPaused] = useState(false);
   const pauseTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const SCROLL_STEP = 1;
+  const SCROLL_INTERVAL_MS = 80;
+  const SCROLL_PAUSE_AT_END_MS = 1500;
+  const SCROLL_VIEW_HEIGHT = 220;
 
   useEffect(() => {
-    if (isExpanded) {
-      setIsPaused(false);
-      scrollY.current = 0;
-      isAtBottom.current = false;
-      scrollRef.current?.scrollTo({ y: 0, animated: false });
-    }
-  }, [isExpanded]);
-
-  useEffect(() => {
-    if (contentHeightState <= scrollViewHeight) return;
+    if (contentHeight <= SCROLL_VIEW_HEIGHT) return;
     if (isPaused) return;
 
     const scroll = () => {
       if (isAtBottom.current) return;
 
       scrollY.current += SCROLL_STEP;
-      const maxScroll = contentHeight.current - scrollViewHeight;
+      const maxScroll = contentHeight - SCROLL_VIEW_HEIGHT;
 
       if (scrollY.current >= maxScroll) {
         scrollY.current = maxScroll;
         isAtBottom.current = true;
-        scrollRef.current?.scrollTo({
-          y: scrollY.current,
-          animated: true,
-        });
+        scrollRef.current?.scrollTo({ y: scrollY.current, animated: true });
+
         pauseTimeout.current = setTimeout(() => {
           isAtBottom.current = false;
           scrollY.current = 0;
-          scrollRef.current?.scrollTo({
-            y: 0,
-            animated: true,
-          });
+          scrollRef.current?.scrollTo({ y: 0, animated: true });
         }, SCROLL_PAUSE_AT_END_MS);
       } else {
-        scrollRef.current?.scrollTo({
-          y: scrollY.current,
-          animated: false,
-        });
+        scrollRef.current?.scrollTo({ y: scrollY.current, animated: false });
       }
     };
 
@@ -173,7 +129,7 @@ const Info = ({ metrics, isExpanded = true }: InfoProps) => {
       clearInterval(interval);
       if (pauseTimeout.current) clearTimeout(pauseTimeout.current);
     };
-  }, [metrics, contentHeightState, isPaused]);
+  }, [contentHeight, isPaused]);
 
   if (!metrics) {
     return null;
@@ -192,235 +148,193 @@ const Info = ({ metrics, isExpanded = true }: InfoProps) => {
         ? `+${extra.amount} kg`
         : `-${extra.amount} kg`;
 
+  const bodyFatPct = getBodyFat(bmi, metrics.age, metrics.gender);
+  const bodyFatRounded = Math.round(bodyFatPct * 10) / 10;
   const bmr = Math.round(
     getBMR(metrics.weightKg, metrics.heightCm, metrics.age, metrics.gender),
   );
   const tdee = Math.round(getTDEE(bmr, metrics.activityLevel));
   const weightLossCal = tdee - 500;
-  const bodyFatPct = getBodyFat(bmi, metrics.age, metrics.gender);
-  const bodyFatRounded = Math.round(bodyFatPct * 10) / 10;
   const waterL = getWaterLiters(metrics.weightKg);
   const waterRounded = Math.round(waterL * 10) / 10;
   const macros = getMacros(tdee);
 
   return (
-    <View
-      style={{
-        width: "78%",
-        marginTop: 10,
-        backgroundColor: "rgba(255, 255, 255, 0.05)",
-        paddingRight: 4,
-        zIndex: 3,
-      }}
-    >
-      <GlassTabBar
-        style={{
-          borderRadius: 20,
-          shadowColor: "white",
-          backgroundColor: "transparent",
-        }}
-      >
+    <View style={styles.container}>
+      <GlassTabBar style={{ borderRadius: 20, backgroundColor: "transparent" }}>
         <ScrollView
           ref={scrollRef}
-          style={infoStyles.scroll}
-          contentContainerStyle={infoStyles.scrollContent}
+          style={{ maxHeight: SCROLL_VIEW_HEIGHT }}
+          contentContainerStyle={styles.chipsWrapper}
           showsVerticalScrollIndicator={false}
-          bounces={true}
+          bounces
           onScrollBeginDrag={() => setIsPaused(true)}
-          onContentSizeChange={(_, h) => {
-            contentHeight.current = h;
-            setContentHeightState(h);
-          }}
+          onContentSizeChange={(_, h) => setContentHeight(h)}
         >
-          <View style={{ paddingVertical: 4 }}>
-            <AppText
-              size={12}
-              weight="semibold"
-              color="#9CA3AF"
-              style={{ marginBottom: 8 }}
-            >
-              Body
-            </AppText>
-            <View style={infoStyles.rowBorder}>
-              <View style={infoStyles.label}>
-                <AppText size={14} weight="light">
-                  Category
-                </AppText>
-              </View>
-              <View style={infoStyles.value}>
-                <AppText size={14} weight="medium">
-                  {categoryLabel[category]}
-                </AppText>
-              </View>
-            </View>
-            <View style={infoStyles.rowBorder}>
-              <View style={infoStyles.label}>
-                <AppText size={14} weight="light">
-                  BMI
-                </AppText>
-              </View>
-              <View style={infoStyles.value}>
-                <GradientNumber
-                  value={String(roundedBmi)}
-                  category={category}
-                />
-              </View>
-            </View>
-            <View style={infoStyles.rowLast}>
-              <View style={infoStyles.label}>
-                <AppText size={14} weight="light">
-                  Body fat
-                </AppText>
-              </View>
-              <View style={infoStyles.value}>
-                <GradientNumber
-                  value={`${bodyFatRounded} %`}
-                  category={category}
-                />
-              </View>
-            </View>
+          <AppText
+            size={12}
+            weight="semibold"
+            color="#9CA3AF"
+            style={styles.sectionTitle}
+          >
+            Body
+          </AppText>
 
+          <View style={styles.chip}>
             <AppText
-              size={12}
-              weight="semibold"
-              color="#9CA3AF"
-              style={{ marginTop: 12, marginBottom: 8 }}
+              size={14}
+              weight="light"
+              color="white"
+              style={styles.chipLabel}
             >
-              Weight
+              Category:
             </AppText>
-            <View style={infoStyles.rowBorder}>
-              <View style={infoStyles.label}>
-                <AppText size={14} weight="light">
-                  Ideal weight range
-                </AppText>
-              </View>
-              <View style={infoStyles.value}>
-                <GradientNumber
-                  value={`${min} – ${max} kg`}
-                  category={category}
-                />
-              </View>
-            </View>
-            <View style={infoStyles.rowLast}>
-              <View style={infoStyles.label}>
-                <AppText size={14} weight="light">
-                  Extra / missing weight
-                </AppText>
-              </View>
-              <View style={infoStyles.value}>
-                <GradientNumber value={extraLabel} category={category} />
-              </View>
-            </View>
+            <GradientNumber value={categoryLabel[category]} />
+          </View>
 
+          <View style={styles.chip}>
             <AppText
-              size={12}
-              weight="semibold"
-              color="#9CA3AF"
-              style={{ marginTop: 12, marginBottom: 8 }}
+              size={14}
+              weight="light"
+              color="white"
+              style={styles.chipLabel}
             >
-              Calories
+              BMI:
             </AppText>
-            <View style={infoStyles.rowBorder}>
-              <View style={infoStyles.label}>
-                <AppText size={14} weight="light">
-                  BMR
-                </AppText>
-              </View>
-              <View style={infoStyles.value}>
-                <GradientNumber value={`${bmr} kcal/day`} category={category} />
-              </View>
-            </View>
-            <View style={infoStyles.rowBorder}>
-              <View style={infoStyles.label}>
-                <AppText size={14} weight="light">
-                  Daily calories
-                </AppText>
-              </View>
-              <View style={infoStyles.value}>
-                <GradientNumber value={`${tdee} kcal`} category={category} />
-              </View>
-            </View>
-            <View style={infoStyles.rowBorder}>
-              <View style={infoStyles.label}>
-                <AppText size={14} weight="light">
-                  Calories for weight loss
-                </AppText>
-              </View>
-              <View style={infoStyles.value}>
-                <GradientNumber
-                  value={`${weightLossCal} kcal/day`}
-                  category={category}
-                />
-              </View>
-            </View>
-            <View style={infoStyles.rowLast}>
-              <View style={infoStyles.label}>
-                <AppText size={12} weight="light" color="#9CA3AF">
-                  Expected loss ≈ 0.5 kg per week
-                </AppText>
-              </View>
-            </View>
+            <GradientNumber value={String(roundedBmi)} />
+          </View>
 
+          <View style={styles.chip}>
             <AppText
-              size={12}
-              weight="semibold"
-              color="#9CA3AF"
-              style={{ marginTop: 12, marginBottom: 8 }}
+              size={14}
+              weight="light"
+              color="white"
+              style={styles.chipLabel}
             >
-              Health
+              Body fat:
             </AppText>
-            <View style={infoStyles.rowBorder}>
-              <View style={infoStyles.label}>
-                <AppText size={14} weight="light">
-                  Recommended water
-                </AppText>
-              </View>
-              <View style={infoStyles.value}>
-                <GradientNumber
-                  value={`${waterRounded} L/day`}
-                  category={category}
-                />
-              </View>
-            </View>
-            <View style={infoStyles.rowBorder}>
-              <View style={infoStyles.label}>
-                <AppText size={14} weight="light">
-                  Protein
-                </AppText>
-              </View>
-              <View style={infoStyles.value}>
-                <GradientNumber
-                  value={`${macros.proteinGrams} g`}
-                  category={category}
-                />
-              </View>
-            </View>
-            <View style={infoStyles.rowBorder}>
-              <View style={infoStyles.label}>
-                <AppText size={14} weight="light">
-                  Carbs
-                </AppText>
-              </View>
-              <View style={infoStyles.value}>
-                <GradientNumber
-                  value={`${macros.carbGrams} g`}
-                  category={category}
-                />
-              </View>
-            </View>
-            <View style={infoStyles.rowLast}>
-              <View style={infoStyles.label}>
-                <AppText size={14} weight="light">
-                  Fat
-                </AppText>
-              </View>
-              <View style={infoStyles.value}>
-                <GradientNumber
-                  value={`${macros.fatGrams} g`}
-                  category={category}
-                />
-              </View>
-            </View>
+            <GradientNumber
+              value={`${bodyFatRounded} %`}
+            />
+          </View>
+
+          <View style={styles.chip}>
+            <AppText
+              size={14}
+              weight="light"
+              color="white"
+              style={styles.chipLabel}
+            >
+              Ideal weight:
+            </AppText>
+            <GradientNumber
+              value={`${min} – ${max} kg`}
+            />
+          </View>
+
+          <View style={styles.chip}>
+            <AppText
+              size={14}
+              weight="light"
+              color="white"
+              style={styles.chipLabel}
+            >
+              Extra / missing:
+            </AppText>
+            <GradientNumber value={extraLabel} />
+          </View>
+
+          <AppText
+            size={12}
+            weight="semibold"
+            color="#9CA3AF"
+            style={styles.sectionTitle}
+          >
+            Calories & health
+          </AppText>
+
+          <View style={styles.chip}>
+            <AppText
+              size={14}
+              weight="light"
+              color="white"
+              style={styles.chipLabel}
+            >
+              BMR:
+            </AppText>
+            <GradientNumber value={`${bmr} kcal/day`} />
+          </View>
+
+          <View style={styles.chip}>
+            <AppText
+              size={14}
+              weight="light"
+              color="white"
+              style={styles.chipLabel}
+            >
+              Daily calories:
+            </AppText>
+            <GradientNumber value={`${tdee} kcal`} />
+          </View>
+
+          <View style={styles.chip}>
+            <AppText
+              size={14}
+              weight="light"
+              color="white"
+              style={styles.chipLabel}
+            >
+              For weight loss:
+            </AppText>
+            <GradientNumber value={`${weightLossCal} kcal/day`} />
+          </View>
+
+          <View style={styles.chip}>
+            <AppText
+              size={14}
+              weight="light"
+              color="white"
+              style={styles.chipLabel}
+            >
+              Water:
+            </AppText>
+            <GradientNumber value={`${waterRounded} L/day`} />
+          </View>
+
+          <View style={styles.chip}>
+            <AppText
+              size={14}
+              weight="light"
+              color="white"
+              style={styles.chipLabel}
+            >
+              Protein:
+            </AppText>
+            <GradientNumber value={`${macros.proteinGrams} g`} />
+          </View>
+
+          <View style={styles.chip}>
+            <AppText
+              size={14}
+              weight="light"
+              color="white"
+              style={styles.chipLabel}
+            >
+              Carbs:
+            </AppText>
+            <GradientNumber value={`${macros.carbGrams} g`} />
+          </View>
+
+          <View style={styles.chip}>
+            <AppText
+              size={14}
+              weight="light"
+              color="white"
+              style={styles.chipLabel}
+            >
+              Fat:
+            </AppText>
+            <GradientNumber value={`${macros.fatGrams} g`} />
           </View>
         </ScrollView>
       </GlassTabBar>

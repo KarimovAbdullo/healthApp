@@ -239,7 +239,7 @@ const Header = ({ metrics, onEditPress }: HeaderProps) => {
               style={infoAnimatedStyle}
               pointerEvents={isInfoExpanded ? "auto" : "none"}
             >
-              <Info metrics={metrics} isExpanded={isInfoExpanded} />
+              <Info metrics={metrics} />
             </Animated.View>
           </View>
         </View>
@@ -314,11 +314,12 @@ const styles = StyleSheet.create({
   },
   heroImageWrapper: {
     position: "absolute",
-    left: 120,
-    top: 0,
+    // left: 120,
+    top: 20,
     zIndex: 1,
-    width: 300,
-    height: 430,
+    width: 240,
+    height: 300,
+    right: 0,
   },
   heroImage: {
     width: 300,
