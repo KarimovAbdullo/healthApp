@@ -5,12 +5,15 @@ import {
   type WaterHistoryItem,
 } from "@/utils/waterStorage";
 import { useRouter } from "expo-router";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Animated, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { WaterActionButtons } from "./components/WaterActionButtons";
-import { WaterGlassPicker, type GlassOption } from "./components/WaterGlassPicker";
+import {
+  WaterGlassPicker,
+  type GlassOption,
+} from "./components/WaterGlassPicker";
 import { WaterHeader } from "./components/WaterHeader";
 import { WaterHistorySection } from "./components/WaterHistorySection";
 import { WaterSelectedAmount } from "./components/WaterSelectedAmount";
@@ -80,44 +83,41 @@ export default function WaterScreen() {
 
   return (
     <SafeAreaView style={styles.safe}>
-      <SafeAreaView style={{ flex: 1 }}>
-        <WaterHeader onBackPress={() => router.back()} />
+      <WaterHeader onBackPress={() => router.back()} />
 
-        <ScrollView
-          ref={scrollRef}
-          contentContainerStyle={styles.scrollContent}
-          showsVerticalScrollIndicator={false}
+      <ScrollView
+        ref={scrollRef}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
+        <WaterGlassPicker options={GLASS_OPTIONS} onSelect={handleSelect} />
+
+        <AppText
+          size={14}
+          weight="semibold"
+          color="#9CA3AF"
+          style={styles.tapText}
         >
-          <WaterGlassPicker options={GLASS_OPTIONS} onSelect={handleSelect} />
+          Tap a glass to add water
+        </AppText>
 
-          <AppText
-            size={14}
-            weight="semibold"
-            color="#9CA3AF"
-            style={styles.tapText}
-          >
-            Tap a glass to add water
-          </AppText>
+        <WaterSelectedAmount
+          scaleAnim={scaleAnim}
+          totalSelected={totalSelected}
+        />
 
-          <WaterSelectedAmount
-            scaleAnim={scaleAnim}
-            totalSelected={totalSelected}
-          />
+        <WaterActionButtons
+          totalSelected={totalSelected}
+          onConfirm={handleConfirm}
+          onClear={handleClear}
+        />
 
-          <WaterActionButtons
-            totalSelected={totalSelected}
-            onConfirm={handleConfirm}
-            onClear={handleClear}
-          />
-
-          <WaterHistorySection
-            todayLiters={todayLiters}
-            history={history}
-            onHistoryScroll={handleHistoryScroll}
-          />
-        </ScrollView>
-      </SafeAreaView>
+        <WaterHistorySection
+          todayLiters={todayLiters}
+          history={history}
+          onHistoryScroll={handleHistoryScroll}
+        />
+      </ScrollView>
     </SafeAreaView>
   );
 }
-

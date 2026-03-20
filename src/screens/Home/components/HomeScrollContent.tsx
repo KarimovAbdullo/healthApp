@@ -1,4 +1,5 @@
 import FoodTracker from "@/components/FoodTracker/FoodTracker";
+import StepTracker from "@/components/StepTracker/StepTracker";
 import { WaterTracker } from "@/components/WaterTracker/WaterTracker";
 import React from "react";
 import { ScrollView } from "react-native";
@@ -14,6 +15,7 @@ export function HomeScrollContent({
   waterGoal,
   onFoodPress,
   onWaterPress,
+  onStepPress,
 }: {
   scrollRef: React.RefObject<ScrollView | null>;
   metrics: UserMetrics | null;
@@ -22,6 +24,7 @@ export function HomeScrollContent({
   waterGoal: number;
   onFoodPress: () => void;
   onWaterPress: () => void;
+  onStepPress: () => void;
 }) {
   return (
     <ScrollView ref={scrollRef} showsVerticalScrollIndicator={false}>
@@ -37,6 +40,7 @@ export function HomeScrollContent({
         goalLiters={waterGoal}
         onLogPress={onWaterPress}
       />
+      <StepTracker currentSteps={5340} goalSteps={8000} onPress={onStepPress} />
     </ScrollView>
   );
 }

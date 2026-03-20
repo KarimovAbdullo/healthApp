@@ -15,6 +15,9 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 18,
     paddingTop: 10,
   },
+  screenContent: {
+    paddingBottom: 260,
+  },
 
   header: {
     flexDirection: "row",
@@ -193,9 +196,41 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  searchResultsWrap: {
+    marginTop: 10,
+    gap: 12,
+  },
+  selectedFoodsWrap: {
+    marginTop: 14,
+    gap: 14,
+  },
   infoIcon: {
     width: 50,
     height: 50,
+  },
+  historySectionWrap: {
+    marginTop: 18,
+  },
+  historyButton: {
+    alignSelf: "center",
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.22)",
+    backgroundColor: "rgba(124,58,237,0.45)",
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+  },
+  historySection: {
+    marginTop: 14,
+    gap: 10,
+  },
+  historyCard: {
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.18)",
+    backgroundColor: "rgba(15,23,42,0.45)",
+    paddingVertical: 10,
+    paddingHorizontal: 12,
   },
   modalOverlay: {
     flex: 1,

@@ -1,6 +1,6 @@
 import { AppText } from "@/components/AppText";
 import React from "react";
-import { FlatList, Image, ImageSourcePropType, TouchableOpacity, View } from "react-native";
+import { Image, ImageSourcePropType, TouchableOpacity, View } from "react-native";
 
 import { styles } from "../FoodScreen.styles";
 import { formatUnit } from "../foodUtils";
@@ -18,15 +18,13 @@ export function FoodSelectedFoodsList({
   onDec: (id: string) => void;
 }) {
   return (
-    <FlatList
-      data={selectedFoods}
-      keyExtractor={(it) => it.id}
-      renderItem={({ item }) => {
+    <View style={styles.selectedFoodsWrap}>
+      {selectedFoods.map((item) => {
         const subtitle = `${item.item.calories} kcal / ${formatUnit(item.item.unit)}`;
         const itemTotal = item.item.calories * item.qty;
 
         return (
-          <View style={styles.rowCard}>
+          <View key={item.id} style={styles.rowCard}>
             <View style={styles.rowLeft}>
               <Image
                 source={foodIcon}
@@ -83,11 +81,8 @@ export function FoodSelectedFoodsList({
             </View>
           </View>
         );
-      }}
-      style={{ marginTop: 14 }}
-      contentContainerStyle={{ paddingBottom: 120, gap: 14 }}
-      showsVerticalScrollIndicator={false}
-    />
+      })}
+    </View>
   );
 }
 

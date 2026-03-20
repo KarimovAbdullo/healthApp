@@ -1,20 +1,48 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: "#020617" },
-  container: { flex: 1, paddingHorizontal: 24, paddingTop: 12 },
-  header: { alignItems: "center", marginBottom: 12 },
+  safe: {
+    flex: 1,
+    backgroundColor: "#020617",
+    paddingHorizontal: 16,
+  },
+  container: {
+    flex: 1,
+    paddingHorizontal: 24,
+    paddingTop: 12,
+  },
+  header: {
+    height: 52,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 22,
+  },
   backButton: {
-    position: "absolute",
-    left: 0,
-    top: 0,
-    paddingVertical: 4,
-    paddingHorizontal: 4,
+    width: 52,
+    height: 52,
+    alignItems: "flex-start",
+    justifyContent: "center",
+    paddingLeft: 2,
+  },
+  headerTitleWrap: {
+    flex: 1,
+    alignItems: "center",
   },
   scrollContent: { paddingBottom: 32 },
-  row: { flexDirection: "row", justifyContent: "space-between", width: "100%" },
-  glassOption: { alignItems: "center", flex: 1 },
-  glassImage: { width: 48, height: 72 },
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+  },
+  glassOption: {
+    alignItems: "center",
+    flex: 1,
+  },
+  glassImage: {
+    width: 48,
+    height: 72,
+  },
   addButton: {
     width: "100%",
     marginTop: 24,
@@ -59,5 +87,14 @@ export const styles = StyleSheet.create({
     marginTop: 16,
     textAlign: "center",
   },
+  infoIcon: {
+    width: 50,
+    height: 40,
+  },
+  headerRight: {
+    width: 52,
+    height: 52,
+    alignItems: "flex-end",
+    justifyContent: "center",
+  },
 });
-

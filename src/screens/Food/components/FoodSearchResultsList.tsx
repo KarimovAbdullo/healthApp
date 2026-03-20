@@ -1,7 +1,5 @@
 import { AppText } from "@/components/AppText";
-import React from "react";
 import {
-  FlatList,
   Image,
   ImageSourcePropType,
   TouchableOpacity,
@@ -13,7 +11,7 @@ import { styles } from "../FoodScreen.styles";
 import type { FoodEntry } from "../FoodScreenTypes";
 import { formatUnit } from "../foodUtils";
 
-const foodIcon: ImageSourcePropType = require("@/assets/images/food.webp");
+const foodIcon: ImageSourcePropType = require("@/assets/images/dis.png");
 
 export type FilteredFood = {
   item: FoodEntry;
@@ -28,13 +26,15 @@ export function FoodSearchResultsList({
   onAdd: (originalIndex: number) => void;
 }) {
   return (
-    <FlatList
-      data={results}
-      keyExtractor={(it) => String(it.originalIndex)}
-      renderItem={({ item }) => (
-        <View style={styles.rowCard}>
+    <View style={styles.searchResultsWrap}>
+      {results.map((item) => (
+        <View key={String(item.originalIndex)} style={styles.rowCard}>
           <View style={styles.rowLeft}>
-            <Image source={foodIcon} style={styles.foodImg} resizeMode="contain" />
+            <Image
+              source={foodIcon}
+              style={styles.foodImg}
+              resizeMode="contain"
+            />
             <View style={styles.rowTextCol}>
               <AppText size={18} weight="semibold" color="#F9FAFB">
                 {item.item.name}
@@ -55,11 +55,7 @@ export function FoodSearchResultsList({
             </AppText>
           </TouchableOpacity>
         </View>
-      )}
-      style={{ marginTop: 10 }}
-      contentContainerStyle={{ paddingBottom: 140, gap: 12 }}
-      showsVerticalScrollIndicator={false}
-    />
+      ))}
+    </View>
   );
 }
-

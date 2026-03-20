@@ -1,8 +1,7 @@
-import FoodTracker from "@/components/FoodTracker/FoodTracker";
-import { WaterTracker } from "@/components/WaterTracker/WaterTracker";
 import { loadWaterState } from "@/utils/waterStorage";
+import { loadUserProfile, saveUserProfile } from "@/utils/userProfileStorage";
 import { useFocusEffect, useRouter } from "expo-router";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "./HomeScreen.styles";
@@ -27,7 +26,7 @@ export function HomeScreen() {
   const router = useRouter();
   const scrollRef = useRef<ScrollView>(null);
   const [metrics, setMetrics] = useState<UserMetrics | null>(null);
-  const [isSetupVisible, setIsSetupVisible] = useState(true);
+  const [isSetupVisible, setIsSetupVisible] = useState(false);
 
   const [waterLiters, setWaterLiters] = useState(0);
   const waterGoal = 3;
@@ -38,6 +37,29 @@ export function HomeScreen() {
   const [age, setAge] = useState("");
   const [gender, setGender] = useState<Gender | "">("");
   const [activityLevel, setActivityLevel] = useState<ActivityLevel | "">("");
+
+  useEffect(() => {
+    let alive = true;
+    (async () => {
+      const saved = await loadUserProfile();
+      if (!alive) return;
+      if (!saved) {
+        setIsSetupVisible(true);
+        return;
+      }
+      setMetrics(saved);
+      setName(saved.name);
+      setHeight(String(saved.heightCm));
+      setWeight(String(saved.weightKg));
+      setAge(String(saved.age));
+      setGender(saved.gender);
+      setActivityLevel(saved.activityLevel);
+      setIsSetupVisible(false);
+    })();
+    return () => {
+      alive = false;
+    };
+  }, []);
 
   const heightNum = Number(height);
   const weightNum = Number(weight);
@@ -81,14 +103,16 @@ export function HomeScreen() {
       !["sedentary", "light", "moderate", "active"].includes(activityLevel)
     )
       return;
-    setMetrics({
+    const nextMetrics = {
       name: name.trim(),
       heightCm: heightNum,
       weightKg: weightNum,
       age: ageNum,
       gender,
       activityLevel: activityLevel as ActivityLevel,
-    });
+    };
+    setMetrics(nextMetrics);
+    void saveUserProfile(nextMetrics);
     setIsSetupVisible(false);
   };
 
@@ -115,6 +139,7 @@ export function HomeScreen() {
           waterGoal={waterGoal}
           onFoodPress={() => router.push("/food")}
           onWaterPress={() => router.push("/water")}
+          onStepPress={() => router.push("/step-tracker" as any)}
         />
       </SafeAreaView>
 

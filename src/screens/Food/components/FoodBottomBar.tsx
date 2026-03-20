@@ -7,9 +7,11 @@ import { styles } from "../FoodScreen.styles";
 export function FoodBottomBar({
   totalKcal,
   onAddFoodPress,
+  children,
 }: {
   totalKcal: number;
   onAddFoodPress: () => void;
+  children?: React.ReactNode;
 }) {
   return (
     <View style={styles.bottomArea} pointerEvents="box-none">
@@ -26,6 +28,8 @@ export function FoodBottomBar({
           Add Food
         </AppText>
       </TouchableOpacity>
+
+      {children}
     </View>
   );
 }

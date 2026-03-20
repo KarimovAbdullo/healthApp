@@ -99,3 +99,69 @@ export const getMacros = (tdee: number) => {
     fatGrams: Math.round(fatCal / 9),
   };
 };
+
+export const getIdealWeightByBmi22 = (heightCm: number) => {
+  const h = heightCm / 100;
+  if (!h) return 0;
+  return 22 * h * h;
+};
+
+export const calculateDailyWalk = ({
+  weight,
+  height,
+  activityLevel,
+}: {
+  weight: number;
+  height: number;
+  activityLevel: ActivityLevel;
+}) => {
+  const idealWeight = getIdealWeightByBmi22(height);
+  const extraWeight = weight - idealWeight;
+
+  let baseKm = 3;
+  let minKm = 3;
+  let maxKm = 5;
+
+  if (extraWeight <= 0) {
+    baseKm = 4;
+    minKm = 3;
+    maxKm = 5;
+  } else if (extraWeight <= 5) {
+    baseKm = 5;
+    minKm = 4;
+    maxKm = 6;
+  } else if (extraWeight <= 15) {
+    baseKm = 6.5;
+    minKm = 5;
+    maxKm = 8;
+  } else if (extraWeight <= 30) {
+    baseKm = 8;
+    minKm = 6;
+    maxKm = 10;
+  } else {
+    baseKm = 10;
+    minKm = 8;
+    maxKm = 12;
+  }
+
+  const adjust =
+    activityLevel === "sedentary"
+      ? 2
+      : activityLevel === "light"
+        ? 1
+        : activityLevel === "active"
+          ? -1
+          : 0;
+
+  const dailyKm = Math.max(3, Math.round(baseKm + adjust));
+  const recommendedMinKm = Math.max(3, Math.round(minKm + adjust));
+  const recommendedMaxKm = Math.max(recommendedMinKm, Math.round(maxKm + adjust));
+
+  return {
+    idealWeight,
+    extraWeight,
+    dailyKm,
+    recommendedMinKm,
+    recommendedMaxKm,
+  };
+};
