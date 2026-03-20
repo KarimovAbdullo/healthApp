@@ -1,8 +1,7 @@
 import { AppText } from "@/components/AppText";
-import { LinearGradient } from "expo-linear-gradient";
-import React from "react";
 import { MaterialIcons } from "@expo/vector-icons";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 
 type Props = {
   currentSteps: number;
@@ -10,13 +9,21 @@ type Props = {
   onPress?: () => void;
 };
 
-export default function StepTracker({ currentSteps, goalSteps, onPress }: Props) {
+export default function StepTracker({
+  currentSteps,
+  goalSteps,
+  onPress,
+}: Props) {
   const safeGoal = goalSteps > 0 ? goalSteps : 1;
   const progress = Math.min(1, currentSteps / safeGoal);
   const percent = Math.round(progress * 100);
 
   return (
-    <TouchableOpacity style={styles.wrapper} activeOpacity={0.9} onPress={onPress}>
+    <TouchableOpacity
+      style={styles.wrapper}
+      activeOpacity={0.9}
+      onPress={onPress}
+    >
       <LinearGradient
         colors={["#1A0B3A", "#3B1C72", "#5B21B6"]}
         start={{ x: 0, y: 0 }}
@@ -25,9 +32,10 @@ export default function StepTracker({ currentSteps, goalSteps, onPress }: Props)
       >
         <View style={styles.topRow}>
           <View style={styles.titleRow}>
-            <View style={styles.iconWrap}>
-              <MaterialIcons name="directions-walk" size={18} color="#60A5FA" />
-            </View>
+            <Image
+              source={require("@/assets/images/oyoq.png")}
+              style={styles.icon}
+            />
             <View>
               <AppText size={17} weight="semibold" color="#F9FAFB">
                 Step Tracker
@@ -38,7 +46,11 @@ export default function StepTracker({ currentSteps, goalSteps, onPress }: Props)
             </View>
           </View>
 
-          <MaterialIcons name="chevron-right" size={22} color="rgba(255,255,255,0.8)" />
+          <MaterialIcons
+            name="chevron-right"
+            size={22}
+            color="rgba(255,255,255,0.8)"
+          />
         </View>
 
         <View style={styles.innerCard}>
@@ -46,9 +58,15 @@ export default function StepTracker({ currentSteps, goalSteps, onPress }: Props)
             <AppText size={14} weight="bold" color="#F9FAFB">
               {currentSteps.toLocaleString()} Steps Today
             </AppText>
-            <AppText size={12} color="#DDD6FE">
-              Goal: {goalSteps.toLocaleString()} steps
-            </AppText>
+            <View>
+              <AppText size={12} color="#DDD6FE">
+                <Image
+                  source={require("@/assets/images/finish.png")}
+                  style={styles.icons}
+                />{" "}
+                Goal: {goalSteps.toLocaleString()} steps
+              </AppText>
+            </View>
           </View>
 
           <View style={styles.progressRow}>
@@ -128,5 +146,13 @@ const styles = StyleSheet.create({
     height: "100%",
     borderRadius: 999,
     backgroundColor: "#84CC16",
+  },
+  icon: {
+    width: 58,
+    height: 58,
+  },
+  icons: {
+    width: 28,
+    height: 28,
   },
 });

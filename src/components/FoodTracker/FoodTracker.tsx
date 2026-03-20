@@ -1,6 +1,5 @@
 import { AppText } from "@/components/AppText";
 import { LinearGradient } from "expo-linear-gradient";
-import React from "react";
 import {
   Image,
   ImageSourcePropType,
@@ -21,6 +20,7 @@ type Props = {
 
 const dishImg: ImageSourcePropType = require("@/assets/images/dish.png");
 const doneImg: ImageSourcePropType = require("@/assets/images/done2.png");
+const foodBgImg: ImageSourcePropType = require("@/assets/images/fots1.png");
 
 const FoodTracker = ({
   breakfast: _breakfast,
@@ -45,6 +45,8 @@ const FoodTracker = ({
         end={{ x: 1, y: 1 }}
         style={styles.gradient}
       >
+        <Image source={foodBgImg} style={styles.bgOverlay} resizeMode="cover" />
+
         <View style={styles.row}>
           <View style={styles.dishWrapper}>
             <Image source={dishImg} style={styles.dish} resizeMode="contain" />
@@ -119,6 +121,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 22,
+    position: "relative",
+  },
+  bgOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    width: 520,
+    height: 100,
+    opacity: 0.05,
   },
   headerRow: {},
   row: {

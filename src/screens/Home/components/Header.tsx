@@ -92,6 +92,7 @@ const bodyImages = {
   obese: require("../../../assets/images/person/obese_man.png"),
   veryObese: require("../../../assets/images/person/very_obese_man.png"),
 };
+const headerBgImg = require("../../../assets/images/hh.png");
 
 const Header = ({ metrics, onEditPress }: HeaderProps) => {
   const [isInfoExpanded, setIsInfoExpanded] = useState(true);
@@ -136,6 +137,14 @@ const Header = ({ metrics, onEditPress }: HeaderProps) => {
         end={{ x: 1, y: 1 }}
         style={styles.heroCard}
       >
+        <Image
+          source={headerBgImg}
+          style={
+            isInfoExpanded ? styles.headerBgImage : styles.headerBgImageExpanded
+          }
+          resizeMode="cover"
+        />
+
         <Animated.View
           style={[styles.heroImageWrapper, imageAnimatedStyle]}
           pointerEvents="none"
@@ -273,6 +282,19 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "flex-end",
     justifyContent: "space-between",
+    position: "relative",
+  },
+  headerBgImage: {
+    ...StyleSheet.absoluteFillObject,
+    width: "100%",
+    height: "100%",
+    opacity: 0.05,
+  },
+  headerBgImageExpanded: {
+    ...StyleSheet.absoluteFillObject,
+    width: "100%",
+    height: "100%",
+    opacity: 0.02,
   },
   heroContent: {
     flex: 1,

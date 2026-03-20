@@ -8,8 +8,8 @@ import {
 
 import { styles } from "../FoodScreen.styles";
 
-import type { FoodEntry } from "../FoodScreenTypes";
-import { formatUnit } from "../foodUtils";
+import type { FoodEntry } from "@/screens/Food/FoodScreenTypes";
+import { formatUnit } from "@/screens/Food/foodUtils";
 
 const foodIcon: ImageSourcePropType = require("@/assets/images/dis.png");
 

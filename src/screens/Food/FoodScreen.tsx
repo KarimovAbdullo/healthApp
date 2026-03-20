@@ -7,7 +7,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { FoodBottomBar } from "./components/FoodBottomBar";
 import { FoodHeader } from "./components/FoodHeader";
-import { FoodHistorySection } from "./components/FoodHistorySection";
+import { FoodHistorySection } from "./components";
 import { FoodManualForm } from "./components/FoodManualForm";
 import { FoodNoResults } from "./components/FoodNoResults";
 import { FoodSearchBar } from "./components/FoodSearchBar";

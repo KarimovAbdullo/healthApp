@@ -1,7 +1,14 @@
 import { AppText } from "@/components/AppText";
 import { LinearGradient } from "expo-linear-gradient";
 import { useEffect, useRef } from "react";
-import { Animated, Easing, Image, ImageSourcePropType, StyleSheet, View } from "react-native";
+import {
+  Animated,
+  Easing,
+  Image,
+  ImageSourcePropType,
+  StyleSheet,
+  View,
+} from "react-native";
 import LogWaterButton from "../LogWaterButton/LogWaterButton";
 
 type Props = {
@@ -12,6 +19,7 @@ type Props = {
 
 const bottleImg: ImageSourcePropType = require("@/assets/images/botll.png");
 const doneImg: ImageSourcePropType = require("@/assets/images/done5.png");
+const abstractBgImg: ImageSourcePropType = require("@/assets/images/st.png");
 
 export const WaterTracker = ({
   currentLiters,
@@ -55,6 +63,12 @@ export const WaterTracker = ({
         end={{ x: 1, y: 1 }}
         style={styles.gradient}
       >
+        <Image
+          source={abstractBgImg}
+          style={styles.abstractBg}
+          resizeMode="cover"
+        />
+
         <View style={styles.leftSection}>
           <Image
             source={bottleImg}
@@ -125,6 +139,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 14,
     paddingVertical: 10,
+    position: "relative",
+  },
+  abstractBg: {
+    ...StyleSheet.absoluteFillObject,
+    width: "190%",
+    height: "100%",
+    // opacity: 0.45,
   },
   leftSection: {
     paddingRight: 10,
