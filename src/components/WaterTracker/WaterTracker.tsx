@@ -1,6 +1,5 @@
 import { AppText } from "@/components/AppText";
 import { LinearGradient } from "expo-linear-gradient";
-import React from "react";
 import { Image, ImageSourcePropType, StyleSheet, View } from "react-native";
 import LogWaterButton from "../LogWaterButton/LogWaterButton";
 
@@ -11,7 +10,7 @@ type Props = {
 };
 
 const bottleImg: ImageSourcePropType = require("@/assets/images/botll.png");
-const glassImg: ImageSourcePropType = require("@/assets/images/stakan.png");
+const doneImg: ImageSourcePropType = require("@/assets/images/done5.png");
 
 export const WaterTracker = ({
   currentLiters,
@@ -20,10 +19,7 @@ export const WaterTracker = ({
 }: Props) => {
   const safeGoal = goalLiters > 0 ? goalLiters : 1;
   const filledProgress = Math.min(1, currentLiters / safeGoal);
-
-  // 1 glass ~ 0.25L (4 glasses ≈ 1L)
-  const totalGlasses = Math.round(goalLiters / 0.25);
-  const filledGlasses = Math.round(currentLiters / 0.25);
+  const isDone = currentLiters >= goalLiters && goalLiters > 0;
 
   return (
     <View style={styles.wrapper}>
@@ -46,9 +42,22 @@ export const WaterTracker = ({
             Water Tracker
           </AppText>
 
-          <AppText size={13} color="#E5E7EB" style={{ marginTop: 2 }}>
-            {currentLiters.toFixed(1)} / {goalLiters.toFixed(1)} L drank
-          </AppText>
+          {isDone ? (
+            <View style={styles.doneRow}>
+              <AppText size={13} weight="semibold" color="#22C55E">
+                Done
+              </AppText>
+              <Image
+                source={doneImg}
+                style={styles.doneIcon}
+                resizeMode="contain"
+              />
+            </View>
+          ) : (
+            <AppText size={13} color="#E5E7EB" style={{ marginTop: 2 }}>
+              {currentLiters.toFixed(1)} / {goalLiters.toFixed(1)} L drank
+            </AppText>
+          )}
 
           <View style={styles.progressTrack}>
             <View
@@ -57,20 +66,6 @@ export const WaterTracker = ({
                 { width: `${filledProgress * 100}%` },
               ]}
             />
-          </View>
-
-          <View style={styles.glassesRow}>
-            {Array.from({ length: totalGlasses }).map((_, index) => {
-              const isFilled = index < filledGlasses;
-              return (
-                <Image
-                  key={index}
-                  source={glassImg}
-                  style={[styles.glass, { opacity: isFilled ? 1 : 0.3 }]}
-                  resizeMode="contain"
-                />
-              );
-            })}
           </View>
         </View>
 
@@ -104,6 +99,16 @@ const styles = StyleSheet.create({
   },
   centerSection: {
     flex: 1,
+  },
+  doneRow: {
+    marginTop: 2,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+  },
+  doneIcon: {
+    width: 16,
+    height: 16,
   },
   rightSection: {
     paddingLeft: 10,

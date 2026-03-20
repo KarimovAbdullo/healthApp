@@ -8,6 +8,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "./HomeScreen.styles";
 import Header from "./components/Header";
 import { SetupModal } from "./components/SetupModal";
+import { HomeScrollContent } from "./components/HomeScrollContent";
 
 export type Gender = "male" | "female";
 
@@ -106,20 +107,15 @@ export function HomeScreen() {
   return (
     <>
       <SafeAreaView style={styles.container} edges={["bottom"]}>
-        <ScrollView ref={scrollRef} showsVerticalScrollIndicator={false}>
-          <Header metrics={metrics} onEditPress={handleOpenEdit} />
-          <FoodTracker
-            breakfast={0}
-            current={900}
-            totalCalories={1800}
-            onLogPress={() => router.push("/food")}
-          />
-          <WaterTracker
-            currentLiters={waterLiters}
-            goalLiters={waterGoal}
-            onLogPress={() => router.push("/water")}
-          />
-        </ScrollView>
+        <HomeScrollContent
+          scrollRef={scrollRef as any}
+          metrics={metrics}
+          onEditPress={handleOpenEdit}
+          waterLiters={waterLiters}
+          waterGoal={waterGoal}
+          onFoodPress={() => router.push("/food")}
+          onWaterPress={() => router.push("/water")}
+        />
       </SafeAreaView>
 
       <SetupModal

@@ -1,3 +1,4 @@
+import ScrollIcon from "@/assets/icons/ScrollIcon";
 import { AppText } from "@/components/AppText";
 import { GlassTabBar } from "@/components/GlowButton";
 import {
@@ -14,8 +15,8 @@ import {
 } from "@/utils/bodyMetrics";
 import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
-import { useEffect, useRef, useState } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { useRef, useState } from "react";
+import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 import type { UserMetrics } from "../HomeScreen";
 
 type InfoProps = {
@@ -38,6 +39,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     paddingRight: 6,
     zIndex: 3,
+    position: "relative",
   },
   chipsWrapper: {
     paddingVertical: 4,
@@ -59,13 +61,31 @@ const styles = StyleSheet.create({
   chipLabel: {
     marginRight: 6,
   },
+  arrowBtn: {
+    position: "absolute",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(17, 24, 39, 0.55)",
+    borderRadius: 999,
+    height: 28,
+    width: 44,
+    borderWidth: 1,
+    borderColor: "rgba(148, 163, 253, 0.5)",
+    zIndex: 10,
+  },
+  arrowDown: {
+    bottom: -2,
+    left: "50%",
+    marginLeft: -22,
+  },
+  arrowUp: {
+    top: -2,
+    left: "50%",
+    marginLeft: -22,
+  },
 });
 
-const GradientNumber = ({
-  value,
-}: {
-  value: string;
-}) => {
+const GradientNumber = ({ value }: { value: string }) => {
   return (
     <MaskedView
       maskElement={
@@ -89,47 +109,32 @@ const GradientNumber = ({
 
 const Info = ({ metrics }: InfoProps) => {
   const scrollRef = useRef<ScrollView>(null);
-  const [contentHeight, setContentHeight] = useState(0);
-  const scrollY = useRef(0);
-  const isAtBottom = useRef(false);
-  const [isPaused, setIsPaused] = useState(false);
-  const pauseTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const SCROLL_STEP = 1;
-  const SCROLL_INTERVAL_MS = 80;
-  const SCROLL_PAUSE_AT_END_MS = 1500;
   const SCROLL_VIEW_HEIGHT = 220;
 
-  useEffect(() => {
-    if (contentHeight <= SCROLL_VIEW_HEIGHT) return;
-    if (isPaused) return;
+  const [contentHeight, setContentHeight] = useState(0);
+  const [visibleHeight, setVisibleHeight] = useState(SCROLL_VIEW_HEIGHT);
+  const [scrollY, setScrollY] = useState(0);
 
-    const scroll = () => {
-      if (isAtBottom.current) return;
+  const maxScrollY = Math.max(0, contentHeight - visibleHeight);
+  const isAtTop = scrollY <= 0.5;
+  const isAtBottom = scrollY >= maxScrollY - 0.5;
 
-      scrollY.current += SCROLL_STEP;
-      const maxScroll = contentHeight - SCROLL_VIEW_HEIGHT;
+  const SCROLL_STEP = 180;
 
-      if (scrollY.current >= maxScroll) {
-        scrollY.current = maxScroll;
-        isAtBottom.current = true;
-        scrollRef.current?.scrollTo({ y: scrollY.current, animated: true });
+  const scrollToY = (nextY: number) => {
+    const clamped = Math.min(maxScrollY, Math.max(0, nextY));
+    scrollRef.current?.scrollTo({ y: clamped, animated: true });
+  };
 
-        pauseTimeout.current = setTimeout(() => {
-          isAtBottom.current = false;
-          scrollY.current = 0;
-          scrollRef.current?.scrollTo({ y: 0, animated: true });
-        }, SCROLL_PAUSE_AT_END_MS);
-      } else {
-        scrollRef.current?.scrollTo({ y: scrollY.current, animated: false });
-      }
-    };
+  const handleArrowDown = () => {
+    if (isAtBottom) return;
+    scrollToY(scrollY + SCROLL_STEP);
+  };
 
-    const interval = setInterval(scroll, SCROLL_INTERVAL_MS);
-    return () => {
-      clearInterval(interval);
-      if (pauseTimeout.current) clearTimeout(pauseTimeout.current);
-    };
-  }, [contentHeight, isPaused]);
+  const handleArrowUp = () => {
+    if (isAtTop) return;
+    scrollToY(scrollY - SCROLL_STEP);
+  };
 
   if (!metrics) {
     return null;
@@ -160,16 +165,22 @@ const Info = ({ metrics }: InfoProps) => {
   const macros = getMacros(tdee);
 
   return (
-    <View style={styles.container}>
-      <GlassTabBar style={{ borderRadius: 20, backgroundColor: "transparent" }}>
+    <View style={styles.container} pointerEvents="box-none">
+      <GlassTabBar
+        style={{ borderRadius: 20, backgroundColor: "transparent" }}
+        intensity={0}
+      >
         <ScrollView
           ref={scrollRef}
           style={{ maxHeight: SCROLL_VIEW_HEIGHT }}
           contentContainerStyle={styles.chipsWrapper}
           showsVerticalScrollIndicator={false}
           bounces
-          onScrollBeginDrag={() => setIsPaused(true)}
+          pointerEvents="none"
           onContentSizeChange={(_, h) => setContentHeight(h)}
+          onLayout={(e) => setVisibleHeight(e.nativeEvent.layout.height)}
+          onScroll={(e) => setScrollY(e.nativeEvent.contentOffset.y)}
+          scrollEventThrottle={16}
         >
           <AppText
             size={12}
@@ -213,9 +224,7 @@ const Info = ({ metrics }: InfoProps) => {
             >
               Body fat:
             </AppText>
-            <GradientNumber
-              value={`${bodyFatRounded} %`}
-            />
+            <GradientNumber value={`${bodyFatRounded} %`} />
           </View>
 
           <View style={styles.chip}>
@@ -227,9 +236,7 @@ const Info = ({ metrics }: InfoProps) => {
             >
               Ideal weight:
             </AppText>
-            <GradientNumber
-              value={`${min} – ${max} kg`}
-            />
+            <GradientNumber value={`${min} – ${max} kg`} />
           </View>
 
           <View style={styles.chip}>
@@ -337,6 +344,28 @@ const Info = ({ metrics }: InfoProps) => {
             <GradientNumber value={`${macros.fatGrams} g`} />
           </View>
         </ScrollView>
+
+        {!isAtTop && (
+          <TouchableOpacity
+            style={[styles.arrowBtn, styles.arrowUp]}
+            onPress={handleArrowUp}
+            activeOpacity={0.8}
+          >
+            <AppText size={16} weight="bold" color="#F9FAFB">
+              ^
+            </AppText>
+          </TouchableOpacity>
+        )}
+
+        {!isAtBottom && (
+          <TouchableOpacity
+            style={[styles.arrowBtn, styles.arrowDown]}
+            onPress={handleArrowDown}
+            activeOpacity={0.8}
+          >
+            <ScrollIcon />
+          </TouchableOpacity>
+        )}
       </GlassTabBar>
     </View>
   );

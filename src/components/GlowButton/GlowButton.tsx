@@ -5,12 +5,23 @@ import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 type GlassTabBarProps = {
   children: React.ReactNode;
   style?: StyleProp<ViewStyle>;
+  intensity?: number;
+  tint?: React.ComponentProps<typeof BlurView>["tint"];
 };
 
-export default function GlassTabBar({ children, style }: GlassTabBarProps) {
+export default function GlassTabBar({
+  children,
+  style,
+  intensity = 1,
+  tint = "prominent",
+}: GlassTabBarProps) {
   return (
     <View>
-      <BlurView intensity={1} tint="prominent" style={[styles.blur, style]}>
+      <BlurView
+        intensity={intensity}
+        tint={tint}
+        style={[styles.blur, style]}
+      >
         {children}
       </BlurView>
     </View>

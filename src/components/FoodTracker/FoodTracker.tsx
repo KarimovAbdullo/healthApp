@@ -20,6 +20,7 @@ type Props = {
 };
 
 const dishImg: ImageSourcePropType = require("@/assets/images/dish.png");
+const doneImg: ImageSourcePropType = require("@/assets/images/done2.png");
 
 const FoodTracker = ({
   breakfast: _breakfast,
@@ -30,6 +31,7 @@ const FoodTracker = ({
 }: Props) => {
   const safeTotal = totalCalories > 0 ? totalCalories : 1;
   const filledProgress = Math.min(1, current / safeTotal);
+  const isDone = current >= totalCalories && totalCalories > 0;
 
   const neonStyle = useAnimatedStyle(() => ({
     borderColor: "rgba(167, 139, 250, 1)",
@@ -56,9 +58,22 @@ const FoodTracker = ({
             </View>
 
             <View style={styles.valueRow}>
-              <AppText size={16} weight="light" color="#9CA3AF">
-                {current} / {totalCalories} kcal
-              </AppText>
+              {isDone ? (
+                <View style={styles.doneRow}>
+                  <AppText size={16} weight="semibold" color="#22C55E">
+                    Done
+                  </AppText>
+                  <Image
+                    source={doneImg}
+                    style={styles.doneIcon}
+                    resizeMode="contain"
+                  />
+                </View>
+              ) : (
+                <AppText size={16} weight="light" color="#9CA3AF">
+                  {current} / {totalCalories} kcal
+                </AppText>
+              )}
             </View>
 
             <View style={styles.progressCard}>
@@ -123,6 +138,15 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     // marginBottom: 10,
+  },
+  doneRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+  },
+  doneIcon: {
+    width: 18,
+    height: 18,
   },
   progressCard: {
     marginTop: 4,
