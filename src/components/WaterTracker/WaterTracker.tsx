@@ -1,6 +1,7 @@
 import { AppText } from "@/components/AppText";
 import { LinearGradient } from "expo-linear-gradient";
-import { Image, ImageSourcePropType, StyleSheet, View } from "react-native";
+import { useEffect, useRef } from "react";
+import { Animated, Easing, Image, ImageSourcePropType, StyleSheet, View } from "react-native";
 import LogWaterButton from "../LogWaterButton/LogWaterButton";
 
 type Props = {
@@ -20,6 +21,31 @@ export const WaterTracker = ({
   const safeGoal = goalLiters > 0 ? goalLiters : 1;
   const filledProgress = Math.min(1, currentLiters / safeGoal);
   const isDone = currentLiters >= goalLiters && goalLiters > 0;
+  const glowAnim = useRef(new Animated.Value(0.4)).current;
+
+  useEffect(() => {
+    const loop = Animated.loop(
+      Animated.sequence([
+        Animated.timing(glowAnim, {
+          toValue: 1,
+          duration: 900,
+          easing: Easing.inOut(Easing.ease),
+          useNativeDriver: false,
+        }),
+        Animated.timing(glowAnim, {
+          toValue: 0.45,
+          duration: 900,
+          easing: Easing.inOut(Easing.ease),
+          useNativeDriver: false,
+        }),
+      ]),
+    );
+
+    loop.start();
+    return () => {
+      loop.stop();
+    };
+  }, [glowAnim]);
 
   return (
     <View style={styles.wrapper}>
@@ -60,12 +86,22 @@ export const WaterTracker = ({
           )}
 
           <View style={styles.progressTrack}>
-            <View
+            <Animated.View
               style={[
-                styles.progressFill,
-                { width: `${filledProgress * 100}%` },
+                styles.progressFillWrap,
+                {
+                  width: `${filledProgress * 100}%`,
+                  shadowOpacity: glowAnim,
+                },
               ]}
-            />
+            >
+              <LinearGradient
+                colors={["#5FA8FF", "#3B82F6", "#2563EB"]}
+                start={{ x: 0, y: 0.5 }}
+                end={{ x: 1, y: 0.5 }}
+                style={styles.progressFill}
+              />
+            </Animated.View>
           </View>
         </View>
 
@@ -124,7 +160,15 @@ const styles = StyleSheet.create({
   progressFill: {
     height: "100%",
     borderRadius: 999,
-    backgroundColor: "#22C55E",
+  },
+  progressFillWrap: {
+    height: "100%",
+    borderRadius: 999,
+    overflow: "hidden",
+    shadowColor: "#5FA8FF",
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 0 },
+    elevation: 7,
   },
   glassesRow: {
     flexDirection: "row",
