@@ -1,4 +1,4 @@
-import StepTrackerScreen from "@/screens/StepTracker/StepTrackerScreen";
+import StepTrackerScreen from "@/screens/StepTrackerScreen";
 
 export default function StepTrackerRoute() {
   return <StepTrackerScreen />;
