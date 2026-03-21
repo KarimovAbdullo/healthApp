@@ -118,44 +118,55 @@ export const calculateDailyWalk = ({
   const idealWeight = getIdealWeightByBmi22(height);
   const extraWeight = weight - idealWeight;
 
-  let baseKm = 3;
-  let minKm = 3;
-  let maxKm = 5;
+  /** Softer daily walk targets (km) — easier than the original bands, capped */
+  const EASY_MAX_KM = 6;
+  const EASY_MIN_KM = 2;
+
+  let baseKm = 2.5;
+  let minKm = 2;
+  let maxKm = 3;
 
   if (extraWeight <= 0) {
-    baseKm = 4;
+    baseKm = 2.5;
+    minKm = 2;
+    maxKm = 3;
+  } else if (extraWeight <= 5) {
+    baseKm = 3;
+    minKm = 2;
+    maxKm = 4;
+  } else if (extraWeight <= 15) {
+    baseKm = 3.5;
+    minKm = 3;
+    maxKm = 4;
+  } else if (extraWeight <= 30) {
+    baseKm = 4.5;
     minKm = 3;
     maxKm = 5;
-  } else if (extraWeight <= 5) {
-    baseKm = 5;
+  } else {
+    baseKm = 5.5;
     minKm = 4;
     maxKm = 6;
-  } else if (extraWeight <= 15) {
-    baseKm = 6.5;
-    minKm = 5;
-    maxKm = 8;
-  } else if (extraWeight <= 30) {
-    baseKm = 8;
-    minKm = 6;
-    maxKm = 10;
-  } else {
-    baseKm = 10;
-    minKm = 8;
-    maxKm = 12;
   }
 
   const adjust =
     activityLevel === "sedentary"
-      ? 2
+      ? 1
       : activityLevel === "light"
-        ? 1
+        ? 0.5
         : activityLevel === "active"
-          ? -1
+          ? -0.5
           : 0;
 
-  const dailyKm = Math.max(3, Math.round(baseKm + adjust));
-  const recommendedMinKm = Math.max(3, Math.round(minKm + adjust));
-  const recommendedMaxKm = Math.max(recommendedMinKm, Math.round(maxKm + adjust));
+  let dailyKm = Math.round(baseKm + adjust);
+  dailyKm = Math.max(EASY_MIN_KM, Math.min(EASY_MAX_KM, dailyKm));
+
+  let recommendedMinKm = Math.round(minKm + Math.min(0, adjust));
+  let recommendedMaxKm = Math.round(maxKm + Math.max(0, adjust));
+  recommendedMinKm = Math.max(EASY_MIN_KM, Math.min(EASY_MAX_KM, recommendedMinKm));
+  recommendedMaxKm = Math.max(EASY_MIN_KM, Math.min(EASY_MAX_KM, recommendedMaxKm));
+  if (recommendedMaxKm < recommendedMinKm) {
+    recommendedMaxKm = recommendedMinKm;
+  }
 
   return {
     idealWeight,

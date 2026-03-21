@@ -1,11 +1,16 @@
+import {
+  calculateDailyWalk,
+  getBMR,
+  getTDEE,
+} from "@/utils/bodyMetrics";
+import { loadFoodState } from "@/utils/foodStorage";
 import { loadWaterState } from "@/utils/waterStorage";
 import { loadUserProfile, saveUserProfile } from "@/utils/userProfileStorage";
 import { useFocusEffect, useRouter } from "expo-router";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { ScrollView } from "react-native";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { AppState, type AppStateStatus, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "./HomeScreen.styles";
-import Header from "./components/Header";
 import { SetupModal } from "./components/SetupModal";
 import { HomeScrollContent } from "./components/HomeScrollContent";
 
@@ -30,6 +35,7 @@ export function HomeScreen() {
 
   const [waterLiters, setWaterLiters] = useState(0);
   const waterGoal = 3;
+  const [foodCurrentKcal, setFoodCurrentKcal] = useState(0);
 
   const [name, setName] = useState("");
   const [height, setHeight] = useState("");
@@ -65,23 +71,35 @@ export function HomeScreen() {
   const weightNum = Number(weight);
   const ageNum = Number(age);
 
+  /** Reload water + food from AsyncStorage (applies midnight rollover inside loaders). */
+  const refreshDailyTracking = useCallback(async () => {
+    try {
+      const [water, food] = await Promise.all([loadWaterState(), loadFoodState()]);
+      setWaterLiters(water.currentLiters);
+      const kcal = food.currentItems.reduce(
+        (sum, item) => sum + item.calories * item.qty,
+        0,
+      );
+      setFoodCurrentKcal(Math.round(kcal));
+    } catch {
+      // ignore
+    }
+  }, []);
+
   useFocusEffect(
     useCallback(() => {
-      let alive = true;
-      (async () => {
-        try {
-          const state = await loadWaterState();
-          if (!alive) return;
-          setWaterLiters(state.currentLiters);
-        } catch {
-          // ignore
-        }
-      })();
-      return () => {
-        alive = false;
-      };
-    }, []),
+      void refreshDailyTracking();
+    }, [refreshDailyTracking]),
   );
+
+  useEffect(() => {
+    const sub = AppState.addEventListener("change", (next: AppStateStatus) => {
+      if (next === "active") {
+        void refreshDailyTracking();
+      }
+    });
+    return () => sub.remove();
+  }, [refreshDailyTracking]);
 
   const canConfirm =
     name.trim().length > 0 &&
@@ -116,6 +134,30 @@ export function HomeScreen() {
     setIsSetupVisible(false);
   };
 
+  const stepWalk = useMemo(() => {
+    if (!metrics) return null;
+    return calculateDailyWalk({
+      weight: metrics.weightKg,
+      height: metrics.heightCm,
+      activityLevel: metrics.activityLevel,
+    });
+  }, [metrics]);
+
+  /** ~1200 steps per km — softer goal than 1300 */
+  const stepGoalSteps = stepWalk ? Math.max(2000, Math.round(stepWalk.dailyKm * 1200)) : 5000;
+  const stepCurrentSteps = 0;
+
+  const foodGoalKcal = useMemo(() => {
+    if (!metrics) return 2000;
+    const bmr = getBMR(
+      metrics.weightKg,
+      metrics.heightCm,
+      metrics.age,
+      metrics.gender,
+    );
+    return Math.max(1200, Math.round(getTDEE(bmr, metrics.activityLevel)));
+  }, [metrics]);
+
   const handleOpenEdit = () => {
     if (metrics) {
       setName(metrics.name);
@@ -137,9 +179,13 @@ export function HomeScreen() {
           onEditPress={handleOpenEdit}
           waterLiters={waterLiters}
           waterGoal={waterGoal}
+          foodCurrentKcal={foodCurrentKcal}
+          foodGoalKcal={foodGoalKcal}
           onFoodPress={() => router.push("/food")}
           onWaterPress={() => router.push("/water")}
           onStepPress={() => router.push("/step-tracker" as any)}
+          stepCurrentSteps={stepCurrentSteps}
+          stepGoalSteps={stepGoalSteps}
         />
       </SafeAreaView>
 

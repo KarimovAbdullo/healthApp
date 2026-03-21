@@ -13,26 +13,34 @@ export function HomeScrollContent({
   onEditPress,
   waterLiters,
   waterGoal,
+  foodCurrentKcal,
+  foodGoalKcal,
   onFoodPress,
   onWaterPress,
   onStepPress,
+  stepCurrentSteps,
+  stepGoalSteps,
 }: {
   scrollRef: React.RefObject<ScrollView | null>;
   metrics: UserMetrics | null;
   onEditPress: () => void;
   waterLiters: number;
   waterGoal: number;
+  foodCurrentKcal: number;
+  foodGoalKcal: number;
   onFoodPress: () => void;
   onWaterPress: () => void;
   onStepPress: () => void;
+  stepCurrentSteps: number;
+  stepGoalSteps: number;
 }) {
   return (
     <ScrollView ref={scrollRef} showsVerticalScrollIndicator={false}>
       <Header metrics={metrics} onEditPress={onEditPress} />
       <FoodTracker
         breakfast={0}
-        current={900}
-        totalCalories={1800}
+        current={foodCurrentKcal}
+        totalCalories={foodGoalKcal}
         onLogPress={onFoodPress}
       />
       <WaterTracker
@@ -40,7 +48,11 @@ export function HomeScrollContent({
         goalLiters={waterGoal}
         onLogPress={onWaterPress}
       />
-      <StepTracker currentSteps={5340} goalSteps={8000} onPress={onStepPress} />
+      <StepTracker
+        currentSteps={stepCurrentSteps}
+        goalSteps={stepGoalSteps}
+        onPress={onStepPress}
+      />
     </ScrollView>
   );
 }

@@ -58,12 +58,12 @@ export default function StepTracker({
             <AppText size={14} weight="bold" color="#F9FAFB">
               {currentSteps.toLocaleString()} Steps Today
             </AppText>
-            <View>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Image
+                source={require("@/assets/images/kras.png")}
+                style={styles.icons}
+              />{" "}
               <AppText size={12} color="#DDD6FE">
-                <Image
-                  source={require("@/assets/images/finish.png")}
-                  style={styles.icons}
-                />{" "}
                 Goal: {goalSteps.toLocaleString()} steps
               </AppText>
             </View>
@@ -152,7 +152,8 @@ const styles = StyleSheet.create({
     height: 58,
   },
   icons: {
-    width: 28,
-    height: 28,
+    width: 20,
+    height: 18,
+    marginRight: 5,
   },
 });
