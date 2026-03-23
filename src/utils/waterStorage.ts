@@ -65,3 +65,7 @@ export async function addTodayWaterLiters(added: number): Promise<WaterState> {
   return next;
 }
 
+export async function clearWaterTracking(): Promise<void> {
+  await AsyncStorage.removeItem(WATER_STORAGE_KEY);
+}
+

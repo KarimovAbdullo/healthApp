@@ -1,14 +1,25 @@
 import {
-  calculateDailyWalk,
+  getBodyCategory,
   getBMR,
+  getDailyStepGoalSteps,
   getTDEE,
 } from "@/utils/bodyMetrics";
-import { loadFoodState } from "@/utils/foodStorage";
-import { loadWaterState } from "@/utils/waterStorage";
+import { AppText } from "@/components/AppText";
+import { clearSession } from "@/utils/storage";
+import { clearFoodTracking, loadFoodState } from "@/utils/foodStorage";
+import { clearWaterTracking, loadWaterState } from "@/utils/waterStorage";
 import { loadUserProfile, saveUserProfile } from "@/utils/userProfileStorage";
 import { useFocusEffect, useRouter } from "expo-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { AppState, type AppStateStatus, ScrollView } from "react-native";
+import {
+  AppState,
+  InteractionManager,
+  Modal,
+  ScrollView,
+  TouchableOpacity,
+  View,
+  type AppStateStatus,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "./HomeScreen.styles";
 import { SetupModal } from "./components/SetupModal";
@@ -43,6 +54,8 @@ export function HomeScreen() {
   const [age, setAge] = useState("");
   const [gender, setGender] = useState<Gender | "">("");
   const [activityLevel, setActivityLevel] = useState<ActivityLevel | "">("");
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
+  const [pendingMetrics, setPendingMetrics] = useState<UserMetrics | null>(null);
 
   useEffect(() => {
     let alive = true;
@@ -129,22 +142,59 @@ export function HomeScreen() {
       gender,
       activityLevel: activityLevel as ActivityLevel,
     };
+
+    const isEditing = metrics !== null;
+    const hasChanged =
+      !metrics ||
+      metrics.name !== nextMetrics.name ||
+      metrics.heightCm !== nextMetrics.heightCm ||
+      metrics.weightKg !== nextMetrics.weightKg ||
+      metrics.age !== nextMetrics.age ||
+      metrics.gender !== nextMetrics.gender ||
+      metrics.activityLevel !== nextMetrics.activityLevel;
+
+    if (isEditing && hasChanged) {
+      setPendingMetrics(nextMetrics);
+      // iOS: fullscreen Modal ustida ikkinchi Modal ko‘rinmaydi — avval Setup yopiladi.
+      setIsSetupVisible(false);
+      InteractionManager.runAfterInteractions(() => {
+        setTimeout(() => setShowResetConfirm(true), 320);
+      });
+      return;
+    }
+
     setMetrics(nextMetrics);
     void saveUserProfile(nextMetrics);
     setIsSetupVisible(false);
   };
 
-  const stepWalk = useMemo(() => {
-    if (!metrics) return null;
-    return calculateDailyWalk({
-      weight: metrics.weightKg,
-      height: metrics.heightCm,
-      activityLevel: metrics.activityLevel,
-    });
-  }, [metrics]);
+  const handleConfirmReset = async () => {
+    if (!pendingMetrics) {
+      setShowResetConfirm(false);
+      return;
+    }
 
-  /** ~1200 steps per km — softer goal than 1300 */
-  const stepGoalSteps = stepWalk ? Math.max(2000, Math.round(stepWalk.dailyKm * 1200)) : 5000;
+    await Promise.all([
+      saveUserProfile(pendingMetrics),
+      clearFoodTracking(),
+      clearWaterTracking(),
+      clearSession(),
+    ]);
+
+    setMetrics(pendingMetrics);
+    setFoodCurrentKcal(0);
+    setWaterLiters(0);
+    setPendingMetrics(null);
+    setShowResetConfirm(false);
+    setIsSetupVisible(false);
+    void refreshDailyTracking();
+  };
+
+  const stepGoalSteps = useMemo(() => {
+    if (!metrics) return 1500;
+    const category = getBodyCategory(metrics.weightKg, metrics.heightCm);
+    return getDailyStepGoalSteps(category, metrics.gender);
+  }, [metrics]);
   const stepCurrentSteps = 0;
 
   const foodGoalKcal = useMemo(() => {
@@ -184,6 +234,7 @@ export function HomeScreen() {
           onFoodPress={() => router.push("/food")}
           onWaterPress={() => router.push("/water")}
           onStepPress={() => router.push("/step-tracker" as any)}
+          onGenerateMealPress={() => router.push("/generate-meal" as any)}
           stepCurrentSteps={stepCurrentSteps}
           stepGoalSteps={stepGoalSteps}
         />
@@ -206,6 +257,96 @@ export function HomeScreen() {
         onSelectActivity={setActivityLevel}
         onConfirm={handleConfirm}
       />
+
+      <Modal
+        visible={showResetConfirm}
+        transparent
+        animationType="fade"
+        statusBarTranslucent
+        onRequestClose={() => {
+          setShowResetConfirm(false);
+          setPendingMetrics(null);
+          setIsSetupVisible(true);
+        }}
+      >
+        <View style={localStyles.overlay}>
+          <View style={localStyles.card}>
+            <AppText size={22} weight="bold" color="#F9FAFB">
+              Data will be updated
+            </AppText>
+            <AppText size={14} color="#E5E7EB" style={localStyles.body}>
+              All previous data will be updated and saved values in Water, Food, and Step
+              trackers including histories will be cleared.
+            </AppText>
+            <View style={localStyles.actions}>
+              <TouchableOpacity
+                style={[localStyles.btn, localStyles.cancelBtn]}
+                onPress={() => {
+                  setShowResetConfirm(false);
+                  setPendingMetrics(null);
+                  setIsSetupVisible(true);
+                }}
+                activeOpacity={0.85}
+              >
+                <AppText size={15} weight="semibold" color="#F9FAFB">
+                  Cancel
+                </AppText>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[localStyles.btn, localStyles.okBtn]}
+                onPress={() => {
+                  void handleConfirmReset();
+                }}
+                activeOpacity={0.85}
+              >
+                <AppText size={15} weight="bold" color="#0F172A">
+                  OK
+                </AppText>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </>
   );
 }
+
+const localStyles = {
+  overlay: {
+    flex: 1,
+    backgroundColor: "rgba(2,6,23,0.68)",
+    justifyContent: "center" as const,
+    paddingHorizontal: 22,
+  },
+  card: {
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.2)",
+    backgroundColor: "rgba(15,23,42,0.95)",
+    padding: 16,
+  },
+  body: {
+    marginTop: 10,
+    lineHeight: 21,
+  },
+  actions: {
+    marginTop: 14,
+    flexDirection: "row" as const,
+    gap: 10,
+  },
+  btn: {
+    flex: 1,
+    height: 44,
+    borderRadius: 12,
+    alignItems: "center" as const,
+    justifyContent: "center" as const,
+  },
+  cancelBtn: {
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.22)",
+    backgroundColor: "rgba(30,41,59,0.85)",
+  },
+  okBtn: {
+    backgroundColor: "#FACC15",
+  },
+};

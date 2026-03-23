@@ -12,7 +12,7 @@ import { clearSession, getStartTime, saveStartTime } from "@/utils/storage";
 import { loadUserProfile } from "@/utils/userProfileStorage";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Animated,
   AppState,
@@ -30,6 +30,7 @@ export default function StepTrackerScreen() {
   const router = useRouter();
   const pedometerSubRef = useRef<{ remove: () => void } | null>(null);
   const progressAnim = useRef(new Animated.Value(0)).current;
+  const pulseAnim1 = useRef(new Animated.Value(0)).current;
 
   const [heightCm, setHeightCm] = useState<number | undefined>(undefined);
   const [isRunning, setIsRunning] = useState(false);
@@ -58,15 +59,42 @@ export default function StepTrackerScreen() {
     }).start();
   }, [progress, progressAnim]);
 
-  const attachLiveWatcher = async (baseSteps: number) => {
+  useEffect(() => {
+    if (!isRunning) {
+      pulseAnim1.setValue(0);
+      return;
+    }
+
+    const pulse1 = Animated.loop(
+      Animated.sequence([
+        Animated.timing(pulseAnim1, {
+          toValue: 1,
+          duration: 2200,
+          useNativeDriver: true,
+        }),
+        Animated.timing(pulseAnim1, {
+          toValue: 0,
+          duration: 0,
+          useNativeDriver: true,
+        }),
+      ]),
+    );
+    pulse1.start();
+
+    return () => {
+      pulse1.stop();
+    };
+  }, [isRunning, pulseAnim1]);
+
+  const attachLiveWatcher = useCallback(async (baseSteps: number) => {
     stopPedometer(pedometerSubRef.current);
     pedometerSubRef.current = await startPedometer((liveSteps) => {
       const merged = Math.max(0, baseSteps + liveSteps);
       setTotalSteps((prev) => (merged < prev ? prev : merged));
     });
-  };
+  }, []);
 
-  const restoreSession = async () => {
+  const restoreSession = useCallback(async () => {
     const profile = await loadUserProfile();
     setHeightCm(profile?.heightCm);
 
@@ -94,7 +122,7 @@ export default function StepTrackerScreen() {
     setIsRunning(true);
     await attachLiveWatcher(steps);
     setIsReady(true);
-  };
+  }, [attachLiveWatcher]);
 
   useEffect(() => {
     void restoreSession();
@@ -102,7 +130,7 @@ export default function StepTrackerScreen() {
       stopPedometer(pedometerSubRef.current);
       pedometerSubRef.current = null;
     };
-  }, []);
+  }, [restoreSession]);
 
   useEffect(() => {
     const sub = AppState.addEventListener(
@@ -115,7 +143,7 @@ export default function StepTrackerScreen() {
       },
     );
     return () => sub.remove();
-  }, [isRunning, startTime]);
+  }, [attachLiveWatcher, isRunning, startTime]);
 
   const handleStart = async () => {
     setErrorText("");
@@ -183,27 +211,45 @@ export default function StepTrackerScreen() {
         </View>
 
         <View style={styles.heroCenter}>
-          <View style={styles.circleOuter}>
-            <View style={styles.circleMid}>
-              <View style={styles.circleInner}>
-                <Image
-                  source={require("@/assets/images/kro.png")}
-                  style={styles.shoe}
-                  resizeMode="contain"
-                />
-              </View>
+          <View style={styles.pulseWrap}>
+            <Animated.View
+              style={[
+                styles.pulseRing,
+                {
+                  transform: [
+                    {
+                      scale: pulseAnim1.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [1, 1.8],
+                      }),
+                    },
+                  ],
+                  opacity: pulseAnim1.interpolate({
+                    inputRange: [0, 0.8, 1],
+                    outputRange: [0.75, 0.18, 0],
+                  }),
+                },
+              ]}
+            />
+
+            <View style={styles.circleInner}>
+              <Image
+                source={require("@/assets/images/kro.png")}
+                style={styles.shoe}
+                resizeMode="contain"
+              />
             </View>
           </View>
         </View>
 
         <AppText
-          size={45}
+          size={25}
           weight="bold"
           color="#F9FAFB"
           style={styles.goalText}
         >
           Goal:{" "}
-          <AppText size={45} weight="bold" color="#FACC15">
+          <AppText size={25} weight="bold" color="#FACC15">
             {GOAL_METERS.toLocaleString()} m
           </AppText>
         </AppText>
@@ -249,7 +295,7 @@ export default function StepTrackerScreen() {
             onPress={isRunning ? handleStop : handleStart}
             disabled={!isReady}
           >
-            <AppText size={36} weight="bold" color="#111827">
+            <AppText size={26} color="#111827">
               {isRunning ? "STOP" : "START"}
             </AppText>
           </TouchableOpacity>
@@ -299,23 +345,24 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  circleOuter: {
-    width: 260,
-    height: 260,
-    borderRadius: 130,
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.08)",
+  pulseWrap: {
+    width: 170,
+    height: 170,
     alignItems: "center",
     justifyContent: "center",
   },
-  circleMid: {
-    width: 210,
-    height: 210,
-    borderRadius: 105,
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.08)",
-    alignItems: "center",
-    justifyContent: "center",
+  pulseRing: {
+    position: "absolute",
+    width: 170,
+    height: 170,
+    borderRadius: 85,
+    borderWidth: 2,
+    borderColor: "rgba(250,204,21,0.9)",
+    shadowColor: "#FACC15",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.7,
+    shadowRadius: 10,
+    elevation: 8,
   },
   circleInner: {
     width: 170,
@@ -336,7 +383,6 @@ const styles = StyleSheet.create({
   startBtn: {
     marginTop: 18,
     width: "100%",
-    height: 64,
     borderRadius: 999,
     backgroundColor: "#FACC15",
     alignItems: "center",
@@ -346,6 +392,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 20,
     elevation: 15,
+    paddingVertical: 10,
   },
   stopBtn: {
     backgroundColor: "#F59E0B",

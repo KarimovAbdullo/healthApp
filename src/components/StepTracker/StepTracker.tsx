@@ -62,7 +62,7 @@ export default function StepTracker({
               <Image
                 source={require("@/assets/images/kras.png")}
                 style={styles.icons}
-              />{" "}
+              />
               <AppText size={12} color="#DDD6FE">
                 Goal: {goalSteps.toLocaleString()} steps
               </AppText>

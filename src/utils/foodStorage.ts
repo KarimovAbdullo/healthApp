@@ -111,3 +111,7 @@ export async function setTodayFoodItems(items: FoodItemLog[]): Promise<FoodState
   return next;
 }
 
+export async function clearFoodTracking(): Promise<void> {
+  await AsyncStorage.removeItem(FOOD_STORAGE_KEY);
+}
+

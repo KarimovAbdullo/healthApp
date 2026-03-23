@@ -51,6 +51,21 @@ export const getExtraOrMissingWeight = (weightKg: number, heightCm: number) => {
 
 export type Gender = "male" | "female";
 
+/** Daily step goal on Home (by BMI category + sex). */
+export function getDailyStepGoalSteps(
+  category: BodyCategory,
+  gender: Gender,
+): number {
+  if (category === "veryThin" || category === "normal") {
+    return gender === "female" ? 1000 : 1500;
+  }
+  if (category === "overweight") {
+    return gender === "female" ? 2000 : 2500;
+  }
+  // obese, veryObese
+  return gender === "female" ? 3500 : 4500;
+}
+
 export type ActivityLevel =
   | "sedentary"
   | "light"

@@ -1,6 +1,6 @@
-import { Tabs } from 'expo-router';
+import { Tabs } from "expo-router";
 
-import { AnimatedTabBar } from '@/components/AnimatedTabBar';
+import { AnimatedTabBar } from "@/components/AnimatedTabBar";
 
 export default function TabLayout() {
   return (
@@ -10,8 +10,10 @@ export default function TabLayout() {
         headerShown: false,
       }}
     >
-      <Tabs.Screen name="index" options={{ title: 'Home' }} />
-      <Tabs.Screen name="profile" options={{ title: 'Profile' }} />
+      <Tabs.Screen name="index" options={{ title: "Home" }} />
+      <Tabs.Screen name="traning" options={{ title: "Traning" }} />
+
+      <Tabs.Screen name="profile" options={{ title: "Profile" }} />
     </Tabs>
   );
 }

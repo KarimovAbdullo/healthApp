@@ -85,12 +85,20 @@ type HeaderProps = {
   onEditPress: () => void;
 };
 
-const bodyImages = {
+const bodyImagesMale = {
   veryThin: require("../../../assets/images/person/very_thin_man.png"),
   normal: require("../../../assets/images/person/normal_man.png"),
   overweight: require("../../../assets/images/person/overweight_man.png"),
   obese: require("../../../assets/images/person/obese_man.png"),
   veryObese: require("../../../assets/images/person/very_obese_man.png"),
+};
+
+const bodyImagesFemale = {
+  veryThin: require("../../../assets/images/person/very_thin_woman.png"),
+  normal: require("../../../assets/images/person/normal_woman.png"),
+  overweight: require("../../../assets/images/person/overweight_woman.png"),
+  obese: require("../../../assets/images/person/obese_woman.png"),
+  veryObese: require("../../../assets/images/person/very_obese_woman.png"),
 };
 const headerBgImg = require("../../../assets/images/hh.png");
 
@@ -102,7 +110,9 @@ const Header = ({ metrics, onEditPress }: HeaderProps) => {
   const weight = metrics?.weightKg ?? 110;
   const height = metrics?.heightCm ?? 170;
   const category = getBodyCategory(weight, height);
-  const personImage = bodyImages[category];
+  const gender = metrics?.gender ?? "male";
+  const personImage =
+    gender === "female" ? bodyImagesFemale[category] : bodyImagesMale[category];
 
   const handleToggleInfo = () => {
     setIsInfoExpanded((prev) => !prev);

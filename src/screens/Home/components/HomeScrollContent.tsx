@@ -1,3 +1,4 @@
+import { GenerateMealCard } from "@/components/GenerateMealCard/GenerateMealCard";
 import FoodTracker from "@/components/FoodTracker/FoodTracker";
 import StepTracker from "@/components/StepTracker/StepTracker";
 import { WaterTracker } from "@/components/WaterTracker/WaterTracker";
@@ -18,6 +19,7 @@ export function HomeScrollContent({
   onFoodPress,
   onWaterPress,
   onStepPress,
+  onGenerateMealPress,
   stepCurrentSteps,
   stepGoalSteps,
 }: {
@@ -31,6 +33,7 @@ export function HomeScrollContent({
   onFoodPress: () => void;
   onWaterPress: () => void;
   onStepPress: () => void;
+  onGenerateMealPress: () => void;
   stepCurrentSteps: number;
   stepGoalSteps: number;
 }) {
@@ -53,6 +56,7 @@ export function HomeScrollContent({
         goalSteps={stepGoalSteps}
         onPress={onStepPress}
       />
+      <GenerateMealCard onPress={onGenerateMealPress} />
     </ScrollView>
   );
 }
