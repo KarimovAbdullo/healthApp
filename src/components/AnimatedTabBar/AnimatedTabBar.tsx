@@ -59,7 +59,7 @@ function AnimatedTabButton({
       testID={options.tabBarTestID}
     >
       <Animated.View style={[styles.tabContent, animatedStyle]}>
-        <IconSymbol name={iconName} size={24} color={color} />
+        <IconSymbol name={iconName} size={34} color={color} />
       </Animated.View>
     </Pressable>
   );
@@ -152,11 +152,12 @@ const styles = StyleSheet.create({
     flex: 1,
     borderRadius: 28,
     overflow: "hidden",
-    backgroundColor: "rgba(89, 137, 240, 0.71)",
+    backgroundColor: "rgba(89, 137, 240, 0.06)",
   },
   tabsWrapper: {
     flex: 1,
     flexDirection: "row",
+    paddingVertical: 10,
   },
   indicator: {
     position: "absolute",
