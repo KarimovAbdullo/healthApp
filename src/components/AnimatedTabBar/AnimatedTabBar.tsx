@@ -7,11 +7,13 @@ import Animated, {
   useSharedValue,
   withRepeat,
   withSpring,
+  withTiming,
 } from "react-native-reanimated";
 
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { Colors } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
+import { useEffect } from "react";
 
 const { width } = Dimensions.get("window");
 const TAB_COUNT = 2;
@@ -25,38 +27,56 @@ function AnimatedTabButton({
   options,
   onPress,
   colors,
-}: {
-  route: { key: string; name: string };
-  index: number;
-  isFocused: boolean;
-  options: any;
-  onPress: () => void;
-  colors: { tabIconSelected: string; tabIconDefault: string };
-}) {
+}: any) {
   const scale = useSharedValue(1);
+  const rotate = useSharedValue(0);
+  const glow = useSharedValue(0); // 👈 yangi
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value }],
-  }));
+  useEffect(() => {
+    if (isFocused) {
+      // 🔄 rotate
+      rotate.value = 0;
+      rotate.value = withTiming(360, { duration: 400 });
 
-  const color = isFocused ? colors.tabIconSelected : colors.tabIconDefault;
+      // 💡 glow puls
+      glow.value = withRepeat(withTiming(1, { duration: 800 }), -1, true);
+    } else {
+      glow.value = 0;
+    }
+  }, [isFocused]);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    const glowIntensity = glow.value;
+
+    return {
+      transform: [{ scale: scale.value }, { rotate: `${rotate.value}deg` }],
+
+      // 💡 neon glow
+      shadowColor: "#4FD1FF",
+      shadowOpacity: isFocused ? 0.9 : 0,
+      shadowRadius: isFocused ? 10 + glowIntensity * 20 : 0,
+
+      // Android uchun
+      elevation: isFocused ? 10 + glowIntensity * 10 : 0,
+    };
+  });
+
+  const color = isFocused
+    ? "#4FD1FF" // 👈 neon rang
+    : colors.tabIconDefault;
+
   const iconName = index === 0 ? "house.fill" : "person.fill";
-  const title = index === 0 ? "Home" : "Profile";
 
   return (
     <Pressable
       onPress={onPress}
       onPressIn={() => {
-        scale.value = withSpring(0.88, { damping: 15, stiffness: 300 });
+        scale.value = withSpring(0.88);
       }}
       onPressOut={() => {
-        scale.value = withSpring(1, { damping: 15, stiffness: 300 });
+        scale.value = withSpring(1);
       }}
       style={styles.tab}
-      accessibilityRole="button"
-      accessibilityState={isFocused ? { selected: true } : {}}
-      accessibilityLabel={options.tabBarAccessibilityLabel}
-      testID={options.tabBarTestID}
     >
       <Animated.View style={[styles.tabContent, animatedStyle]}>
         <IconSymbol name={iconName} size={34} color={color} />
@@ -64,7 +84,6 @@ function AnimatedTabButton({
     </Pressable>
   );
 }
-
 export function AnimatedTabBar({
   state,
   descriptors,
