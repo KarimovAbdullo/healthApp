@@ -1,12 +1,14 @@
 import { AppText } from "@/components/AppText";
 import { LinearGradient } from "expo-linear-gradient";
-import React from "react";
 import {
   Image,
+  ImageSourcePropType,
   StyleSheet,
   TouchableOpacity,
   View,
 } from "react-native";
+
+const foodBgImg: ImageSourcePropType = require("@/assets/images/j1.png");
 
 type Props = {
   onPress?: () => void;
@@ -43,6 +45,8 @@ export function GenerateMealCard({ onPress }: Props) {
         end={{ x: 1, y: 1 }}
         style={styles.card}
       >
+        <Image source={foodBgImg} style={styles.bgOverlay} resizeMode="cover" />
+
         {STAR_POSITIONS.map((star, i) => (
           <View
             key={i}
@@ -60,39 +64,8 @@ export function GenerateMealCard({ onPress }: Props) {
           />
         ))}
 
-        <Image
-          source={require("@/assets/images/dish.png")}
-          style={[styles.deco, styles.decoLeftTop]}
-          resizeMode="contain"
-        />
-        <Image
-          source={require("@/assets/images/food.webp")}
-          style={[styles.deco, styles.decoLeftMid]}
-          resizeMode="contain"
-        />
-        <Image
-          source={require("@/assets/images/stakan.png")}
-          style={[styles.deco, styles.decoRightTop]}
-          resizeMode="contain"
-        />
-        <Image
-          source={require("@/assets/images/botll.png")}
-          style={[styles.deco, styles.decoRightMid]}
-          resizeMode="contain"
-        />
-        <Image
-          source={require("@/assets/images/dis.png")}
-          style={[styles.deco, styles.decoRightBottom]}
-          resizeMode="contain"
-        />
-
         <View style={styles.centerCol} pointerEvents="none">
-          <AppText
-            size={18}
-            weight="bold"
-            color="#F9FAFB"
-            style={styles.title}
-          >
+          <AppText size={18} weight="bold" color="#F9FAFB" style={styles.title}>
             Generate Daily Meal Plan
           </AppText>
           <AppText size={12} color="rgba(226,232,240,0.88)" style={styles.desc}>
@@ -202,5 +175,11 @@ const styles = StyleSheet.create({
     borderRadius: 999,
     alignItems: "center",
     justifyContent: "center",
+  },
+  bgOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    width: 400,
+    height: 200,
+    opacity: 0.1,
   },
 });

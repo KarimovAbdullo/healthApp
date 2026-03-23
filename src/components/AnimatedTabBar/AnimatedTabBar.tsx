@@ -1,11 +1,10 @@
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { BlurView } from "expo-blur";
 import * as Haptics from "expo-haptics";
-import { Dimensions, Pressable, StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
-  withRepeat,
   withSpring,
   withTiming,
 } from "react-native-reanimated";
@@ -15,55 +14,25 @@ import { Colors } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { useEffect } from "react";
 
-const { width } = Dimensions.get("window");
-const TAB_COUNT = 2;
-const TAB_WIDTH = width / TAB_COUNT;
-const INDICATOR_WIDTH = 56;
-
-function AnimatedTabButton({
-  route,
-  index,
-  isFocused,
-  options,
-  onPress,
-  colors,
-}: any) {
+function AnimatedTabButton({ index, isFocused, onPress, colors }: any) {
   const scale = useSharedValue(1);
   const rotate = useSharedValue(0);
-  const glow = useSharedValue(0); // 👈 yangi
 
   useEffect(() => {
     if (isFocused) {
-      // 🔄 rotate
+      // 🔥 1 MARTA 360° aylanish
       rotate.value = 0;
-      rotate.value = withTiming(360, { duration: 400 });
-
-      // 💡 glow puls
-      glow.value = withRepeat(withTiming(1, { duration: 800 }), -1, true);
-    } else {
-      glow.value = 0;
+      rotate.value = withTiming(360, { duration: 500 });
     }
   }, [isFocused]);
 
   const animatedStyle = useAnimatedStyle(() => {
-    const glowIntensity = glow.value;
-
     return {
       transform: [{ scale: scale.value }, { rotate: `${rotate.value}deg` }],
-
-      // 💡 neon glow
-      shadowColor: "#4FD1FF",
-      shadowOpacity: isFocused ? 0.9 : 0,
-      shadowRadius: isFocused ? 10 + glowIntensity * 20 : 0,
-
-      // Android uchun
-      elevation: isFocused ? 10 + glowIntensity * 10 : 0,
     };
   });
 
-  const color = isFocused
-    ? "#4FD1FF" // 👈 neon rang
-    : colors.tabIconDefault;
+  const color = isFocused ? "#4FD1FF" : colors.tabIconDefault;
 
   const iconName = index === 0 ? "house.fill" : "person.fill";
 
@@ -71,19 +40,20 @@ function AnimatedTabButton({
     <Pressable
       onPress={onPress}
       onPressIn={() => {
-        scale.value = withSpring(0.88);
+        scale.value = withSpring(0.9);
       }}
       onPressOut={() => {
         scale.value = withSpring(1);
       }}
       style={styles.tab}
     >
-      <Animated.View style={[styles.tabContent, animatedStyle]}>
-        <IconSymbol name={iconName} size={34} color={color} />
+      <Animated.View style={animatedStyle}>
+        <IconSymbol name={iconName} size={30} color={color} />
       </Animated.View>
     </Pressable>
   );
 }
+
 export function AnimatedTabBar({
   state,
   descriptors,
@@ -92,38 +62,25 @@ export function AnimatedTabBar({
   const colorScheme = useColorScheme();
   const colors = Colors[colorScheme ?? "light"];
 
-  const glow = useSharedValue(0.4);
-
-  const blurAnimatedStyle = useAnimatedStyle(() => ({
-    shadowRadius: 20 + glow.value * 10,
-    borderColor: `rgba(148, 163, 253, ${0.6 + glow.value * 0.4})`,
-    shadowColor: "rgba(94, 234, 212, 1)",
-  }));
-
-  glow.value = withRepeat(
-    withSpring(1, { damping: 15, stiffness: 80 }),
-    -1,
-    true,
-  );
-
   return (
     <View style={styles.container}>
-      <Animated.View style={[styles.blurWrapper, blurAnimatedStyle]}>
+      <View style={styles.blurWrapper}>
         <BlurView intensity={80} tint="dark" style={styles.blur}>
           <View style={styles.tabsWrapper}>
             {state.routes.map((route, index) => {
-              const { options } = descriptors[route.key];
               const isFocused = state.index === index;
 
               const onPress = () => {
                 if (process.env.EXPO_OS === "ios") {
                   Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
                 }
+
                 const event = navigation.emit({
                   type: "tabPress",
                   target: route.key,
                   canPreventDefault: true,
                 });
+
                 if (!isFocused && !event.defaultPrevented) {
                   navigation.navigate(route.name);
                 }
@@ -132,10 +89,8 @@ export function AnimatedTabBar({
               return (
                 <AnimatedTabButton
                   key={route.key}
-                  route={route}
                   index={index}
                   isFocused={isFocused}
-                  options={options}
                   onPress={onPress}
                   colors={colors}
                 />
@@ -143,7 +98,7 @@ export function AnimatedTabBar({
             })}
           </View>
         </BlurView>
-      </Animated.View>
+      </View>
     </View>
   );
 }
@@ -160,45 +115,21 @@ const styles = StyleSheet.create({
     borderRadius: 28,
     overflow: "hidden",
     borderWidth: 1,
-    borderColor: "rgba(148,163,253,0.8)",
-    shadowColor: "rgba(94,234,212,1)",
-    shadowOpacity: 0.9,
-    shadowRadius: 24,
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 7,
+    borderColor: "rgba(148,163,253,0.4)",
   },
   blur: {
     flex: 1,
     borderRadius: 28,
     overflow: "hidden",
-    backgroundColor: "rgba(89, 137, 240, 0.06)",
+    backgroundColor: "rgba(89, 137, 240, 0.05)",
   },
   tabsWrapper: {
-    flex: 1,
     flexDirection: "row",
     paddingVertical: 10,
-  },
-  indicator: {
-    position: "absolute",
-    width: INDICATOR_WIDTH,
-    height: 40,
-    borderRadius: 20,
-    top: 0,
-    left: 0,
   },
   tab: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: 4,
-  },
-  tabContent: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  label: {
-    fontSize: 12,
-    fontWeight: "500",
-    // marginTop: 4,
   },
 });
