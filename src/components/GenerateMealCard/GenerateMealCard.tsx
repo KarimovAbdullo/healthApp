@@ -34,11 +34,7 @@ const STAR_POSITIONS: {
 
 export function GenerateMealCard({ onPress }: Props) {
   return (
-    <TouchableOpacity
-      style={styles.wrap}
-      activeOpacity={0.92}
-      onPress={onPress}
-    >
+    <View style={styles.wrap}>
       <LinearGradient
         colors={["#12081F", "#1B1033", "#0F172A"]}
         start={{ x: 0, y: 0 }}
@@ -74,7 +70,7 @@ export function GenerateMealCard({ onPress }: Props) {
           </AppText>
         </View>
 
-        <View style={styles.btnOuter}>
+        <TouchableOpacity style={styles.btnOuter} onPress={onPress}>
           <LinearGradient
             colors={["#7C3AED", "#A855F7", "#C026D3"]}
             start={{ x: 0, y: 0.5 }}
@@ -85,9 +81,9 @@ export function GenerateMealCard({ onPress }: Props) {
               Generate Plan
             </AppText>
           </LinearGradient>
-        </View>
+        </TouchableOpacity>
       </LinearGradient>
-    </TouchableOpacity>
+    </View>
   );
 }
 

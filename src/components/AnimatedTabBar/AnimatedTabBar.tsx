@@ -1,7 +1,7 @@
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { BlurView } from "expo-blur";
 import * as Haptics from "expo-haptics";
-import { Pressable, StyleSheet, View } from "react-native";
+import { Platform, Pressable, StyleSheet, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: 20,
     right: 20,
-    bottom: 40,
+    bottom: 10,
   },
   blurWrapper: {
     flexDirection: "row",
@@ -121,7 +121,10 @@ const styles = StyleSheet.create({
     flex: 1,
     borderRadius: 28,
     overflow: "hidden",
-    backgroundColor: "rgba(89, 137, 240, 0.05)",
+    backgroundColor:
+      Platform.OS === "ios"
+        ? "rgba(89, 137, 240, 0.05)"
+        : "rgba(57, 57, 57, 0.77)",
   },
   tabsWrapper: {
     flexDirection: "row",

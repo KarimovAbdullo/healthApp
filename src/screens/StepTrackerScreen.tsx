@@ -1,14 +1,19 @@
 import BackIcon2 from "@/assets/icons/BackIcon2";
 import { AppText } from "@/components/AppText";
 import { ProgressBar } from "@/components/ProgressBar";
-import { calculateDistance } from "@/utils/distance";
+import { calculateDistance, formatDistanceMetersLive } from "@/utils/distance";
 import {
   checkPedometerCapability,
   getStepsBetweenDates,
   startPedometer,
   stopPedometer,
 } from "@/utils/pedometer";
-import { clearSession, getStartTime, saveStartTime } from "@/utils/storage";
+import {
+  clearSession,
+  getSession,
+  saveStartTime,
+  updateSessionSteps,
+} from "@/utils/storage";
 import { loadUserProfile } from "@/utils/userProfileStorage";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
@@ -17,6 +22,7 @@ import {
   Animated,
   AppState,
   Image,
+  Platform,
   StyleSheet,
   TouchableOpacity,
   View,
@@ -29,6 +35,10 @@ const GOAL_METERS = 3000;
 export default function StepTrackerScreen() {
   const router = useRouter();
   const pedometerSubRef = useRef<{ remove: () => void } | null>(null);
+  const sessionBaseStepsRef = useRef(0);
+  const totalStepsRef = useRef(0);
+  const isRunningRef = useRef(false);
+  const startTimeRef = useRef<Date | null>(null);
   const progressAnim = useRef(new Animated.Value(0)).current;
   const pulseAnim1 = useRef(new Animated.Value(0)).current;
 
@@ -52,9 +62,27 @@ export default function StepTrackerScreen() {
   const percent = Math.round(progress * 100);
 
   useEffect(() => {
+    totalStepsRef.current = totalSteps;
+  }, [totalSteps]);
+  useEffect(() => {
+    isRunningRef.current = isRunning;
+  }, [isRunning]);
+  useEffect(() => {
+    startTimeRef.current = startTime;
+  }, [startTime]);
+
+  useEffect(() => {
+    if (!isRunning || !startTime) return;
+    const id = setTimeout(() => {
+      void updateSessionSteps(totalSteps);
+    }, 400);
+    return () => clearTimeout(id);
+  }, [isRunning, startTime, totalSteps]);
+
+  useEffect(() => {
     Animated.timing(progressAnim, {
       toValue: progress,
-      duration: 220,
+      duration: 90,
       useNativeDriver: false,
     }).start();
   }, [progress, progressAnim]);
@@ -87,9 +115,11 @@ export default function StepTrackerScreen() {
   }, [isRunning, pulseAnim1]);
 
   const attachLiveWatcher = useCallback(async (baseSteps: number) => {
+    const base = Math.max(0, Math.floor(baseSteps));
+    sessionBaseStepsRef.current = base;
     stopPedometer(pedometerSubRef.current);
     pedometerSubRef.current = await startPedometer((liveSteps) => {
-      const merged = Math.max(0, baseSteps + liveSteps);
+      const merged = Math.max(0, sessionBaseStepsRef.current + liveSteps);
       setTotalSteps((prev) => (merged < prev ? prev : merged));
     });
   }, []);
@@ -107,8 +137,8 @@ export default function StepTrackerScreen() {
       return;
     }
 
-    const savedStart = await getStartTime();
-    if (!savedStart) {
+    const session = await getSession();
+    if (!session) {
       setIsRunning(false);
       setStartTime(null);
       setTotalSteps(0);
@@ -116,7 +146,11 @@ export default function StepTrackerScreen() {
       return;
     }
 
-    const steps = await getStepsBetweenDates(savedStart, new Date());
+    const savedStart = new Date(session.startTimeISO);
+    const steps =
+      Platform.OS === "android"
+        ? (session.lastTotalSteps ?? 0)
+        : await getStepsBetweenDates(savedStart, new Date());
     setStartTime(savedStart);
     setTotalSteps(steps);
     setIsRunning(true);
@@ -136,17 +170,32 @@ export default function StepTrackerScreen() {
     const sub = AppState.addEventListener(
       "change",
       async (next: AppStateStatus) => {
-        if (next !== "active" || !isRunning || !startTime) return;
-        const latest = await getStepsBetweenDates(startTime, new Date());
+        if (next === "background" || next === "inactive") {
+          if (isRunningRef.current && startTimeRef.current) {
+            await updateSessionSteps(totalStepsRef.current);
+          }
+          return;
+        }
+        if (next !== "active" || !isRunningRef.current || !startTimeRef.current) {
+          return;
+        }
+        const st = startTimeRef.current;
+        const latest =
+          Platform.OS === "android"
+            ? ((await getSession())?.lastTotalSteps ?? totalStepsRef.current)
+            : await getStepsBetweenDates(st, new Date());
         setTotalSteps(latest);
         await attachLiveWatcher(latest);
       },
     );
     return () => sub.remove();
-  }, [attachLiveWatcher, isRunning, startTime]);
+  }, [attachLiveWatcher]);
 
   const handleStart = async () => {
     setErrorText("");
+    const profile = await loadUserProfile();
+    setHeightCm(profile?.heightCm);
+
     const capability = await checkPedometerCapability();
     setDeviceSupported(capability.available);
     setPermissionGranted(capability.granted);
@@ -260,6 +309,8 @@ export default function StepTrackerScreen() {
             currentMeters={distanceMeters}
             goalMeters={GOAL_METERS}
             percent={percent}
+            liveSteps={isRunning ? totalSteps : undefined}
+            formatCurrentMeters={formatDistanceMetersLive}
           />
           {!isReady ? (
             <AppText size={14} color="#CBD5E1" style={styles.note}>
@@ -280,7 +331,7 @@ export default function StepTrackerScreen() {
           ) : (
             <AppText size={13} color="#CBD5E1" style={styles.note}>
               {isRunning
-                ? "Tracking active. Steps update live and persist while app is closed."
+                ? "Masofa faqat telefon hisoblagan to‘liq qadamlardan keladi — odatda har qadam ~0.6–0.8 m. Birinchi yangilanish yurib, qadam tan olingach darhol ko‘rinadi (GPS emas)."
                 : "Boshlash uchun START bosing"}
             </AppText>
           )}

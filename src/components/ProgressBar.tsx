@@ -7,6 +7,9 @@ type ProgressBarProps = {
   currentMeters: number;
   goalMeters: number;
   percent: number;
+  /** When set (e.g. while tracking), show live step count under the distance readout. */
+  liveSteps?: number;
+  formatCurrentMeters?: (meters: number) => string;
 };
 
 export function ProgressBar({
@@ -14,6 +17,8 @@ export function ProgressBar({
   currentMeters,
   goalMeters,
   percent,
+  liveSteps,
+  formatCurrentMeters = (m) => `${Math.round(m)} m`,
 }: ProgressBarProps) {
   const widthInterpolate = progressAnim.interpolate({
     inputRange: [0, 1],
@@ -45,12 +50,21 @@ export function ProgressBar({
 
       <View style={styles.valuesRow}>
         <AppText size={30} weight="bold" color="#FACC15">
-          {Math.round(currentMeters)} m
+          {formatCurrentMeters(currentMeters)}
         </AppText>
         <AppText size={30} weight="semibold" color="#94A3B8">
           {goalMeters.toLocaleString()} m
         </AppText>
       </View>
+
+      {typeof liveSteps === "number" ? (
+        <AppText size={14} color="#94A3B8" style={styles.stepsLine}>
+          Hozirgi qadamlar:{" "}
+          <AppText size={14} weight="semibold" color="#E2E8F0">
+            {liveSteps.toLocaleString()}
+          </AppText>
+        </AppText>
+      ) : null}
     </View>
   );
 }
@@ -108,5 +122,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+  },
+  stepsLine: {
+    marginTop: 8,
+    lineHeight: 20,
   },
 });

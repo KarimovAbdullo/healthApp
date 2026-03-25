@@ -14,6 +14,11 @@ import "react-native-reanimated";
 
 import { useColorScheme } from "@/hooks/use-color-scheme";
 
+if (__DEV__) {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  require("@/lib/reactotron");
+}
+
 export const unstable_settings = {
   anchor: "(tabs)",
 };
