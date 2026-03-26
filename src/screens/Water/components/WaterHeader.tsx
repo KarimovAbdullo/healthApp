@@ -1,5 +1,6 @@
 import { AppText } from "@/components/AppText";
-import { Image, TouchableOpacity, View } from "react-native";
+import { Image } from "expo-image";
+import { TouchableOpacity, View } from "react-native";
 
 import BackIcon2 from "@/assets/icons/BackIcon2";
 import { styles } from "../WaterScreen.styles";

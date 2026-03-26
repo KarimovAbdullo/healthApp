@@ -1,10 +1,10 @@
 import { AppText } from "@/components/AppText";
+import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { useEffect, useRef } from "react";
 import {
   Animated,
   Easing,
-  Image,
   ImageSourcePropType,
   StyleSheet,
   View,
@@ -66,14 +66,14 @@ export const WaterTracker = ({
         <Image
           source={abstractBgImg}
           style={styles.abstractBg}
-          resizeMode="cover"
+          contentFit="cover"
         />
 
         <View style={styles.leftSection}>
           <Image
             source={bottleImg}
             style={styles.bottle}
-            resizeMode="contain"
+            contentFit="contain"
           />
         </View>
 
@@ -90,7 +90,7 @@ export const WaterTracker = ({
               <Image
                 source={doneImg}
                 style={styles.doneIcon}
-                resizeMode="contain"
+                contentFit="contain"
               />
             </View>
           ) : (

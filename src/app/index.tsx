@@ -1,5 +1,7 @@
-import { Redirect, Href } from 'expo-router';
+import { useAppSelector } from "@/store/hooks";
+import { Redirect, Href } from "expo-router";
 
 export default function Index() {
-  return <Redirect href={'/(tabs)' as Href} />;
+  const profile = useAppSelector((s) => s.profile);
+  return <Redirect href={(profile ? "/(tabs)" : "/confirm") as Href} />;
 }

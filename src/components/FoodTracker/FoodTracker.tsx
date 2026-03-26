@@ -1,7 +1,7 @@
 import { AppText } from "@/components/AppText";
+import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import {
-  Image,
   ImageSourcePropType,
   StyleSheet,
   View,
@@ -45,11 +45,11 @@ const FoodTracker = ({
         end={{ x: 1, y: 1 }}
         style={styles.gradient}
       >
-        <Image source={foodBgImg} style={styles.bgOverlay} resizeMode="cover" />
+        <Image source={foodBgImg} style={styles.bgOverlay} contentFit="cover" />
 
         <View style={styles.row}>
           <View style={styles.dishWrapper}>
-            <Image source={dishImg} style={styles.dish} resizeMode="contain" />
+            <Image source={dishImg} style={styles.dish} contentFit="contain" />
           </View>
 
           <View style={styles.rightColumn}>
@@ -68,7 +68,7 @@ const FoodTracker = ({
                   <Image
                     source={doneImg}
                     style={styles.doneIcon}
-                    resizeMode="contain"
+                    contentFit="contain"
                   />
                 </View>
               ) : (

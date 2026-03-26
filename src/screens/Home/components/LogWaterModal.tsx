@@ -1,8 +1,8 @@
 import { AppText } from "@/components/AppText";
+import { Image } from "expo-image";
 import { useEffect, useRef, useState } from "react";
 import {
   Animated,
-  Image,
   ImageSourcePropType,
   Modal,
   ScrollView,

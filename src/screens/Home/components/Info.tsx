@@ -1,6 +1,5 @@
 import ScrollIcon from "@/assets/icons/ScrollIcon";
 import { AppText } from "@/components/AppText";
-import { GlassTabBar } from "@/components/GlowButton";
 import {
   BodyCategory,
   getBmi,
@@ -166,207 +165,202 @@ const Info = ({ metrics }: InfoProps) => {
 
   return (
     <View style={styles.container} pointerEvents="box-none">
-      <GlassTabBar
-        style={{ borderRadius: 20, backgroundColor: "transparent" }}
-        intensity={0}
+      <ScrollView
+        ref={scrollRef}
+        style={{ maxHeight: SCROLL_VIEW_HEIGHT }}
+        contentContainerStyle={styles.chipsWrapper}
+        showsVerticalScrollIndicator={false}
+        bounces
+        nestedScrollEnabled
+        onContentSizeChange={(_, h) => setContentHeight(h)}
+        onLayout={(e) => setVisibleHeight(e.nativeEvent.layout.height)}
+        onScroll={(e) => setScrollY(e.nativeEvent.contentOffset.y)}
+        scrollEventThrottle={16}
       >
-        <ScrollView
-          ref={scrollRef}
-          style={{ maxHeight: SCROLL_VIEW_HEIGHT }}
-          contentContainerStyle={styles.chipsWrapper}
-          showsVerticalScrollIndicator={false}
-          bounces
-          pointerEvents="none"
-          onContentSizeChange={(_, h) => setContentHeight(h)}
-          onLayout={(e) => setVisibleHeight(e.nativeEvent.layout.height)}
-          onScroll={(e) => setScrollY(e.nativeEvent.contentOffset.y)}
-          scrollEventThrottle={16}
+        <AppText
+          size={12}
+          weight="semibold"
+          color="#9CA3AF"
+          style={styles.sectionTitle}
         >
+          Body
+        </AppText>
+
+        <View style={styles.chip}>
           <AppText
-            size={12}
-            weight="semibold"
-            color="#9CA3AF"
-            style={styles.sectionTitle}
+            size={14}
+            weight="light"
+            color="white"
+            style={styles.chipLabel}
           >
-            Body
+            Category:
           </AppText>
+          <GradientNumber value={categoryLabel[category]} />
+        </View>
 
-          <View style={styles.chip}>
-            <AppText
-              size={14}
-              weight="light"
-              color="white"
-              style={styles.chipLabel}
-            >
-              Category:
-            </AppText>
-            <GradientNumber value={categoryLabel[category]} />
-          </View>
-
-          <View style={styles.chip}>
-            <AppText
-              size={14}
-              weight="light"
-              color="white"
-              style={styles.chipLabel}
-            >
-              BMI:
-            </AppText>
-            <GradientNumber value={String(roundedBmi)} />
-          </View>
-
-          <View style={styles.chip}>
-            <AppText
-              size={14}
-              weight="light"
-              color="white"
-              style={styles.chipLabel}
-            >
-              Body fat:
-            </AppText>
-            <GradientNumber value={`${bodyFatRounded} %`} />
-          </View>
-
-          <View style={styles.chip}>
-            <AppText
-              size={14}
-              weight="light"
-              color="white"
-              style={styles.chipLabel}
-            >
-              Ideal weight:
-            </AppText>
-            <GradientNumber value={`${min} – ${max} kg`} />
-          </View>
-
-          <View style={styles.chip}>
-            <AppText
-              size={14}
-              weight="light"
-              color="white"
-              style={styles.chipLabel}
-            >
-              Extra / missing:
-            </AppText>
-            <GradientNumber value={extraLabel} />
-          </View>
-
+        <View style={styles.chip}>
           <AppText
-            size={12}
-            weight="semibold"
-            color="#9CA3AF"
-            style={styles.sectionTitle}
+            size={14}
+            weight="light"
+            color="white"
+            style={styles.chipLabel}
           >
-            Calories & health
+            BMI:
           </AppText>
+          <GradientNumber value={String(roundedBmi)} />
+        </View>
 
-          <View style={styles.chip}>
-            <AppText
-              size={14}
-              weight="light"
-              color="white"
-              style={styles.chipLabel}
-            >
-              BMR:
-            </AppText>
-            <GradientNumber value={`${bmr} kcal/day`} />
-          </View>
-
-          <View style={styles.chip}>
-            <AppText
-              size={14}
-              weight="light"
-              color="white"
-              style={styles.chipLabel}
-            >
-              Daily calories:
-            </AppText>
-            <GradientNumber value={`${tdee} kcal`} />
-          </View>
-
-          <View style={styles.chip}>
-            <AppText
-              size={14}
-              weight="light"
-              color="white"
-              style={styles.chipLabel}
-            >
-              For weight loss:
-            </AppText>
-            <GradientNumber value={`${weightLossCal} kcal/day`} />
-          </View>
-
-          <View style={styles.chip}>
-            <AppText
-              size={14}
-              weight="light"
-              color="white"
-              style={styles.chipLabel}
-            >
-              Water:
-            </AppText>
-            <GradientNumber value={`${waterRounded} L/day`} />
-          </View>
-
-          <View style={styles.chip}>
-            <AppText
-              size={14}
-              weight="light"
-              color="white"
-              style={styles.chipLabel}
-            >
-              Protein:
-            </AppText>
-            <GradientNumber value={`${macros.proteinGrams} g`} />
-          </View>
-
-          <View style={styles.chip}>
-            <AppText
-              size={14}
-              weight="light"
-              color="white"
-              style={styles.chipLabel}
-            >
-              Carbs:
-            </AppText>
-            <GradientNumber value={`${macros.carbGrams} g`} />
-          </View>
-
-          <View style={styles.chip}>
-            <AppText
-              size={14}
-              weight="light"
-              color="white"
-              style={styles.chipLabel}
-            >
-              Fat:
-            </AppText>
-            <GradientNumber value={`${macros.fatGrams} g`} />
-          </View>
-        </ScrollView>
-
-        {!isAtTop && (
-          <TouchableOpacity
-            style={[styles.arrowBtn, styles.arrowUp]}
-            onPress={handleArrowUp}
-            activeOpacity={0.8}
+        <View style={styles.chip}>
+          <AppText
+            size={14}
+            weight="light"
+            color="white"
+            style={styles.chipLabel}
           >
-            <AppText size={16} weight="bold" color="#F9FAFB">
-              ^
-            </AppText>
-          </TouchableOpacity>
-        )}
+            Body fat:
+          </AppText>
+          <GradientNumber value={`${bodyFatRounded} %`} />
+        </View>
 
-        {!isAtBottom && (
-          <TouchableOpacity
-            style={[styles.arrowBtn, styles.arrowDown]}
-            onPress={handleArrowDown}
-            activeOpacity={0.8}
+        <View style={styles.chip}>
+          <AppText
+            size={14}
+            weight="light"
+            color="white"
+            style={styles.chipLabel}
           >
-            <ScrollIcon />
-          </TouchableOpacity>
-        )}
-      </GlassTabBar>
+            Ideal weight:
+          </AppText>
+          <GradientNumber value={`${min} – ${max} kg`} />
+        </View>
+
+        <View style={styles.chip}>
+          <AppText
+            size={14}
+            weight="light"
+            color="white"
+            style={styles.chipLabel}
+          >
+            Extra / missing:
+          </AppText>
+          <GradientNumber value={extraLabel} />
+        </View>
+
+        <AppText
+          size={12}
+          weight="semibold"
+          color="#9CA3AF"
+          style={styles.sectionTitle}
+        >
+          Calories & health
+        </AppText>
+
+        <View style={styles.chip}>
+          <AppText
+            size={14}
+            weight="light"
+            color="white"
+            style={styles.chipLabel}
+          >
+            BMR:
+          </AppText>
+          <GradientNumber value={`${bmr} kcal/day`} />
+        </View>
+
+        <View style={styles.chip}>
+          <AppText
+            size={14}
+            weight="light"
+            color="white"
+            style={styles.chipLabel}
+          >
+            Daily calories:
+          </AppText>
+          <GradientNumber value={`${tdee} kcal`} />
+        </View>
+
+        <View style={styles.chip}>
+          <AppText
+            size={14}
+            weight="light"
+            color="white"
+            style={styles.chipLabel}
+          >
+            For weight loss:
+          </AppText>
+          <GradientNumber value={`${weightLossCal} kcal/day`} />
+        </View>
+
+        <View style={styles.chip}>
+          <AppText
+            size={14}
+            weight="light"
+            color="white"
+            style={styles.chipLabel}
+          >
+            Water:
+          </AppText>
+          <GradientNumber value={`${waterRounded} L/day`} />
+        </View>
+
+        <View style={styles.chip}>
+          <AppText
+            size={14}
+            weight="light"
+            color="white"
+            style={styles.chipLabel}
+          >
+            Protein:
+          </AppText>
+          <GradientNumber value={`${macros.proteinGrams} g`} />
+        </View>
+
+        <View style={styles.chip}>
+          <AppText
+            size={14}
+            weight="light"
+            color="white"
+            style={styles.chipLabel}
+          >
+            Carbs:
+          </AppText>
+          <GradientNumber value={`${macros.carbGrams} g`} />
+        </View>
+
+        <View style={styles.chip}>
+          <AppText
+            size={14}
+            weight="light"
+            color="white"
+            style={styles.chipLabel}
+          >
+            Fat:
+          </AppText>
+          <GradientNumber value={`${macros.fatGrams} g`} />
+        </View>
+      </ScrollView>
+
+      {!isAtTop && (
+        <TouchableOpacity
+          style={[styles.arrowBtn, styles.arrowUp]}
+          onPress={handleArrowUp}
+          activeOpacity={0.8}
+        >
+          <AppText size={16} weight="bold" color="#F9FAFB">
+            ^
+          </AppText>
+        </TouchableOpacity>
+      )}
+
+      {!isAtBottom && (
+        <TouchableOpacity
+          style={[styles.arrowBtn, styles.arrowDown]}
+          onPress={handleArrowDown}
+          activeOpacity={0.8}
+        >
+          <ScrollIcon />
+        </TouchableOpacity>
+      )}
     </View>
   );
 };

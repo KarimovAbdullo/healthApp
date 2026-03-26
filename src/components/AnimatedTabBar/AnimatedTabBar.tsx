@@ -9,12 +9,40 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
-import { IconSymbol } from "@/components/ui/icon-symbol";
+import {
+  IconSymbol,
+  type IconSymbolName,
+} from "@/components/ui/icon-symbol";
 import { Colors } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { useEffect } from "react";
 
-function AnimatedTabButton({ index, isFocused, onPress, colors }: any) {
+function routeToIcon(routeName: string): IconSymbolName {
+  switch (routeName) {
+    case "index":
+      return "house.fill";
+    case "results":
+      return "chart.bar.fill";
+    case "traning":
+      return "fitness.center.fill";
+    case "profile":
+      return "person.fill";
+    default:
+      return "house.fill";
+  }
+}
+
+function AnimatedTabButton({
+  routeName,
+  isFocused,
+  onPress,
+  colors,
+}: {
+  routeName: string;
+  isFocused: boolean;
+  onPress: () => void;
+  colors: { tabIconDefault: string };
+}) {
   const scale = useSharedValue(1);
   const rotate = useSharedValue(0);
 
@@ -34,7 +62,7 @@ function AnimatedTabButton({ index, isFocused, onPress, colors }: any) {
 
   const color = isFocused ? "#4FD1FF" : colors.tabIconDefault;
 
-  const iconName = index === 0 ? "house.fill" : "person.fill";
+  const iconName = routeToIcon(routeName);
 
   return (
     <Pressable
@@ -89,7 +117,7 @@ export function AnimatedTabBar({
               return (
                 <AnimatedTabButton
                   key={route.key}
-                  index={index}
+                  routeName={route.name}
                   isFocused={isFocused}
                   onPress={onPress}
                   colors={colors}
@@ -108,7 +136,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: 20,
     right: 20,
-    bottom: 10,
+    bottom: 40,
   },
   blurWrapper: {
     flexDirection: "row",

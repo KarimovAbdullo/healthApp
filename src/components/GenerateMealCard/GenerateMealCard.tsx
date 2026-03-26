@@ -1,7 +1,7 @@
 import { AppText } from "@/components/AppText";
+import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import {
-  Image,
   ImageSourcePropType,
   StyleSheet,
   TouchableOpacity,
@@ -41,7 +41,7 @@ export function GenerateMealCard({ onPress }: Props) {
         end={{ x: 1, y: 1 }}
         style={styles.card}
       >
-        <Image source={foodBgImg} style={styles.bgOverlay} resizeMode="cover" />
+        <Image source={foodBgImg} style={styles.bgOverlay} contentFit="cover" />
 
         {STAR_POSITIONS.map((star, i) => (
           <View

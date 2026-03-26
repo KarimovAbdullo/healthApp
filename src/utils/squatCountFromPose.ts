@@ -1,35 +1,19 @@
 import { KnownPoseLandmarks as K } from "react-native-mediapipe";
 import type { Landmark } from "react-native-mediapipe";
+import {
+  createAngleRepFsm,
+  updateAngleRepFsm,
+  type AngleRepFsmState,
+} from "@/utils/angleRepFsm";
+import { angleAtB, landmarkOk } from "@/utils/poseGeometry";
 
 export const SQUAT_TARGET_REPS = 5;
 
-/** Burchak nuqta B da: A—B—C */
-function angleAtB(
-  ax: number,
-  ay: number,
-  bx: number,
-  by: number,
-  cx: number,
-  cy: number,
-): number {
-  const bax = ax - bx;
-  const bay = ay - by;
-  const bcx = cx - bx;
-  const bcy = cy - by;
-  const dot = bax * bcx + bay * bcy;
-  const mba = Math.hypot(bax, bay);
-  const mbc = Math.hypot(bcx, bcy);
-  if (mba < 1e-8 || mbc < 1e-8) return 180;
-  const c = Math.max(-1, Math.min(1, dot / (mba * mbc)));
-  return (Math.acos(c) * 180) / Math.PI;
-}
-
-function landmarkOk(lm: Landmark | undefined): boolean {
-  if (!lm) return false;
-  if (lm.visibility != null && lm.visibility < 0.4) return false;
-  if (lm.presence != null && lm.presence < 0.4) return false;
-  return true;
-}
+export const squatRepThresholds = {
+  lowBelow: 128,
+  highAbove: 158,
+  frames: 4,
+} as const;
 
 /** Ikkala tizzaning 2D burchagidan o‘rtacha (kamera oldidan turish). */
 export function averageKneeAngleDeg(landmarks: Landmark[]): number | null {
@@ -65,63 +49,19 @@ export function averageKneeAngleDeg(landmarks: Landmark[]): number | null {
   return null;
 }
 
-export type SquatFsmState = {
-  phase: "up" | "down";
-  count: number;
-  downStreak: number;
-  upStreak: number;
-};
+export type SquatFsmState = AngleRepFsmState;
 
-export function createSquatFsm(): SquatFsmState {
-  return {
-    phase: "up",
-    count: 0,
-    downStreak: 0,
-    upStreak: 0,
-  };
-}
+export const createSquatFsm = createAngleRepFsm;
 
-/** Tizza burchagi kichrayganda “o‘tirdi”, yana kattalashganda 1 ta rep. Gistererezis + ketma-ket freym. */
 export function updateSquatFsm(
   fsm: SquatFsmState,
   kneeAngleDeg: number,
   maxReps: number,
-  opts?: {
-    /** Pastga: burchak bundan kichik bo‘lsa o‘tirish deb hisoblaymiz */
-    downBelow?: number;
-    /** Yuqoriga: burchak bundan katta bo‘lsa turgan */
-    upAbove?: number;
-    framesConfirm?: number;
-  },
+  opts?: Partial<typeof squatRepThresholds>,
 ): void {
-  if (fsm.count >= maxReps) return;
-
-  const downBelow = opts?.downBelow ?? 128;
-  const upAbove = opts?.upAbove ?? 158;
-  const n = opts?.framesConfirm ?? 4;
-
-  if (fsm.phase === "up") {
-    if (kneeAngleDeg < downBelow) {
-      fsm.downStreak++;
-      fsm.upStreak = 0;
-      if (fsm.downStreak >= n) {
-        fsm.phase = "down";
-        fsm.downStreak = 0;
-      }
-    } else {
-      fsm.downStreak = 0;
-    }
-  } else {
-    if (kneeAngleDeg > upAbove) {
-      fsm.upStreak++;
-      fsm.downStreak = 0;
-      if (fsm.upStreak >= n) {
-        fsm.phase = "up";
-        fsm.upStreak = 0;
-        fsm.count += 1;
-      }
-    } else {
-      fsm.upStreak = 0;
-    }
-  }
+  updateAngleRepFsm(fsm, kneeAngleDeg, maxReps, {
+    lowBelow: opts?.lowBelow ?? squatRepThresholds.lowBelow,
+    highAbove: opts?.highAbove ?? squatRepThresholds.highAbove,
+    frames: opts?.frames ?? squatRepThresholds.frames,
+  });
 }

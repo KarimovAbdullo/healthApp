@@ -1,6 +1,7 @@
 import { AppText } from "@/components/AppText";
+import { Image } from "expo-image";
 import React from "react";
-import { Image, ImageSourcePropType, TouchableOpacity, View } from "react-native";
+import { ImageSourcePropType, TouchableOpacity, View } from "react-native";
 
 import { styles } from "../WaterScreen.styles";
 

@@ -1,6 +1,7 @@
 import { AppText } from "@/components/AppText";
+import { Image } from "expo-image";
 import React from "react";
-import { Image, ImageSourcePropType, TouchableOpacity, View } from "react-native";
+import { ImageSourcePropType, TouchableOpacity, View } from "react-native";
 
 import { styles } from "../FoodScreen.styles";
 import { formatUnit } from "../foodUtils";
@@ -29,7 +30,7 @@ export function FoodSelectedFoodsList({
               <Image
                 source={foodIcon}
                 style={styles.foodImg}
-                resizeMode="contain"
+                contentFit="contain"
               />
               <View style={styles.rowTextCol}>
                 <AppText size={18} weight="semibold" color="#F9FAFB">

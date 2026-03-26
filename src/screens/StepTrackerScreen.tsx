@@ -1,6 +1,7 @@
 import BackIcon2 from "@/assets/icons/BackIcon2";
 import { AppText } from "@/components/AppText";
 import { ProgressBar } from "@/components/ProgressBar";
+import { Image } from "expo-image";
 import { calculateDistance, formatDistanceMetersLive } from "@/utils/distance";
 import {
   checkPedometerCapability,
@@ -8,20 +9,20 @@ import {
   startPedometer,
   stopPedometer,
 } from "@/utils/pedometer";
+import { recordStepsForDate } from "@/store/slices/dailyResultsSlice";
 import {
   clearSession,
-  getSession,
-  saveStartTime,
+  startSession,
   updateSessionSteps,
-} from "@/utils/storage";
-import { loadUserProfile } from "@/utils/userProfileStorage";
+} from "@/store/slices/stepSessionSlice";
+import moment from "moment";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Animated,
   AppState,
-  Image,
+  Linking,
   Platform,
   StyleSheet,
   TouchableOpacity,
@@ -29,11 +30,15 @@ import {
   type AppStateStatus,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 
 const GOAL_METERS = 3000;
 
 export default function StepTrackerScreen() {
   const router = useRouter();
+  const dispatch = useAppDispatch();
+  const profile = useAppSelector((s) => s.profile);
+  const stepSession = useAppSelector((s) => s.stepSession);
   const pedometerSubRef = useRef<{ remove: () => void } | null>(null);
   const sessionBaseStepsRef = useRef(0);
   const totalStepsRef = useRef(0);
@@ -74,10 +79,12 @@ export default function StepTrackerScreen() {
   useEffect(() => {
     if (!isRunning || !startTime) return;
     const id = setTimeout(() => {
-      void updateSessionSteps(totalSteps);
+      dispatch(updateSessionSteps(totalSteps));
+      const date = moment().format("YYYY-MM-DD");
+      dispatch(recordStepsForDate({ date, steps: totalSteps }));
     }, 400);
     return () => clearTimeout(id);
-  }, [isRunning, startTime, totalSteps]);
+  }, [dispatch, isRunning, startTime, totalSteps]);
 
   useEffect(() => {
     Animated.timing(progressAnim, {
@@ -125,7 +132,6 @@ export default function StepTrackerScreen() {
   }, []);
 
   const restoreSession = useCallback(async () => {
-    const profile = await loadUserProfile();
     setHeightCm(profile?.heightCm);
 
     const capability = await checkPedometerCapability();
@@ -137,8 +143,7 @@ export default function StepTrackerScreen() {
       return;
     }
 
-    const session = await getSession();
-    if (!session) {
+    if (!stepSession) {
       setIsRunning(false);
       setStartTime(null);
       setTotalSteps(0);
@@ -146,17 +151,17 @@ export default function StepTrackerScreen() {
       return;
     }
 
-    const savedStart = new Date(session.startTimeISO);
+    const savedStart = new Date(stepSession.startTimeISO);
     const steps =
       Platform.OS === "android"
-        ? (session.lastTotalSteps ?? 0)
+        ? (stepSession.lastTotalSteps ?? 0)
         : await getStepsBetweenDates(savedStart, new Date());
     setStartTime(savedStart);
     setTotalSteps(steps);
     setIsRunning(true);
     await attachLiveWatcher(steps);
     setIsReady(true);
-  }, [attachLiveWatcher]);
+  }, [attachLiveWatcher, profile?.heightCm, stepSession]);
 
   useEffect(() => {
     void restoreSession();
@@ -172,17 +177,31 @@ export default function StepTrackerScreen() {
       async (next: AppStateStatus) => {
         if (next === "background" || next === "inactive") {
           if (isRunningRef.current && startTimeRef.current) {
-            await updateSessionSteps(totalStepsRef.current);
+            dispatch(updateSessionSteps(totalStepsRef.current));
           }
           return;
         }
-        if (next !== "active" || !isRunningRef.current || !startTimeRef.current) {
+        if (next !== "active") {
           return;
         }
+
+        // When user returns from Settings, re-check permission/device capability.
+        const capability = await checkPedometerCapability();
+        setDeviceSupported(capability.available);
+        setPermissionGranted(capability.granted);
+
+        if (!capability.available || !capability.granted) {
+          return;
+        }
+
+        if (!isRunningRef.current || !startTimeRef.current) {
+          return;
+        }
+
         const st = startTimeRef.current;
         const latest =
           Platform.OS === "android"
-            ? ((await getSession())?.lastTotalSteps ?? totalStepsRef.current)
+            ? totalStepsRef.current
             : await getStepsBetweenDates(st, new Date());
         setTotalSteps(latest);
         await attachLiveWatcher(latest);
@@ -193,7 +212,6 @@ export default function StepTrackerScreen() {
 
   const handleStart = async () => {
     setErrorText("");
-    const profile = await loadUserProfile();
     setHeightCm(profile?.heightCm);
 
     const capability = await checkPedometerCapability();
@@ -210,7 +228,7 @@ export default function StepTrackerScreen() {
     }
 
     const start = new Date();
-    await saveStartTime(start);
+    dispatch(startSession({ startTimeISO: start.toISOString() }));
     setStartTime(start);
     setTotalSteps(0);
     setIsRunning(true);
@@ -220,12 +238,20 @@ export default function StepTrackerScreen() {
   const handleStop = async () => {
     stopPedometer(pedometerSubRef.current);
     pedometerSubRef.current = null;
-    await clearSession();
+    dispatch(clearSession(undefined as any));
     setStartTime(null);
     setTotalSteps(0);
     setIsRunning(false);
     setErrorText("");
   };
+
+  const handleOpenSettings = useCallback(async () => {
+    setErrorText("");
+    const opened = await Linking.openSettings();
+    if (!opened) {
+      setErrorText("Unable to open app settings. Please open it manually.");
+    }
+  }, []);
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -285,7 +311,7 @@ export default function StepTrackerScreen() {
               <Image
                 source={require("@/assets/images/kro.png")}
                 style={styles.shoe}
-                resizeMode="contain"
+                contentFit="contain"
               />
             </View>
           </View>
@@ -343,11 +369,17 @@ export default function StepTrackerScreen() {
               !isReady ? styles.disabledBtn : null,
             ]}
             activeOpacity={0.85}
-            onPress={isRunning ? handleStop : handleStart}
+            onPress={
+              isRunning
+                ? handleStop
+                : !permissionGranted
+                  ? () => void handleOpenSettings()
+                  : () => void handleStart()
+            }
             disabled={!isReady}
           >
             <AppText size={26} color="#111827">
-              {isRunning ? "STOP" : "START"}
+              {isRunning ? "STOP" : !permissionGranted ? "ALLOW PERMISSION" : "START"}
             </AppText>
           </TouchableOpacity>
         </View>

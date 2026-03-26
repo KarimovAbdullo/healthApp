@@ -15,7 +15,9 @@ import { FoodSearchResultsList } from "./components/FoodSearchResultsList";
 import { FoodSelectedFoodsList } from "./components/FoodSelectedFoodsList";
 import { styles } from "./FoodScreen.styles";
 import type { FilteredFood, FoodEntry, SelectedFood } from "./FoodScreenTypes";
-import { loadFoodState, setTodayFoodItems, type FoodHistoryItem, type FoodItemLog } from "@/utils/foodStorage";
+import type { FoodHistoryItem, FoodItemLog } from "@/utils/foodStorage";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { refreshDailyFood, setTodayFoodItems } from "@/store/slices/foodSlice";
 
 const foodData: FoodEntry[] = require("../../app/food.json");
 
@@ -41,7 +43,9 @@ export default function FoodScreen() {
   const [manualName, setManualName] = useState("");
   const [manualCalories, setManualCalories] = useState("");
   const [selectedById, setSelectedById] = useState<Record<string, SelectedFood>>({});
-  const [history, setHistory] = useState<FoodHistoryItem[]>([]);
+  const dispatch = useAppDispatch();
+  const history = useAppSelector((s) => s.food.history) as FoodHistoryItem[];
+  const currentItems = useAppSelector((s) => s.food.currentItems) as FoodItemLog[];
 
   const searchResults = useMemo<FilteredFood[]>(() => {
     const q = query.trim().toLowerCase();
@@ -65,41 +69,38 @@ export default function FoodScreen() {
     [selectedFoods],
   );
 
+  const didRestoreRef = useRef(false);
   useEffect(() => {
-    (async () => {
-      const state = await loadFoodState();
-      const restored: Record<string, SelectedFood> = {};
-      for (const item of state.currentItems) {
-        restored[item.id] = {
-          id: item.id,
-          item: {
-            name: item.name,
-            unit: item.unit,
-            calories: item.calories,
-            category: "saved",
-          },
-          qty: item.qty,
-        };
-      }
-      setSelectedById(restored);
-      setHistory(state.history);
-    })();
-  }, []);
+    if (didRestoreRef.current) return;
+    didRestoreRef.current = true;
+
+    const restored: Record<string, SelectedFood> = {};
+    for (const item of currentItems) {
+      restored[item.id] = {
+        id: item.id,
+        item: {
+          name: item.name,
+          unit: item.unit,
+          calories: item.calories,
+          category: "saved",
+        },
+        qty: item.qty,
+      };
+    }
+    setSelectedById(restored);
+    dispatch(refreshDailyFood());
+  }, [currentItems, dispatch]);
 
   useEffect(() => {
-    const persist = async () => {
-      const items: FoodItemLog[] = Object.values(selectedById).map((x) => ({
-        id: x.id,
-        name: x.item.name,
-        unit: x.item.unit,
-        calories: x.item.calories,
-        qty: x.qty,
-      }));
-      const state = await setTodayFoodItems(items);
-      setHistory(state.history);
-    };
-    persist();
-  }, [selectedById]);
+    const items: FoodItemLog[] = Object.values(selectedById).map((x) => ({
+      id: x.id,
+      name: x.item.name,
+      unit: x.item.unit,
+      calories: x.item.calories,
+      qty: x.qty,
+    }));
+    dispatch(setTodayFoodItems(items));
+  }, [selectedById, dispatch]);
 
   const setQty = (id: string, delta: number) => {
     Keyboard.dismiss();

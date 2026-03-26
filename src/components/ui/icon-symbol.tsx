@@ -8,6 +8,8 @@ const MAPPING: Record<string, ComponentProps<typeof MaterialIcons>['name']> = {
   'paperplane.fill': 'send',
   'chevron.left.forwardslash.chevron.right': 'code',
   'chevron.right': 'chevron-right',
+  'chart.bar.fill': 'bar-chart',
+  'fitness.center.fill': 'fitness-center',
 };
 
 export type IconSymbolName = keyof typeof MAPPING;

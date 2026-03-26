@@ -1,13 +1,13 @@
 import { AppText } from "@/components/AppText";
 import {
-  addTodayWaterLiters,
-  loadWaterState,
   type WaterHistoryItem,
 } from "@/utils/waterStorage";
 import { useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import { Animated, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { addTodayWaterLiters, refreshDailyWater } from "@/store/slices/waterSlice";
 
 import { WaterActionButtons } from "./components/WaterActionButtons";
 import {
@@ -29,20 +29,16 @@ const GLASS_OPTIONS: GlassOption[] = [
 export default function WaterScreen() {
   const router = useRouter();
 
-  const [todayLiters, setTodayLiters] = useState(0);
-  const [history, setHistory] = useState<WaterHistoryItem[]>([]);
+  const dispatch = useAppDispatch();
+  const todayLiters = useAppSelector((s) => s.water.currentLiters);
+  const history = useAppSelector((s) => s.water.history) as WaterHistoryItem[];
 
   const [totalSelected, setTotalSelected] = useState(0);
   const scaleAnim = useRef(new Animated.Value(1)).current;
   const scrollRef = useRef<ScrollView>(null);
 
   useEffect(() => {
-    const load = async () => {
-      const state = await loadWaterState();
-      setTodayLiters(state.currentLiters);
-      setHistory(state.history);
-    };
-    load();
+    dispatch(refreshDailyWater());
   }, []);
 
   useEffect(() => {
@@ -70,9 +66,7 @@ export default function WaterScreen() {
 
   const handleConfirm = async () => {
     if (totalSelected <= 0) return;
-    const state = await addTodayWaterLiters(totalSelected);
-    setTodayLiters(state.currentLiters);
-    setHistory(state.history);
+    dispatch(addTodayWaterLiters(totalSelected));
     setTotalSelected(0);
     router.back();
   };

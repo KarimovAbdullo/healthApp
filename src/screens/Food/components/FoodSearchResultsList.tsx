@@ -1,6 +1,6 @@
 import { AppText } from "@/components/AppText";
+import { Image } from "expo-image";
 import {
-  Image,
   ImageSourcePropType,
   TouchableOpacity,
   View,
@@ -33,7 +33,7 @@ export function FoodSearchResultsList({
             <Image
               source={foodIcon}
               style={styles.foodImg}
-              resizeMode="contain"
+              contentFit="contain"
             />
             <View style={styles.rowTextCol}>
               <AppText size={18} weight="semibold" color="#F9FAFB">

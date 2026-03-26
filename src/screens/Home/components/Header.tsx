@@ -1,19 +1,19 @@
-import EditeIcon from "@/assets/icons/EditeIcon";
 import HideIcon from "@/assets/icons/hideIcon";
 import ShowIcon from "@/assets/icons/showIcon";
 import { AppText } from "@/components/AppText";
 import GlassTabBar from "@/components/GlowButton/GlowButton";
 import { getBodyCategory } from "@/utils/bodyMetrics";
+import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { useEffect, useState } from "react";
 import {
   Dimensions,
-  Image,
   Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
+  type LayoutChangeEvent,
 } from "react-native";
 import Animated, {
   interpolate,
@@ -27,11 +27,14 @@ import Animated, {
 import type { UserMetrics } from "../HomeScreen";
 import Info from "./Info";
 
-const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
+const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 const HEADER_HEIGHT = SCREEN_HEIGHT * 0.45;
-const COLLAPSED_HEADER_HEIGHT = 200;
-const HERO_IMAGE_WIDTH = SCREEN_WIDTH * 0.55;
-const HERO_IMAGE_LEFT = SCREEN_WIDTH - HERO_IMAGE_WIDTH;
+
+/** Must stay in sync with `styles.heroCard` / `styles.heroContent` vertical padding. */
+const HERO_CARD_PADDING_TOP = 40;
+const HERO_CARD_PADDING_BOTTOM = 24;
+const HERO_CONTENT_PADDING_TOP = Platform.OS === "ios" ? 30 : 0;
+const GAP_BELOW_INFO_BUTTON = 10;
 
 function NeonBorderWrapper({
   children,
@@ -48,7 +51,7 @@ function NeonBorderWrapper({
       -1,
       true,
     );
-  }, []);
+  }, [glow]);
 
   const animatedStyle = useAnimatedStyle(() => ({
     borderColor: interpolateColor(
@@ -82,7 +85,6 @@ function NeonBorderWrapper({
 
 type HeaderProps = {
   metrics: UserMetrics | null;
-  onEditPress: () => void;
 };
 
 const bodyImagesMale = {
@@ -102,9 +104,10 @@ const bodyImagesFemale = {
 };
 const headerBgImg = require("../../../assets/images/hh.png");
 
-const Header = ({ metrics, onEditPress }: HeaderProps) => {
+const Header = ({ metrics }: HeaderProps) => {
   const [isInfoExpanded, setIsInfoExpanded] = useState(true);
   const expandAnim = useSharedValue(1);
+  const collapsedHeightSV = useSharedValue(220);
 
   const name = metrics?.name ?? "Friend";
   const weight = metrics?.weightKg ?? 110;
@@ -115,17 +118,27 @@ const Header = ({ metrics, onEditPress }: HeaderProps) => {
     gender === "female" ? bodyImagesFemale[category] : bodyImagesMale[category];
 
   const handleToggleInfo = () => {
-    setIsInfoExpanded((prev) => !prev);
-    expandAnim.value = withTiming(isInfoExpanded ? 0 : 1, {
+    const nextExpanded = !isInfoExpanded;
+    setIsInfoExpanded(nextExpanded);
+    expandAnim.value = withTiming(nextExpanded ? 1 : 0, {
       duration: 300,
     });
+  };
+
+  const handleCompactChromeLayout = (e: LayoutChangeEvent) => {
+    const chromeH = e.nativeEvent.layout.height;
+    collapsedHeightSV.value =
+      HERO_CARD_PADDING_TOP +
+      HERO_CONTENT_PADDING_TOP +
+      chromeH +
+      HERO_CARD_PADDING_BOTTOM;
   };
 
   const headerAnimatedStyle = useAnimatedStyle(() => ({
     height: interpolate(
       expandAnim.value,
       [0, 1],
-      [COLLAPSED_HEADER_HEIGHT, HEADER_HEIGHT],
+      [collapsedHeightSV.value, HEADER_HEIGHT],
     ),
   }));
 
@@ -152,7 +165,7 @@ const Header = ({ metrics, onEditPress }: HeaderProps) => {
           style={
             isInfoExpanded ? styles.headerBgImage : styles.headerBgImageExpanded
           }
-          resizeMode="cover"
+          contentFit="cover"
         />
 
         <Animated.View
@@ -162,98 +175,97 @@ const Header = ({ metrics, onEditPress }: HeaderProps) => {
           <Image
             source={personImage}
             style={styles.heroImage}
-            resizeMode="contain"
+            contentFit="contain"
           />
         </Animated.View>
 
         <View style={styles.heroContent}>
           <View style={styles.heroLeft}>
-            <View style={styles.headerTopRow}>
-              <AppText variant="subtitle" weight="medium" color="#E5E7EB">
-                Welcome{" "}
-                <AppText
-                  variant="title"
-                  weight="bold"
-                  color="#FFFFFF"
-                  style={{ marginBottom: 4 }}
-                >
-                  {name}
-                  <TouchableOpacity
-                    onPress={onEditPress}
-                    activeOpacity={0.8}
-                    style={{ paddingLeft: 20 }}
-                  >
-                    <EditeIcon />
-                  </TouchableOpacity>
-                </AppText>
-              </AppText>
-            </View>
-
-            <View style={{ flexDirection: "row", width: "60%" }}>
-              <NeonBorderWrapper style={{ flex: 1 }}>
-                <GlassTabBar style={{ borderRadius: 20, width: "100%" }}>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <AppText size={12} color="black" style={{ marginRight: 4 }}>
-                      Weight:
-                    </AppText>
-                    <AppText size={10} weight="semibold" color="black">
-                      {weight} kg
-                    </AppText>
-                  </View>
-                </GlassTabBar>
-              </NeonBorderWrapper>
-
-              <View style={{ paddingHorizontal: 2 }} />
-              <NeonBorderWrapper style={{ flex: 1 }}>
-                <GlassTabBar style={{ borderRadius: 20, width: "100%" }}>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <AppText size={12} color="black" style={{ marginRight: 4 }}>
-                      Height:
-                    </AppText>
-                    <AppText size={10} weight="semibold" color="black">
-                      {height} cm
-                    </AppText>
-                  </View>
-                </GlassTabBar>
-              </NeonBorderWrapper>
-            </View>
-
-            <TouchableOpacity
-              onPress={handleToggleInfo}
-              activeOpacity={0.8}
-              style={{
-                backgroundColor: "yellow",
-                alignSelf: "flex-start",
-                borderRadius: 8,
-                paddingHorizontal: 4,
-                height: 20,
-                alignItems: "center",
-                justifyContent: "center",
-                flexDirection: "row",
-                marginVertical: 5,
-              }}
+            <View
+              collapsable={false}
+              onLayout={handleCompactChromeLayout}
             >
-              <Text
-                style={{ fontSize: 12, fontWeight: "bold", color: "black" }}
-              >
-                {isInfoExpanded ? "Hide info" : "Show info"}
-              </Text>
-              <View style={{ marginLeft: 4 }}>
-                {isInfoExpanded ? <HideIcon /> : <ShowIcon />}
+              <View style={styles.headerTopRow}>
+                <AppText variant="subtitle" weight="medium" color="#E5E7EB">
+                  Welcome{" "}
+                  <AppText
+                    variant="title"
+                    weight="bold"
+                    color="#FFFFFF"
+                    style={{ marginBottom: 4 }}
+                  >
+                    {name}
+                  </AppText>
+                </AppText>
               </View>
-            </TouchableOpacity>
+
+              <View style={{ flexDirection: "row", width: "60%" }}>
+                <NeonBorderWrapper style={{ flex: 1 }}>
+                  <GlassTabBar style={{ borderRadius: 20, width: "100%" }}>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <AppText size={12} color="black" style={{ marginRight: 4 }}>
+                        Weight:
+                      </AppText>
+                      <AppText size={10} weight="semibold" color="black">
+                        {weight} kg
+                      </AppText>
+                    </View>
+                  </GlassTabBar>
+                </NeonBorderWrapper>
+
+                <View style={{ paddingHorizontal: 2 }} />
+                <NeonBorderWrapper style={{ flex: 1 }}>
+                  <GlassTabBar style={{ borderRadius: 20, width: "100%" }}>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <AppText size={12} color="black" style={{ marginRight: 4 }}>
+                        Height:
+                      </AppText>
+                      <AppText size={10} weight="semibold" color="black">
+                        {height} cm
+                      </AppText>
+                    </View>
+                  </GlassTabBar>
+                </NeonBorderWrapper>
+              </View>
+
+              <TouchableOpacity
+                onPress={handleToggleInfo}
+                activeOpacity={0.8}
+                style={{
+                  backgroundColor: "yellow",
+                  alignSelf: "flex-start",
+                  borderRadius: 8,
+                  paddingHorizontal: 4,
+                  height: 20,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexDirection: "row",
+                  marginVertical: 5,
+                }}
+              >
+                <Text
+                  style={{ fontSize: 12, fontWeight: "bold", color: "black" }}
+                >
+                  {isInfoExpanded ? "Hide info" : "Show info"}
+                </Text>
+                <View style={{ marginLeft: 4 }}>
+                  {isInfoExpanded ? <HideIcon /> : <ShowIcon />}
+                </View>
+              </TouchableOpacity>
+              <View style={{ height: GAP_BELOW_INFO_BUTTON }} />
+            </View>
             <Animated.View
               style={infoAnimatedStyle}
               pointerEvents={isInfoExpanded ? "auto" : "none"}
