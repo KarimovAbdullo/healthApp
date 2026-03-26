@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
   header: {
     paddingHorizontal: 20,
     paddingTop: 8,
-    paddingBottom: 12,
+    // paddingBottom: 12,
   },
   subtitle: { marginTop: 8, lineHeight: 18 },
   tabsRow: {

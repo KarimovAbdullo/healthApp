@@ -9,7 +9,7 @@ import { persistor } from "@/store/store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Modal, TouchableOpacity, View } from "react-native";
+import { Modal, ScrollView, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "./ProfileScreen.styles";
 
@@ -37,108 +37,78 @@ export function ProfileScreen() {
     router.replace("/confirm");
   };
 
+  const Item = ({ title, onPress, danger }: any) => (
+    <TouchableOpacity style={styles.item} onPress={onPress}>
+      <AppText style={[styles.itemText, danger && styles.itemDanger]}>
+        {title}
+      </AppText>
+      <AppText>›</AppText>
+    </TouchableOpacity>
+  );
+
   return (
     <View style={styles.container}>
-      <SafeAreaView style={{ alignSelf: "stretch" }} edges={["bottom"]}>
-        <View style={{ marginHorizontal: 24, marginTop: 24 }}>
-          <AppText size={30} weight="bold" color="#0F172A">
-            Profile
-          </AppText>
-          <View style={{ marginTop: 20, gap: 10 }}>
-            <AppText size={16} color="#0F172A">
-              Name: {profile?.name ?? "-"}
+      <SafeAreaView style={{ flex: 1 }} edges={["bottom"]}>
+        <ScrollView>
+          <View style={styles.header}>
+            <AppText style={styles.headerTitle}>
+              {profile?.name || "User"}
             </AppText>
-            <AppText size={16} color="#0F172A">
-              Height: {profile?.heightCm ?? "-"} cm
-            </AppText>
-            <AppText size={16} color="#0F172A">
-              Weight: {profile?.weightKg ?? "-"} kg
-            </AppText>
-            <AppText size={16} color="#0F172A">
-              Age: {profile?.age ?? "-"}
-            </AppText>
-            <AppText size={16} color="#0F172A">
-              Gender: {profile?.gender ?? "-"}
-            </AppText>
-            <AppText size={16} color="#0F172A">
-              Activity: {profile?.activityLevel ?? "-"}
+            <AppText style={styles.headerSubtitle}>
+              {profile?.age} yrs • {profile?.weightKg} kg
             </AppText>
           </View>
 
-          <TouchableOpacity
-            style={{
-              marginTop: 40,
-              backgroundColor: "#DC2626",
-              borderRadius: 12,
-              paddingVertical: 14,
-              alignItems: "center",
-            }}
-            onPress={() => setShowConfirm(true)}
-            activeOpacity={0.85}
-          >
-            <AppText size={16} weight="bold" color="#fff">
-              Clear profile
+          <View style={styles.content}>
+            <AppText style={styles.sectionTitle}>Profile Info</AppText>
+
+            <View style={styles.card}>
+              <AppText color="black">Name: {profile?.name}</AppText>
+              <AppText color="black">Height: {profile?.heightCm} cm</AppText>
+              <AppText color="black">Weight: {profile?.weightKg} kg</AppText>
+              <AppText color="black">Gender: {profile?.gender}</AppText>
+            </View>
+
+            <AppText style={[styles.sectionTitle, { marginTop: 24 }]}>
+              Settings
             </AppText>
-          </TouchableOpacity>
-        </View>
+
+            <Item title="🌐 Change Language" onPress={() => {}} />
+            <Item title="💬 Contact Support" onPress={() => {}} />
+            <Item title="🚫 Remove Ads (advertising)" onPress={() => {}} />
+
+            <Item
+              title="🗑 Clear Profile"
+              danger
+              onPress={() => setShowConfirm(true)}
+            />
+          </View>
+        </ScrollView>
       </SafeAreaView>
 
-      <Modal
-        visible={showConfirm}
-        transparent
-        animationType="fade"
-        onRequestClose={() => setShowConfirm(false)}
-      >
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: "rgba(2,6,23,0.7)",
-            justifyContent: "center",
-            paddingHorizontal: 24,
-          }}
-        >
-          <View
-            style={{
-              borderRadius: 16,
-              backgroundColor: "white",
-              padding: 16,
-            }}
-          >
-            <AppText size={20} weight="bold" color="#0F172A">
-              Are you sure?
+      <Modal visible={showConfirm} transparent animationType="fade">
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalBox}>
+            <AppText style={styles.modalTitle}>Confirm</AppText>
+
+            <AppText style={styles.modalText}>
+              All data will be deleted.
             </AppText>
-            <AppText size={14} color="#334155" style={{ marginTop: 8, lineHeight: 20 }}>
-              Are you sure you want to clear profile? All saved data and tracking history
-              will be deleted.
-            </AppText>
-            <View style={{ marginTop: 16, flexDirection: "row", gap: 10 }}>
+
+            <View style={styles.modalActions}>
               <TouchableOpacity
-                style={{
-                  flex: 1,
-                  borderRadius: 10,
-                  borderWidth: 1,
-                  borderColor: "#CBD5E1",
-                  paddingVertical: 12,
-                  alignItems: "center",
-                }}
+                style={[styles.btn, styles.btnOutline]}
                 onPress={() => setShowConfirm(false)}
               >
-                <AppText size={15} weight="semibold" color="#0F172A">
-                  No
-                </AppText>
+                <AppText style={styles.btnText}>Cancel</AppText>
               </TouchableOpacity>
+
               <TouchableOpacity
-                style={{
-                  flex: 1,
-                  borderRadius: 10,
-                  backgroundColor: "#DC2626",
-                  paddingVertical: 12,
-                  alignItems: "center",
-                }}
-                onPress={() => void clearAllData()}
+                style={[styles.btn, styles.btnDanger]}
+                onPress={clearAllData}
               >
-                <AppText size={15} weight="bold" color="#fff">
-                  Yes
+                <AppText style={[styles.btnText, styles.btnTextWhite]}>
+                  Delete
                 </AppText>
               </TouchableOpacity>
             </View>

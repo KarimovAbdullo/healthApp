@@ -6,7 +6,7 @@ import {
 } from "@/utils/angleRepFsm";
 import { buildPoseSkeletonLines } from "@/utils/buildPoseSkeletonLines";
 import {
-  isLikelyStandingPressPose,
+  isLikelyLyingPressPose,
   updatePressFsm,
 } from "@/utils/pressCountFromPose";
 import {
@@ -16,7 +16,7 @@ import {
 } from "@/utils/pushupCountFromPose";
 import { averageKneeAngleDeg, updateSquatFsm } from "@/utils/squatCountFromPose";
 import { useAppDispatch } from "@/store/hooks";
-import { addFitnessRepsForDate } from "@/store/slices/dailyResultsSlice";
+import { addFitnessRepsForExerciseDate } from "@/store/slices/dailyResultsSlice";
 import moment from "moment";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { Landmark } from "react-native-mediapipe";
@@ -78,6 +78,7 @@ export function TrainingCameraSession({ exercise, onClose }: Props) {
   const [repCount, setRepCount] = useState(0);
   const [repComplete, setRepComplete] = useState(false);
   const [didRequestPermission, setDidRequestPermission] = useState(false);
+  const autoClosedRef = useRef(false);
 
   const targetReps = exercise.targetReps;
 
@@ -85,6 +86,7 @@ export function TrainingCameraSession({ exercise, onClose }: Props) {
     fsmRef.current = createAngleRepFsm();
     setRepCount(0);
     setRepComplete(false);
+    autoClosedRef.current = false;
   }, []);
 
   const applyRepLogic = useCallback(
@@ -105,7 +107,7 @@ export function TrainingCameraSession({ exercise, onClose }: Props) {
           break;
         }
         case "press": {
-          if (!isLikelyStandingPressPose(raw)) break;
+          if (!isLikelyLyingPressPose(raw)) break;
           updatePressFsm(fsm, raw, targetReps);
           break;
         }
@@ -154,16 +156,27 @@ export function TrainingCameraSession({ exercise, onClose }: Props) {
   }, []);
 
   const handleClose = useCallback(() => {
+    if (autoClosedRef.current) return;
+    autoClosedRef.current = true;
     if (repCount > 0) {
       dispatch(
-        addFitnessRepsForDate({
+        addFitnessRepsForExerciseDate({
           date: moment().format("YYYY-MM-DD"),
+          exerciseId: exercise.id,
           reps: repCount,
         }),
       );
     }
     onClose();
-  }, [dispatch, onClose, repCount]);
+  }, [dispatch, onClose, repCount, exercise.id]);
+
+  useEffect(() => {
+    if (!repComplete) return;
+    const id = setTimeout(() => {
+      handleClose();
+    }, 900);
+    return () => clearTimeout(id);
+  }, [handleClose, repComplete]);
 
   const solution = usePoseDetection(
     { onResults, onError },
@@ -222,13 +235,13 @@ export function TrainingCameraSession({ exercise, onClose }: Props) {
               </Text>
             </Pressable>
             <Pressable style={styles.backLink} onPress={handleClose}>
-              <Text style={styles.backLinkText}>← Mashqlar ro‘yxati</Text>
+              <Text style={styles.backLinkText}>← Exercise list</Text>
             </Pressable>
           </View>
         ) : (
           <View style={styles.cameraWrap} onLayout={onCameraLayout}>
             <Pressable style={styles.closeBtn} onPress={handleClose}>
-              <Text style={styles.closeBtnText}>← Orqaga</Text>
+              <Text style={styles.closeBtnText}>← Back</Text>
             </Pressable>
 
             <MediapipeCamera
@@ -246,11 +259,11 @@ export function TrainingCameraSession({ exercise, onClose }: Props) {
               <View style={styles.hudCard}>
                 <Text style={styles.hudLabel}>{exercise.title}</Text>
                 <Text style={styles.hudCount}>
-                  {repCount}{" "}
-                  <Text style={styles.hudSlash}>/ {targetReps}</Text>
+                  {Math.max(0, targetReps - repCount)}
+                  <Text style={styles.hudSlash}> left</Text>
                 </Text>
                 {repComplete ? (
-                  <Text style={styles.hudDone}>Bajarildi</Text>
+                  <Text style={styles.hudDone}>Completed</Text>
                 ) : (
                   <Text style={styles.hudHint}>{exercise.hint}</Text>
                 )}
@@ -259,7 +272,7 @@ export function TrainingCameraSession({ exercise, onClose }: Props) {
                   onPress={resetSession}
                   hitSlop={8}
                 >
-                  <Text style={styles.resetBtnText}>Qayta boshlash</Text>
+                  <Text style={styles.resetBtnText}>Restart</Text>
                 </Pressable>
               </View>
             </View>
@@ -271,7 +284,7 @@ export function TrainingCameraSession({ exercise, onClose }: Props) {
               }
             >
               <Text style={styles.flipBtnText}>
-                {cameraFacing === "front" ? "Orqa kamera" : "Old kamera"}
+                {cameraFacing === "front" ? "Rear camera" : "Front camera"}
               </Text>
             </Pressable>
           </View>

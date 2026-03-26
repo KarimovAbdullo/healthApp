@@ -2,15 +2,41 @@ import {
   TRAINING_EXERCISES,
   type TrainingExerciseDef,
 } from "@/constants/trainingExercises";
+import { useAppSelector } from "@/store/hooks";
 import { LinearGradient } from "expo-linear-gradient";
+import moment from "moment";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { TrainingExerciseCard } from "./TrainingExerciseCard";
+import { useMemo } from "react";
 
 type Props = {
   onSelect: (exercise: TrainingExerciseDef) => void;
+  exercises?: TrainingExerciseDef[];
 };
 
-export function TrainingExercisePicker({ onSelect }: Props) {
+export function TrainingExercisePicker({
+  onSelect,
+  exercises = TRAINING_EXERCISES,
+}: Props) {
+  const usageStartDate = useAppSelector((s) => s.dailyResults.usageStartDate);
+  const fitnessByExercise = useAppSelector(
+    (s) => s.dailyResults.fitnessRepsByDateByExercise ?? {},
+  );
+
+  const today = moment().format("YYYY-MM-DD");
+
+  const dates = useMemo(() => {
+    const start = usageStartDate ?? today;
+    const out: string[] = [];
+    const cursor = moment(start, "YYYY-MM-DD");
+    const endM = moment(today, "YYYY-MM-DD");
+    while (cursor.isSameOrBefore(endM, "day")) {
+      out.push(cursor.format("YYYY-MM-DD"));
+      cursor.add(1, "day");
+    }
+    return out;
+  }, [usageStartDate, today]);
+
   return (
     <LinearGradient
       colors={["#0f0720", "#1a0a2e", "#12082a"]}
@@ -20,18 +46,27 @@ export function TrainingExercisePicker({ onSelect }: Props) {
         contentContainerStyle={styles.scroll}
         showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.heading}>3 mashq</Text>
+        <Text style={styles.heading}>Daily exercises</Text>
         <Text style={styles.subheading}>
-          Tanangizni kuzatib, takrorlarni avtomatik sanaymiz. Kartani yoki play
-          tugmasini bosing.
+          These are the exercises you have to do every day.
         </Text>
-        {TRAINING_EXERCISES.map((ex) => (
-          <TrainingExerciseCard
-            key={ex.id}
-            exercise={ex}
-            onPlay={() => onSelect(ex)}
-          />
-        ))}
+        {exercises.map((ex) => {
+          const todayReps = fitnessByExercise[today]?.[ex.id] ?? 0;
+          const completedDays = dates.reduce((acc, d) => {
+            const v = fitnessByExercise[d]?.[ex.id] ?? 0;
+            return v > 0 ? acc + 1 : acc;
+          }, 0);
+
+          return (
+            <TrainingExerciseCard
+              key={ex.id}
+              exercise={ex}
+              todayReps={todayReps}
+              completedDays={completedDays}
+              onPlay={() => onSelect(ex)}
+            />
+          );
+        })}
         <View style={{ height: 24 }} />
       </ScrollView>
     </LinearGradient>
@@ -41,12 +76,13 @@ export function TrainingExercisePicker({ onSelect }: Props) {
 const styles = StyleSheet.create({
   gradient: { flex: 1 },
   scroll: {
-    paddingTop: 8,
+    paddingTop: 0,
     paddingBottom: 32,
   },
   heading: {
     marginHorizontal: 22,
-    marginTop: 12,
+    paddingTop: 30,
+    marginTop: 0,
     fontSize: 32,
     fontWeight: "900",
     color: "#f8fafc",

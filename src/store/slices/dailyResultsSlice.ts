@@ -5,12 +5,15 @@ export type DailyResultsState = {
   usageStartDate: string | null;
   stepsByDate: Record<string, number>;
   fitnessRepsByDate: Record<string, number>;
+  /** Per exercise, per day reps (date -> exerciseId -> reps). */
+  fitnessRepsByDateByExercise: Record<string, Record<string, number>>;
 };
 
 const initialState: DailyResultsState = {
   usageStartDate: null,
   stepsByDate: {},
   fitnessRepsByDate: {},
+  fitnessRepsByDateByExercise: {},
 };
 
 const dailyResultsSlice = createSlice({
@@ -44,6 +47,28 @@ const dailyResultsSlice = createSlice({
       state.fitnessRepsByDate[date] =
         (state.fitnessRepsByDate[date] ?? 0) + add;
     },
+    addFitnessRepsForExerciseDate(
+      state,
+      action: PayloadAction<{
+        date: string;
+        exerciseId: string;
+        reps: number;
+      }>,
+    ) {
+      const { date, exerciseId, reps } = action.payload;
+      const add = Math.max(0, Math.floor(reps));
+      if (add <= 0) return;
+
+      const prevByExercise = state.fitnessRepsByDateByExercise[date] ?? {};
+      state.fitnessRepsByDateByExercise[date] = {
+        ...prevByExercise,
+        [exerciseId]: Math.max(0, (prevByExercise[exerciseId] ?? 0) + add),
+      };
+
+      // Keep aggregate for the Results tab.
+      state.fitnessRepsByDate[date] =
+        (state.fitnessRepsByDate[date] ?? 0) + add;
+    },
     clearDailyResults() {
       return initialState;
     },
@@ -55,6 +80,7 @@ export const {
   setUsageStartDate,
   recordStepsForDate,
   addFitnessRepsForDate,
+  addFitnessRepsForExerciseDate,
   clearDailyResults,
 } = dailyResultsSlice.actions;
 
