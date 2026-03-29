@@ -63,10 +63,7 @@ export function TrainingExerciseCard({
                 size={52}
                 color="#e9d5ff"
               /> */}
-            <Image
-              source={require("@/assets/images/winxez.png")}
-              style={styles.icon}
-            />
+            <Image source={exercise.image} style={styles.icon} />
             {/* </LinearGradient> */}
           </View>
 
@@ -74,16 +71,19 @@ export function TrainingExerciseCard({
             <Text style={styles.title}>{exercise.title}</Text>
 
             <View style={styles.stats}>
-              <Text style={styles.infoLine}>
-                Target: {target} reps
-              </Text>
+              <Text style={styles.infoLine}>Target: {target} reps</Text>
               <Text style={styles.infoLine}>
                 Today: {todayReps} reps · Last rep:{" "}
                 {todayReps > 0 ? nth(todayReps) : "—"}
               </Text>
-              <Text style={styles.infoLine}>Completed days: {completedDays}</Text>
+              <Text style={styles.infoLine}>
+                Completed days: {completedDays}
+              </Text>
 
-              <View style={styles.progressTrack} accessibilityLabel={`progress ${percent}%`}>
+              <View
+                style={styles.progressTrack}
+                accessibilityLabel={`progress ${percent}%`}
+              >
                 <View style={[styles.progressFill, { width: `${percent}%` }]} />
               </View>
 

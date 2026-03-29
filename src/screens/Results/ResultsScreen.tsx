@@ -3,6 +3,7 @@ import { useAppSelector } from "@/store/hooks";
 import type { RootState } from "@/store/store";
 import type { FoodItemLog } from "@/utils/foodStorage";
 import type { StepSession } from "@/utils/storage";
+import { LinearGradient } from "expo-linear-gradient";
 import moment from "moment";
 import { useMemo, useState } from "react";
 import {
@@ -137,57 +138,76 @@ export function ResultsScreen() {
           </AppText>
         </View>
 
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.tabsRow}
-        >
-          {CATEGORIES.map((c) => {
-            const active = c.id === category;
-            return (
-              <Pressable
-                key={c.id}
-                onPress={() => setCategory(c.id)}
-                style={[styles.tabChip, active && styles.tabChipActive]}
-              >
-                <AppText
-                  size={13}
-                  weight={active ? "bold" : "medium"}
-                  color={active ? "#0F172A" : "#E2E8F0"}
-                >
-                  {c.label}
-                </AppText>
-              </Pressable>
-            );
-          })}
-        </ScrollView>
-
         <FlatList
+          ListHeaderComponent={
+            <View style={{ paddingVertical: 12 }}>
+              <ScrollView horizontal>
+                <ScrollView
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  contentContainerStyle={styles.tabsRow}
+                >
+                  {CATEGORIES.map((c) => {
+                    const active = c.id === category;
+                    return (
+                      <Pressable
+                        key={c.id}
+                        onPress={() => setCategory(c.id)}
+                        style={[styles.tabChip, active && styles.tabChipActive]}
+                      >
+                        <AppText
+                          size={13}
+                          weight={active ? "bold" : "medium"}
+                          color={active ? "#0F172A" : "#E2E8F0"}
+                        >
+                          {c.label}
+                        </AppText>
+                      </Pressable>
+                    );
+                  })}
+                </ScrollView>
+              </ScrollView>
+            </View>
+          }
           data={rows}
+          style={{ flex: 1 }}
           keyExtractor={(item) => item.date}
           contentContainerStyle={styles.listContent}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => (
-            <View style={styles.row}>
+            <LinearGradient
+              colors={[
+                // "#020617",
+
+                "rgba(165, 180, 252, 0.58)", // 🔥 juda yengil ko‘kimtir glow
+                "#0f172a",
+              ]}
+              start={{ x: 0, y: 0 }} // TOP
+              end={{ x: 0, y: 1 }} // BOTTOM → vertical
+              style={styles.row}
+            >
               <View style={{ flex: 1 }}>
                 <AppText size={15} weight="semibold" color="#F1F5F9">
                   {item.label}
                 </AppText>
+
                 <AppText size={12} color="#64748B" style={{ marginTop: 2 }}>
                   {item.date}
                 </AppText>
               </View>
+
               <View style={styles.valuePill}>
                 <AppText size={16} weight="bold" color="#FACC15">
                   {category === "water"
                     ? Number(item.value.toFixed(1))
                     : item.value}
                 </AppText>
+
                 <AppText size={12} color="#CBD5E1" style={{ marginLeft: 4 }}>
                   {item.unit}
                 </AppText>
               </View>
-            </View>
+            </LinearGradient>
           )}
         />
       </SafeAreaView>
@@ -206,10 +226,12 @@ const styles = StyleSheet.create({
   subtitle: { marginTop: 8, lineHeight: 18 },
   tabsRow: {
     paddingHorizontal: 16,
-    paddingBottom: 12,
-    gap: 8,
-    flexDirection: "row",
-    alignItems: "center",
+    // // paddingBottom: 12,
+    // gap: 8,
+    // flexDirection: "row",
+    // alignItems: "center",
+    alignSelf: "flex-start",
+    marginTop: 12,
   },
   tabChip: {
     paddingVertical: 10,
@@ -226,22 +248,35 @@ const styles = StyleSheet.create({
   },
   listContent: {
     paddingHorizontal: 16,
-    paddingBottom: 120,
+    paddingTop: 20, // 🔥 mana shu
   },
   row: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 14,
-    paddingHorizontal: 14,
-    marginBottom: 10,
-    borderRadius: 16,
-    backgroundColor: "rgba(15,23,42,0.72)",
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+    marginBottom: 12,
+    borderRadius: 18,
+
+    // 🔥 glow border
     borderWidth: 1,
-    borderColor: "rgba(148,163,253,0.2)",
+    borderColor: "rgba(148,163,253,0.25)",
+
+    // 🔥 shadow (Android + iOS)
+    shadowColor: "#000",
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 5,
   },
   valuePill: {
     flexDirection: "row",
     alignItems: "baseline",
     marginLeft: 12,
+
+    backgroundColor: "rgba(255,255,255,0.05)",
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 10,
   },
 });

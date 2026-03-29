@@ -1,3 +1,5 @@
+import { ImageSourcePropType } from "react-native";
+
 export type TrainingExerciseId = "squat" | "press" | "pushup";
 
 export type TrainingExerciseDef = {
@@ -8,6 +10,7 @@ export type TrainingExerciseDef = {
   targetReps: number;
   hint: string;
   iconName: "human-handsup" | "dumbbell" | "arm-flex";
+  image: ImageSourcePropType;
 };
 
 export const TRAINING_EXERCISES: TrainingExerciseDef[] = [
@@ -19,6 +22,7 @@ export const TRAINING_EXERCISES: TrainingExerciseDef[] = [
     targetReps: 5,
     hint: "Keep your full body visible. Go down deep, then stand up fully.",
     iconName: "human-handsup",
+    image: require("@/assets/images/winxez.png"),
   },
   {
     id: "press",
@@ -28,6 +32,7 @@ export const TRAINING_EXERCISES: TrainingExerciseDef[] = [
     targetReps: 10,
     hint: "Lie on your side and lift your torso slightly up, then lower down.",
     iconName: "dumbbell",
+    image: require("@/assets/images/press.png"),
   },
   {
     id: "pushup",
@@ -37,5 +42,6 @@ export const TRAINING_EXERCISES: TrainingExerciseDef[] = [
     targetReps: 10,
     hint: "Keep your body straight. Lower your chest, then push back up fully.",
     iconName: "arm-flex",
+    image: require("@/assets/images/ajiman.png"),
   },
 ];
