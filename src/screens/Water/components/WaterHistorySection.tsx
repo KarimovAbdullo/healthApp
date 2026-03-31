@@ -2,6 +2,7 @@ import { AppText } from "@/components/AppText";
 import React from "react";
 import { ScrollView, TouchableOpacity, View } from "react-native";
 import moment from "moment";
+import { useTranslation } from "react-i18next";
 
 import type { WaterHistoryItem } from "@/utils/waterStorage";
 import { styles } from "../WaterScreen.styles";
@@ -15,6 +16,7 @@ export function WaterHistorySection({
   history: WaterHistoryItem[];
   onHistoryScroll: () => void;
 }) {
+  const { t } = useTranslation();
   return (
     <View>
       <TouchableOpacity
@@ -23,7 +25,7 @@ export function WaterHistorySection({
         onPress={onHistoryScroll}
       >
         <AppText size={13} weight="semibold" color="white">
-          History – daily water tracking
+          {t("water.historyDaily")}
         </AppText>
       </TouchableOpacity>
 
@@ -34,7 +36,7 @@ export function WaterHistorySection({
           color="#9CA3AF"
           style={{ marginBottom: 8 }}
         >
-          Today: {todayLiters.toFixed(1)} L
+          {t("water.today")}: {todayLiters.toFixed(1)} L
         </AppText>
 
         <AppText
@@ -43,12 +45,12 @@ export function WaterHistorySection({
           color="#9CA3AF"
           style={{ marginBottom: 8 }}
         >
-          Previous days
+          {t("water.previousDays")}
         </AppText>
 
         {history.length === 0 ? (
           <AppText size={12} color="#6B7280">
-            No history yet.
+            {t("water.noHistory")}
           </AppText>
         ) : (
           history

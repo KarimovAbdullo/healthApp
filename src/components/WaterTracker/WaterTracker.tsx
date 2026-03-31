@@ -2,6 +2,7 @@ import { AppText } from "@/components/AppText";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Animated,
   Easing,
@@ -26,6 +27,7 @@ export const WaterTracker = ({
   goalLiters,
   onLogPress,
 }: Props) => {
+  const { t } = useTranslation();
   const safeGoal = goalLiters > 0 ? goalLiters : 1;
   const filledProgress = Math.min(1, currentLiters / safeGoal);
   const isDone = currentLiters >= goalLiters && goalLiters > 0;
@@ -79,13 +81,13 @@ export const WaterTracker = ({
 
         <View style={styles.centerSection}>
           <AppText size={14} weight="semibold" color="#F9FAFB">
-            Water Tracker
+            {t("tracker.waterTracker")}
           </AppText>
 
           {isDone ? (
             <View style={styles.doneRow}>
               <AppText size={13} weight="semibold" color="#22C55E">
-                Done
+                {t("common.done")}
               </AppText>
               <Image
                 source={doneImg}
@@ -95,7 +97,7 @@ export const WaterTracker = ({
             </View>
           ) : (
             <AppText size={13} color="#E5E7EB" style={{ marginTop: 2 }}>
-              {currentLiters.toFixed(1)} / {goalLiters.toFixed(1)} L drank
+              {currentLiters.toFixed(1)} / {goalLiters.toFixed(1)} L {t("tracker.drank")}
             </AppText>
           )}
 

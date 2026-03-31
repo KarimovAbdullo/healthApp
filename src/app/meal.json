@@ -1,0 +1,606 @@
+[
+  {
+    "name": "Pizza Margherita",
+    "unit": "1 serving",
+    "calories": 266,
+    "category": "fast_food"
+  },
+  {
+    "name": "Cheeseburger",
+    "unit": "1 serving",
+    "calories": 295,
+    "category": "fast_food"
+  },
+  {
+    "name": "Spaghetti Bolognese",
+    "unit": "1 serving",
+    "calories": 158,
+    "category": "pasta"
+  },
+  {
+    "name": "Fried Rice",
+    "unit": "1 serving",
+    "calories": 163,
+    "category": "asian"
+  },
+  {
+    "name": "Chicken Curry",
+    "unit": "1 serving",
+    "calories": 240,
+    "category": "asian"
+  },
+  {
+    "name": "Beef Steak",
+    "unit": "1 serving",
+    "calories": 271,
+    "category": "meat"
+  },
+  {
+    "name": "Grilled Chicken",
+    "unit": "1 serving",
+    "calories": 165,
+    "category": "meat"
+  },
+  {
+    "name": "Caesar Salad",
+    "unit": "1 serving",
+    "calories": 190,
+    "category": "salad"
+  },
+  {
+    "name": "Greek Salad",
+    "unit": "1 serving",
+    "calories": 150,
+    "category": "salad"
+  },
+  {
+    "name": "Sushi Rolls",
+    "unit": "1 serving",
+    "calories": 200,
+    "category": "japanese"
+  },
+
+  {
+    "name": "Ramen",
+    "unit": "1 bowl",
+    "calories": 436,
+    "category": "japanese"
+  },
+  {
+    "name": "Pad Thai",
+    "unit": "1 serving",
+    "calories": 300,
+    "category": "thai"
+  },
+  {
+    "name": "Pho",
+    "unit": "1 bowl",
+    "calories": 350,
+    "category": "vietnamese"
+  },
+  {
+    "name": "Dumplings",
+    "unit": "1 serving",
+    "calories": 250,
+    "category": "chinese"
+  },
+  {
+    "name": "Tacos",
+    "unit": "2 pieces",
+    "calories": 300,
+    "category": "mexican"
+  },
+  {
+    "name": "Burrito",
+    "unit": "1 serving",
+    "calories": 400,
+    "category": "mexican"
+  },
+  {
+    "name": "Lasagna",
+    "unit": "1 serving",
+    "calories": 321,
+    "category": "pasta"
+  },
+  {
+    "name": "Mac and Cheese",
+    "unit": "1 serving",
+    "calories": 350,
+    "category": "pasta"
+  },
+  {
+    "name": "Fish and Chips",
+    "unit": "1 serving",
+    "calories": 600,
+    "category": "fast_food"
+  },
+  {
+    "name": "Roast Chicken",
+    "unit": "1 serving",
+    "calories": 239,
+    "category": "meat"
+  },
+
+  {
+    "name": "BBQ Ribs",
+    "unit": "1 serving",
+    "calories": 320,
+    "category": "meat"
+  },
+  {
+    "name": "Hamburger",
+    "unit": "1 serving",
+    "calories": 250,
+    "category": "fast_food"
+  },
+  {
+    "name": "Hot Dog",
+    "unit": "1 serving",
+    "calories": 290,
+    "category": "fast_food"
+  },
+  {
+    "name": "Pancakes",
+    "unit": "2 pieces",
+    "calories": 227,
+    "category": "breakfast"
+  },
+  {
+    "name": "Omelette",
+    "unit": "1 serving",
+    "calories": 154,
+    "category": "breakfast"
+  },
+  {
+    "name": "French Toast",
+    "unit": "2 slices",
+    "calories": 300,
+    "category": "breakfast"
+  },
+  {
+    "name": "Croissant",
+    "unit": "1 piece",
+    "calories": 231,
+    "category": "bakery"
+  },
+  {
+    "name": "Sandwich",
+    "unit": "1 serving",
+    "calories": 250,
+    "category": "fast_food"
+  },
+  {
+    "name": "Club Sandwich",
+    "unit": "1 serving",
+    "calories": 310,
+    "category": "fast_food"
+  },
+  {
+    "name": "Falafel Wrap",
+    "unit": "1 serving",
+    "calories": 330,
+    "category": "middle_eastern"
+  },
+
+  {
+    "name": "Hummus with Pita",
+    "unit": "1 serving",
+    "calories": 166,
+    "category": "middle_eastern"
+  },
+  {
+    "name": "Shawarma",
+    "unit": "1 serving",
+    "calories": 400,
+    "category": "middle_eastern"
+  },
+  { "name": "Kebab", "unit": "1 serving", "calories": 250, "category": "meat" },
+  {
+    "name": "Biryani",
+    "unit": "1 serving",
+    "calories": 290,
+    "category": "indian"
+  },
+  {
+    "name": "Butter Chicken",
+    "unit": "1 serving",
+    "calories": 490,
+    "category": "indian"
+  },
+  {
+    "name": "Naan Bread",
+    "unit": "1 piece",
+    "calories": 260,
+    "category": "bakery"
+  },
+  {
+    "name": "Risotto",
+    "unit": "1 serving",
+    "calories": 200,
+    "category": "italian"
+  },
+  {
+    "name": "Gnocchi",
+    "unit": "1 serving",
+    "calories": 250,
+    "category": "italian"
+  },
+  {
+    "name": "Stuffed Peppers",
+    "unit": "1 serving",
+    "calories": 180,
+    "category": "vegetable"
+  },
+  {
+    "name": "Vegetable Stir Fry",
+    "unit": "1 serving",
+    "calories": 150,
+    "category": "vegetable"
+  },
+
+  {
+    "name": "Miso Soup",
+    "unit": "1 bowl",
+    "calories": 40,
+    "category": "japanese"
+  },
+  {
+    "name": "Tom Yum Soup",
+    "unit": "1 bowl",
+    "calories": 120,
+    "category": "thai"
+  },
+  {
+    "name": "Chicken Noodle Soup",
+    "unit": "1 bowl",
+    "calories": 150,
+    "category": "soup"
+  },
+  {
+    "name": "Lentil Soup",
+    "unit": "1 bowl",
+    "calories": 180,
+    "category": "soup"
+  },
+  {
+    "name": "Grilled Salmon",
+    "unit": "1 serving",
+    "calories": 208,
+    "category": "seafood"
+  },
+  {
+    "name": "Shrimp Pasta",
+    "unit": "1 serving",
+    "calories": 300,
+    "category": "seafood"
+  },
+  {
+    "name": "Fish Curry",
+    "unit": "1 serving",
+    "calories": 220,
+    "category": "seafood"
+  },
+  {
+    "name": "Egg Fried Rice",
+    "unit": "1 serving",
+    "calories": 180,
+    "category": "asian"
+  },
+  {
+    "name": "Chicken Wrap",
+    "unit": "1 serving",
+    "calories": 320,
+    "category": "fast_food"
+  },
+  {
+    "name": "Beef Burger",
+    "unit": "1 serving",
+    "calories": 350,
+    "category": "fast_food"
+  },
+  [
+    {
+      "name": "Beef Plov",
+      "unit": "1 serving",
+      "calories": 350,
+      "category": "rice"
+    },
+    {
+      "name": "Chicken Plov",
+      "unit": "1 serving",
+      "calories": 320,
+      "category": "rice"
+    },
+    {
+      "name": "Lamb Plov",
+      "unit": "1 serving",
+      "calories": 400,
+      "category": "rice"
+    },
+
+    {
+      "name": "Shashlik",
+      "unit": "1 serving",
+      "calories": 280,
+      "category": "kebab"
+    },
+    {
+      "name": "Chicken Kebab",
+      "unit": "1 serving",
+      "calories": 220,
+      "category": "kebab"
+    },
+    {
+      "name": "Lamb Kebab",
+      "unit": "1 serving",
+      "calories": 300,
+      "category": "kebab"
+    },
+    {
+      "name": "Doner Kebab",
+      "unit": "1 serving",
+      "calories": 450,
+      "category": "kebab"
+    },
+
+    {
+      "name": "Fried Chicken",
+      "unit": "1 serving",
+      "calories": 320,
+      "category": "fried"
+    },
+    {
+      "name": "Chicken Nuggets",
+      "unit": "1 serving",
+      "calories": 290,
+      "category": "fried"
+    },
+    {
+      "name": "French Fries",
+      "unit": "1 serving",
+      "calories": 312,
+      "category": "fried"
+    },
+    {
+      "name": "Fried Fish",
+      "unit": "1 serving",
+      "calories": 280,
+      "category": "fried"
+    },
+
+    {
+      "name": "Beef Steak",
+      "unit": "1 serving",
+      "calories": 271,
+      "category": "steak"
+    },
+    {
+      "name": "Ribeye Steak",
+      "unit": "1 serving",
+      "calories": 291,
+      "category": "steak"
+    },
+    {
+      "name": "T-Bone Steak",
+      "unit": "1 serving",
+      "calories": 294,
+      "category": "steak"
+    },
+    {
+      "name": "Grilled Steak",
+      "unit": "1 serving",
+      "calories": 275,
+      "category": "steak"
+    },
+
+    {
+      "name": "Samosa",
+      "unit": "1 piece",
+      "calories": 262,
+      "category": "pastry"
+    },
+    {
+      "name": "Spring Rolls",
+      "unit": "2 pieces",
+      "calories": 200,
+      "category": "pastry"
+    },
+    {
+      "name": "Empanada",
+      "unit": "1 piece",
+      "calories": 250,
+      "category": "pastry"
+    },
+    {
+      "name": "Doughnuts",
+      "unit": "1 piece",
+      "calories": 195,
+      "category": "pastry"
+    },
+
+    {
+      "name": "Manti",
+      "unit": "1 serving",
+      "calories": 300,
+      "category": "dumplings"
+    },
+    {
+      "name": "Pelmeni",
+      "unit": "1 serving",
+      "calories": 280,
+      "category": "dumplings"
+    },
+    {
+      "name": "Khinkali",
+      "unit": "1 serving",
+      "calories": 260,
+      "category": "dumplings"
+    },
+    {
+      "name": "Wontons",
+      "unit": "1 serving",
+      "calories": 220,
+      "category": "dumplings"
+    },
+
+    {
+      "name": "Lagman",
+      "unit": "1 serving",
+      "calories": 350,
+      "category": "noodles"
+    },
+    {
+      "name": "Udon Noodles",
+      "unit": "1 serving",
+      "calories": 210,
+      "category": "noodles"
+    },
+    {
+      "name": "Chow Mein",
+      "unit": "1 serving",
+      "calories": 220,
+      "category": "noodles"
+    },
+    {
+      "name": "Lo Mein",
+      "unit": "1 serving",
+      "calories": 230,
+      "category": "noodles"
+    },
+
+    {
+      "name": "Stuffed Samsa",
+      "unit": "1 piece",
+      "calories": 300,
+      "category": "pastry"
+    },
+    {
+      "name": "Chebureki",
+      "unit": "1 piece",
+      "calories": 320,
+      "category": "pastry"
+    },
+    {
+      "name": "Pirozhki",
+      "unit": "1 piece",
+      "calories": 280,
+      "category": "pastry"
+    },
+
+    {
+      "name": "Grilled Lamb Chops",
+      "unit": "1 serving",
+      "calories": 330,
+      "category": "meat"
+    },
+    {
+      "name": "Roasted Duck",
+      "unit": "1 serving",
+      "calories": 337,
+      "category": "meat"
+    },
+    {
+      "name": "Turkey Roast",
+      "unit": "1 serving",
+      "calories": 250,
+      "category": "meat"
+    },
+
+    {
+      "name": "Mashed Potatoes",
+      "unit": "1 serving",
+      "calories": 120,
+      "category": "side"
+    },
+    {
+      "name": "Baked Potatoes",
+      "unit": "1 serving",
+      "calories": 160,
+      "category": "side"
+    },
+    {
+      "name": "Grilled Vegetables",
+      "unit": "1 serving",
+      "calories": 90,
+      "category": "side"
+    },
+
+    {
+      "name": "Fried Eggs",
+      "unit": "2 eggs",
+      "calories": 180,
+      "category": "breakfast"
+    },
+    {
+      "name": "Scrambled Eggs",
+      "unit": "1 serving",
+      "calories": 200,
+      "category": "breakfast"
+    },
+
+    {
+      "name": "BBQ Chicken Wings",
+      "unit": "1 serving",
+      "calories": 290,
+      "category": "bbq"
+    },
+    {
+      "name": "BBQ Beef",
+      "unit": "1 serving",
+      "calories": 330,
+      "category": "bbq"
+    },
+
+    {
+      "name": "Seafood Paella",
+      "unit": "1 serving",
+      "calories": 300,
+      "category": "rice"
+    },
+    {
+      "name": "Jambalaya",
+      "unit": "1 serving",
+      "calories": 280,
+      "category": "rice"
+    },
+
+    {
+      "name": "Cabbage Rolls",
+      "unit": "1 serving",
+      "calories": 200,
+      "category": "home_food"
+    },
+    {
+      "name": "Stuffed Eggplant",
+      "unit": "1 serving",
+      "calories": 180,
+      "category": "vegetable"
+    },
+
+    {
+      "name": "Fried Shrimp",
+      "unit": "1 serving",
+      "calories": 300,
+      "category": "seafood"
+    },
+    {
+      "name": "Grilled Shrimp",
+      "unit": "1 serving",
+      "calories": 220,
+      "category": "seafood"
+    },
+
+    {
+      "name": "Chicken Alfredo",
+      "unit": "1 serving",
+      "calories": 400,
+      "category": "pasta"
+    },
+    {
+      "name": "Beef Stroganoff",
+      "unit": "1 serving",
+      "calories": 350,
+      "category": "meat"
+    }
+  ]
+]

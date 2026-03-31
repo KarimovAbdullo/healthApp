@@ -1,71 +1,62 @@
 import { AppText } from "@/components/AppText";
-import { Image } from "expo-image";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import React from "react";
-import { ImageSourcePropType, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 
 import { styles } from "../FoodScreen.styles";
 import { formatUnit } from "../foodUtils";
 import type { SelectedFood } from "../FoodScreenTypes";
 
-const foodIcon: ImageSourcePropType = require("@/assets/images/food.webp");
-
 export function FoodSelectedFoodsList({
   selectedFoods,
   onInc,
   onDec,
+  onDelete,
 }: {
   selectedFoods: SelectedFood[];
   onInc: (id: string) => void;
   onDec: (id: string) => void;
+  onDelete: (id: string) => void;
 }) {
   return (
     <View style={styles.selectedFoodsWrap}>
       {selectedFoods.map((item) => {
-        const subtitle = `${item.item.calories} kcal / ${formatUnit(item.item.unit)}`;
+        const perServing = `${item.item.calories} kcal / ${formatUnit(item.item.unit)}`;
         const itemTotal = item.item.calories * item.qty;
 
         return (
           <View key={item.id} style={styles.rowCard}>
             <View style={styles.rowLeft}>
-              <Image
-                source={foodIcon}
-                style={styles.foodImg}
-                contentFit="contain"
-              />
-              <View style={styles.rowTextCol}>
-                <AppText size={18} weight="semibold" color="#F9FAFB">
-                  {item.item.name}
-                </AppText>
-                <AppText size={13} color="rgba(229,231,235,0.9)">
-                  {subtitle}
-                </AppText>
-              </View>
-            </View>
-
-            <View style={styles.selectedRightCol}>
               <AppText
                 size={14}
                 weight="semibold"
                 color="#F9FAFB"
-                style={{ marginBottom: 8 }}
+                style={styles.rowName}
+                numberOfLines={1}
+                ellipsizeMode="tail"
               >
-                {itemTotal.toFixed(0)} kcal
+                {item.item.name}
               </AppText>
+              <AppText size={11} color="rgba(229,231,235,0.85)" style={styles.rowTextCol}>
+                {perServing}
+              </AppText>
+            </View>
 
+            <View style={styles.selectedRightRow}>
               <View style={styles.stepper}>
                 <TouchableOpacity
                   onPress={() => onDec(item.id)}
                   activeOpacity={0.75}
                   style={styles.stepBtn}
                 >
-                  <AppText size={18} weight="bold" color="#E5E7EB">
+                  <AppText size={16} weight="bold" color="#E5E7EB">
                     −
                   </AppText>
                 </TouchableOpacity>
 
                 <View style={styles.stepBox}>
-                  <AppText size={15} weight="semibold" color="#0F172A">
-                    {item.qty}x {item.item.unit}
+                  <AppText size={12} weight="semibold" color="#0F172A">
+                    {item.qty}x
                   </AppText>
                 </View>
 
@@ -74,11 +65,26 @@ export function FoodSelectedFoodsList({
                   activeOpacity={0.75}
                   style={styles.stepBtn}
                 >
-                  <AppText size={18} weight="bold" color="#F9FAFB">
+                  <AppText size={16} weight="bold" color="#F9FAFB">
                     +
                   </AppText>
                 </TouchableOpacity>
               </View>
+
+              <AppText size={13} weight="semibold" color="#F9FAFB" style={styles.rowTotalKcal}>
+                {itemTotal.toFixed(0)} kcal
+              </AppText>
+
+              <TouchableOpacity
+                onPress={() => onDelete(item.id)}
+                activeOpacity={0.7}
+                style={styles.rowDeleteBtn}
+                hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                accessibilityRole="button"
+                accessibilityLabel="Remove food"
+              >
+                <MaterialIcons name="delete-outline" size={20} color="#FCA5A5" />
+              </TouchableOpacity>
             </View>
           </View>
         );
@@ -86,4 +92,3 @@ export function FoodSelectedFoodsList({
     </View>
   );
 }
-

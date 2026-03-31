@@ -1,13 +1,24 @@
 import { AppText } from "@/components/AppText";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { Keyboard, Modal, ScrollView, TextInput, TouchableOpacity, View } from "react-native";
+import * as moment from "moment";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import {
+  Keyboard,
+  Modal,
+  ScrollView,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { refreshDailyFood, setTodayFoodItems } from "@/store/slices/foodSlice";
+import type { FoodHistoryItem, FoodItemLog } from "@/utils/foodStorage";
 import { FoodBottomBar } from "./components/FoodBottomBar";
 import { FoodHeader } from "./components/FoodHeader";
-import { FoodHistorySection } from "./components";
 import { FoodManualForm } from "./components/FoodManualForm";
 import { FoodNoResults } from "./components/FoodNoResults";
 import { FoodSearchBar } from "./components/FoodSearchBar";
@@ -15,37 +26,63 @@ import { FoodSearchResultsList } from "./components/FoodSearchResultsList";
 import { FoodSelectedFoodsList } from "./components/FoodSelectedFoodsList";
 import { styles } from "./FoodScreen.styles";
 import type { FilteredFood, FoodEntry, SelectedFood } from "./FoodScreenTypes";
-import type { FoodHistoryItem, FoodItemLog } from "@/utils/foodStorage";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { refreshDailyFood, setTodayFoodItems } from "@/store/slices/foodSlice";
 
-const foodData: FoodEntry[] = require("../../app/food.json");
+type FoodEntry3Lang = {
+  unit: string;
+  calories: number;
+  category?: string;
+  name_uz: string;
+  name_en: string;
+  name_ru: string;
+};
 
-const safeFoodData: FoodEntry[] = Array.isArray(foodData)
-  ? foodData.filter(
-      (it): it is FoodEntry =>
-        !!it &&
-        typeof (it as any).name === "string" &&
-        typeof (it as any).unit === "string" &&
-        typeof (it as any).calories === "number",
-    )
-  : [];
+const foodData3Lang: FoodEntry3Lang[] = require("../../app/foods_3lang.json");
 
 export default function FoodScreen() {
+  const { t, i18n } = useTranslation();
   const router = useRouter();
   const searchInputRef = useRef<TextInput>(null);
-  const scrollRef = useRef<ScrollView>(null);
-  const historyYRef = useRef(0);
 
   const [query, setQuery] = useState("");
-  const [isInfoVisible, setIsInfoVisible] = useState(false);
+  const [isHistoryVisible, setIsHistoryVisible] = useState(false);
   const [showManualForm, setShowManualForm] = useState(false);
   const [manualName, setManualName] = useState("");
   const [manualCalories, setManualCalories] = useState("");
-  const [selectedById, setSelectedById] = useState<Record<string, SelectedFood>>({});
+  const [selectedById, setSelectedById] = useState<
+    Record<string, SelectedFood>
+  >({});
   const dispatch = useAppDispatch();
   const history = useAppSelector((s) => s.food.history) as FoodHistoryItem[];
-  const currentItems = useAppSelector((s) => s.food.currentItems) as FoodItemLog[];
+  const currentItems = useAppSelector(
+    (s) => s.food.currentItems,
+  ) as FoodItemLog[];
+
+  const foodNameKey: "name_uz" | "name_en" | "name_ru" = useMemo(() => {
+    if (i18n.language.startsWith("ru")) return "name_ru";
+    if (i18n.language.startsWith("en")) return "name_en";
+    return "name_uz";
+  }, [i18n.language]);
+
+  const safeFoodData: FoodEntry[] = useMemo(
+    () =>
+      Array.isArray(foodData3Lang)
+        ? foodData3Lang
+            .filter(
+              (it): it is FoodEntry3Lang =>
+                !!it &&
+                typeof (it as any).unit === "string" &&
+                typeof (it as any).calories === "number" &&
+                typeof (it as any).name_uz === "string",
+            )
+            .map((it) => ({
+              name: String(it[foodNameKey] || it.name_uz).trim(),
+              unit: it.unit,
+              calories: it.calories,
+              category: it.category,
+            }))
+        : [],
+    [foodNameKey],
+  );
 
   const searchResults = useMemo<FilteredFood[]>(() => {
     const q = query.trim().toLowerCase();
@@ -54,7 +91,7 @@ export default function FoodScreen() {
       .map((item, originalIndex) => ({ item, originalIndex }))
       .filter(({ item }) => item.name.toLowerCase().startsWith(q))
       .slice(0, 12);
-  }, [query]);
+  }, [query, safeFoodData]);
 
   const selectedFoods = useMemo<SelectedFood[]>(
     () =>
@@ -117,6 +154,16 @@ export default function FoodScreen() {
     });
   };
 
+  const removeFoodItem = (id: string) => {
+    Keyboard.dismiss();
+    setSelectedById((prev) => {
+      if (!prev[id]) return prev;
+      const copy = { ...prev };
+      delete copy[id];
+      return copy;
+    });
+  };
+
   const addFromSearch = (originalIndex: number) => {
     const item = safeFoodData[originalIndex];
     if (!item) return;
@@ -160,10 +207,11 @@ export default function FoodScreen() {
   };
 
   const hasSearch = query.trim().length > 0;
-  const showNoResults = hasSearch && searchResults.length === 0 && !showManualForm;
+  const showNoResults =
+    hasSearch && searchResults.length === 0 && !showManualForm;
 
   return (
-    <SafeAreaView style={styles.safe}>
+    <SafeAreaView style={styles.safe} edges={["top"]}>
       <LinearGradient
         colors={["#2A1569", "#4B1FA8", "#5B21B6"]}
         start={{ x: 0, y: 0 }}
@@ -172,12 +220,9 @@ export default function FoodScreen() {
       />
 
       <View style={styles.container}>
-        <FoodHeader onBackPress={() => router.back()} onInfoPress={() => setIsInfoVisible(true)} />
-
-        <ScrollView
-          ref={scrollRef}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.screenContent}
+        <FoodHeader
+          onBackPress={() => router.back()}
+          onHistoryPress={() => setIsHistoryVisible(true)}
         >
           <FoodSearchBar
             query={query}
@@ -187,9 +232,17 @@ export default function FoodScreen() {
             }}
             searchInputRef={searchInputRef}
           />
+        </FoodHeader>
 
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.screenContent}
+        >
           {hasSearch && searchResults.length > 0 && (
-            <FoodSearchResultsList results={searchResults} onAdd={addFromSearch} />
+            <FoodSearchResultsList
+              results={searchResults}
+              onAdd={addFromSearch}
+            />
           )}
 
           {showNoResults && (
@@ -206,28 +259,31 @@ export default function FoodScreen() {
             />
           )}
 
-          <AppText size={22} weight="semibold" color="#F9FAFB" style={styles.todayTitle}>
-            Today&apos;s Foods
+          <AppText
+            size={22}
+            weight="semibold"
+            color="#F9FAFB"
+            style={styles.todayTitle}
+          >
+            {t("food.todayFoods", "Today's Foods")}
           </AppText>
 
           {selectedFoods.length === 0 ? (
-            <AppText size={14} color="rgba(229,231,235,0.8)" style={styles.placeholderText}>
-              No foods added yet. Search and tap Add.
+            <AppText
+              size={14}
+              color="rgba(229,231,235,0.8)"
+              style={styles.placeholderText}
+            >
+              {t("food.noFoodsYet", "No foods added yet. Search and tap Add.")}
             </AppText>
           ) : (
             <FoodSelectedFoodsList
               selectedFoods={selectedFoods}
               onInc={(id) => setQty(id, 1)}
               onDec={(id) => setQty(id, -1)}
+              onDelete={removeFoodItem}
             />
           )}
-
-          <FoodHistorySection
-            history={history}
-            onLayoutY={(y: number) => {
-              historyYRef.current = y;
-            }}
-          />
         </ScrollView>
 
         <FoodBottomBar
@@ -237,46 +293,73 @@ export default function FoodScreen() {
             setShowManualForm(false);
             searchInputRef.current?.focus();
           }}
-        >
-          <TouchableOpacity
-            style={styles.historyButton}
-            activeOpacity={0.8}
-            onPress={() => {
-              scrollRef.current?.scrollTo({ y: historyYRef.current, animated: true });
-            }}
-          >
-            <AppText size={13} weight="semibold" color="#F9FAFB">
-              History - daily food tracking
-            </AppText>
-          </TouchableOpacity>
-        </FoodBottomBar>
+        />
       </View>
 
       <Modal
-        visible={isInfoVisible}
+        visible={isHistoryVisible}
         transparent
         animationType="fade"
-        onRequestClose={() => setIsInfoVisible(false)}
+        onRequestClose={() => setIsHistoryVisible(false)}
       >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalCard}>
+        <View style={styles.historyModalOverlay}>
+          <View style={styles.historyModalCard}>
             <AppText size={22} weight="bold" color="#F9FAFB">
-              Food Tracker Info
+              {t("food.historyTitle", "Food History")}
             </AppText>
-            <AppText size={15} color="#E5E7EB" style={styles.modalBody}>
-              Enter the foods you have eaten.{"\n"}
-              The app will calculate how many calories you consumed during the day.{"\n"}
-              Search your eaten foods and add them from the results list.{"\n"}
-              If a product is not found in search, use Add manually and enter its calories yourself.
-            </AppText>
+            <ScrollView
+              style={styles.historyModalScroll}
+              contentContainerStyle={styles.historyModalContent}
+              showsVerticalScrollIndicator={false}
+            >
+              {history.length === 0 ? (
+                <AppText size={14} color="#CBD5E1">
+                  {t("food.noHistory", "No previous food history yet.")}
+                </AppText>
+              ) : (
+                history
+                  .slice()
+                  .reverse()
+                  .map((day) => (
+                    <View key={day.date} style={styles.historyCard}>
+                      <AppText size={14} weight="semibold" color="#E5E7EB">
+                        {moment(day.date, "YYYY-MM-DD").format("DD/MM/YYYY")}
+                      </AppText>
+                      <AppText
+                        size={12}
+                        color="#CBD5E1"
+                        style={{ marginTop: 2 }}
+                      >
+                        {t("food.totalLabel", "Total")}: {Math.round(day.totalCalories)} kcal
+                      </AppText>
+                      <AppText
+                        size={12}
+                        color="#9CA3AF"
+                        style={{ marginTop: 8 }}
+                      >
+                        {t("food.foodsLabel", "Foods")}:
+                      </AppText>
+                      {day.items.map((item) => (
+                        <AppText
+                          key={`${day.date}-${item.id}`}
+                          size={12}
+                          color="#E2E8F0"
+                        >
+                          - {item.name} ({item.qty}x {item.unit})
+                        </AppText>
+                      ))}
+                    </View>
+                  ))
+              )}
+            </ScrollView>
 
             <TouchableOpacity
               style={styles.modalCloseBtn}
-              onPress={() => setIsInfoVisible(false)}
+              onPress={() => setIsHistoryVisible(false)}
               activeOpacity={0.85}
             >
               <AppText size={16} weight="bold" color="#F9FAFB">
-                Close
+                {t("common.close")}
               </AppText>
             </TouchableOpacity>
           </View>

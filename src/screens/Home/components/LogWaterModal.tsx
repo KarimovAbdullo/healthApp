@@ -1,6 +1,7 @@
 import { AppText } from "@/components/AppText";
 import { Image } from "expo-image";
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Animated,
   ImageSourcePropType,
@@ -39,6 +40,7 @@ export const LogWaterModal = ({
   onConfirm,
   history,
 }: Props) => {
+  const { t } = useTranslation();
   const [totalSelected, setTotalSelected] = useState(0);
   const scaleAnim = useRef(new Animated.Value(1)).current;
   const scrollRef = useRef<ScrollView>(null);
@@ -89,7 +91,7 @@ export const LogWaterModal = ({
             </AppText>
           </TouchableOpacity>
           <AppText variant="title" weight="bold" color="#F9FAFB">
-            Log Water
+            {t("water.logWater")}
           </AppText>
         </View>
 
@@ -126,7 +128,7 @@ export const LogWaterModal = ({
               color="#9CA3AF"
               style={{ marginTop: 16 }}
             >
-              Each glass adds to your daily total
+              {t("water.tapGlass")}
             </AppText>
 
             <Animated.View
@@ -152,7 +154,7 @@ export const LogWaterModal = ({
               disabled={totalSelected === 0}
             >
               <AppText weight="bold" color="#0F172A">
-                Add Water
+                {t("water.addWater")}
               </AppText>
             </TouchableOpacity>
 
@@ -162,7 +164,7 @@ export const LogWaterModal = ({
               activeOpacity={0.8}
             >
               <AppText size={13} weight="medium" color="#E5E7EB">
-                Clear
+                {t("water.clear")}
               </AppText>
             </TouchableOpacity>
 
@@ -172,7 +174,7 @@ export const LogWaterModal = ({
               onPress={() => scrollRef.current?.scrollToEnd({ animated: true })}
             >
               <AppText size={13} weight="semibold" color="#0F172A">
-                History – daily water tracking
+                {t("water.historyDaily")}
               </AppText>
             </TouchableOpacity>
 
@@ -183,12 +185,12 @@ export const LogWaterModal = ({
                 color="#9CA3AF"
                 style={{ marginBottom: 8 }}
               >
-                Previous days
+                {t("water.previousDays")}
               </AppText>
 
               {history.length === 0 ? (
                 <AppText size={12} color="#6B7280">
-                  No history yet. Start logging water today.
+                  {t("water.noHistory")}
                 </AppText>
               ) : (
                 history.map((item) => {

@@ -2,6 +2,7 @@ import type { TrainingExerciseDef } from "@/constants/trainingExercises";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
+import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 type Props = {
@@ -32,6 +33,7 @@ export function TrainingExerciseCard({
   todayReps,
   completedDays,
 }: Props) {
+  const { t } = useTranslation();
   const target = Math.max(0, Math.floor(exercise.targetReps));
   const safeTarget = target > 0 ? target : 1;
   const progress = Math.max(0, Math.min(1, todayReps / safeTarget));
@@ -71,13 +73,15 @@ export function TrainingExerciseCard({
             <Text style={styles.title}>{exercise.title}</Text>
 
             <View style={styles.stats}>
-              <Text style={styles.infoLine}>Target: {target} reps</Text>
               <Text style={styles.infoLine}>
-                Today: {todayReps} reps · Last rep:{" "}
+                {t("training.target")}: {target} {t("training.reps")}
+              </Text>
+              <Text style={styles.infoLine}>
+                {t("training.today")}: {todayReps} {t("training.reps")} - {t("training.lastRep")}:{" "}
                 {todayReps > 0 ? nth(todayReps) : "—"}
               </Text>
               <Text style={styles.infoLine}>
-                Completed days: {completedDays}
+                {t("training.completedDays")}: {completedDays}
               </Text>
 
               <View
@@ -88,7 +92,7 @@ export function TrainingExerciseCard({
               </View>
 
               <Text style={styles.progressText}>
-                {percent}% done · {remaining} left
+                {percent}% {t("training.doneLeft")} - {remaining} {t("training.left")}
               </Text>
             </View>
           </View>

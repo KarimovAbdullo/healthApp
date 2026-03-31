@@ -1,0 +1,1266 @@
+[
+  {
+    "unit": "100g",
+    "calories": 350,
+    "category": "dairy",
+    "name_uz": "Pishloq",
+    "name_en": "Cheese",
+    "name_ru": "Сыр"
+  },
+  {
+    "unit": "100g",
+    "calories": 61,
+    "category": "dairy",
+    "name_uz": "Qatiq",
+    "name_en": "Yogurt",
+    "name_ru": "Йогурт"
+  },
+  {
+    "unit": "100g",
+    "calories": 340,
+    "category": "dairy",
+    "name_uz": "Qaymoq",
+    "name_en": "cream",
+    "name_ru": "Скользить"
+  },
+  {
+    "unit": "100g",
+    "calories": 340,
+    "category": "dairy",
+    "name_uz": "Qaymoq (100%)",
+    "name_en": "Cream (100%)",
+    "name_ru": "Сливки (100%)"
+  },
+  {
+    "unit": "100ml",
+    "calories": 60,
+    "category": "dairy",
+    "name_uz": "Sut",
+    "name_en": "Milk",
+    "name_ru": "Молоко"
+  },
+  {
+    "unit": "100g",
+    "calories": 61,
+    "category": "dairy",
+    "name_uz": "Sutli qatiq",
+    "name_en": "Milk yogurt",
+    "name_ru": "Молочный йогурт"
+  },
+  {
+    "unit": "100g",
+    "calories": 98,
+    "category": "dairy",
+    "name_uz": "Tvorog",
+    "name_en": "Cottage cheese",
+    "name_ru": "Творог"
+  },
+  {
+    "unit": "100ml",
+    "calories": 45,
+    "category": "drink",
+    "name_uz": "Apelsin sharbat",
+    "name_en": "Orange juice",
+    "name_ru": "апельсиновый сок"
+  },
+  {
+    "unit": "100ml",
+    "calories": 20,
+    "category": "drink",
+    "name_uz": "Choy (shakar bilan)",
+    "name_en": "Tea (with sugar)",
+    "name_ru": "Чай (с сахаром)"
+  },
+  {
+    "unit": "100ml",
+    "calories": 1,
+    "category": "drink",
+    "name_uz": "Choy (suv bilan)",
+    "name_en": "Tea (with water)",
+    "name_ru": "Чай (с водой)"
+  },
+  {
+    "unit": "100ml",
+    "calories": 40,
+    "category": "drink",
+    "name_uz": "Gazli ichimlik",
+    "name_en": "Carbonated drink",
+    "name_ru": "Газированный напиток"
+  },
+  {
+    "unit": "100ml",
+    "calories": 50,
+    "category": "drink",
+    "name_uz": "Kakao (suyuqlik)",
+    "name_en": "Cocoa (liquid)",
+    "name_ru": "Какао (жидкое)"
+  },
+  {
+    "unit": "100ml",
+    "calories": 50,
+    "category": "drink",
+    "name_uz": "Kakao ichimligi",
+    "name_en": "Cocoa drink",
+    "name_ru": "Какао-напиток"
+  },
+  {
+    "unit": "100ml",
+    "calories": 60,
+    "category": "drink",
+    "name_uz": "Kakao ichimligi (qaymoq bilan)",
+    "name_en": "Cocoa drink (with cream)",
+    "name_ru": "Какао-напиток (со сливками)"
+  },
+  {
+    "unit": "100ml",
+    "calories": 46,
+    "category": "drink",
+    "name_uz": "Olma sharbati",
+    "name_en": "Apple juice",
+    "name_ru": "Яблочный сок"
+  },
+  {
+    "unit": "100ml",
+    "calories": 50,
+    "category": "drink",
+    "name_uz": "Qahva (shakar bilan)",
+    "name_en": "Coffee (with sugar)",
+    "name_ru": "Кофе (с сахаром)"
+  },
+  {
+    "unit": "100ml",
+    "calories": 2,
+    "category": "drink",
+    "name_uz": "Qahva (suv bilan)",
+    "name_en": "Coffee (with water)",
+    "name_ru": "Кофе (с водой)"
+  },
+  {
+    "unit": "100ml",
+    "calories": 45,
+    "category": "drink",
+    "name_uz": "Sharbat",
+    "name_en": "Juice",
+    "name_ru": "Сок"
+  },
+  {
+    "unit": "100g",
+    "calories": 884,
+    "category": "fat",
+    "name_uz": "Kungaboqar yog‘i",
+    "name_en": "Sunflower oil",
+    "name_ru": "Подсолнечное масло"
+  },
+  {
+    "unit": "100g",
+    "calories": 884,
+    "category": "fat",
+    "name_uz": "Qaynatilgan kungaboqar yog‘i",
+    "name_en": "Boiled sunflower oil",
+    "name_ru": "Варёное подсолнечное масло"
+  },
+  {
+    "unit": "100g",
+    "calories": 717,
+    "category": "fat",
+    "name_uz": "Qaynatilgan sariyog‘",
+    "name_en": "Boiled butter",
+    "name_ru": "Варёное масло"
+  },
+  {
+    "unit": "100g",
+    "calories": 900,
+    "category": "fat",
+    "name_uz": "Qaynatilgan yog‘",
+    "name_en": "Boiled oil",
+    "name_ru": "Кипяченое масло"
+  },
+  {
+    "unit": "100g",
+    "calories": 900,
+    "category": "fat",
+    "name_uz": "Qaynatilgan zaytun yog‘i",
+    "name_en": "Boiled olive oil",
+    "name_ru": "Варёное оливковое масло"
+  },
+  {
+    "unit": "100g",
+    "calories": 717,
+    "category": "fat",
+    "name_uz": "Sariyog‘",
+    "name_en": "Butter",
+    "name_ru": "Сливочное масло"
+  },
+  {
+    "unit": "100g",
+    "calories": 717,
+    "category": "fat",
+    "name_uz": "Sariyog‘ (qaymoqli)",
+    "name_en": "Butter (creamy)",
+    "name_ru": "Масло (сливочное)"
+  },
+  {
+    "unit": "100g",
+    "calories": 884,
+    "category": "fat",
+    "name_uz": "Soya yog‘i",
+    "name_en": "Soybean oil",
+    "name_ru": "Соевое масло"
+  },
+  {
+    "unit": "100g",
+    "calories": 900,
+    "category": "fat",
+    "name_uz": "Yog",
+    "name_en": "Oil",
+    "name_ru": "Масло"
+  },
+  {
+    "unit": "100g",
+    "calories": 654,
+    "category": "fat",
+    "name_uz": "Yog‘ (bodom)",
+    "name_en": "Oil (almond)",
+    "name_ru": "Масло (миндальное)"
+  },
+  {
+    "unit": "100g",
+    "calories": 884,
+    "category": "fat",
+    "name_uz": "Yog‘ (kungaboqar)",
+    "name_en": "Oil (sunflower)",
+    "name_ru": "Подсолнечное масло"
+  },
+  {
+    "unit": "100g",
+    "calories": 900,
+    "category": "fat",
+    "name_uz": "Yog‘ (zaytun)",
+    "name_en": "Oil (olive)",
+    "name_ru": "Оливковое масло"
+  },
+  {
+    "unit": "100g",
+    "calories": 900,
+    "category": "fat",
+    "name_uz": "Zaytun yog‘i",
+    "name_en": "Olive oil",
+    "name_ru": "Оливковое масло"
+  },
+  {
+    "unit": "100g",
+    "calories": 50,
+    "category": "fruit",
+    "name_uz": "Ananas",
+    "name_en": "Pineapple",
+    "name_ru": "Ананас"
+  },
+  {
+    "unit": "100g",
+    "calories": 74,
+    "category": "fruit",
+    "name_uz": "Anjir",
+    "name_en": "fig",
+    "name_ru": "инжир"
+  },
+  {
+    "unit": "100g",
+    "calories": 83,
+    "category": "fruit",
+    "name_uz": "Anor",
+    "name_en": "Pomegranate",
+    "name_ru": "Гранат"
+  },
+  {
+    "unit": "100g",
+    "calories": 47,
+    "category": "fruit",
+    "name_uz": "Apelsin",
+    "name_en": "Orange",
+    "name_ru": "Апельсин"
+  },
+  {
+    "unit": "100g",
+    "calories": 89,
+    "category": "fruit",
+    "name_uz": "Banan",
+    "name_en": "Banana",
+    "name_ru": "Банан"
+  },
+  {
+    "unit": "100g",
+    "calories": 50,
+    "category": "fruit",
+    "name_uz": "Gilos",
+    "name_en": "Cherry",
+    "name_ru": "Черешня"
+  },
+  {
+    "unit": "100g",
+    "calories": 29,
+    "category": "fruit",
+    "name_uz": "Limmon",
+    "name_en": "Lemon",
+    "name_ru": "Лимон"
+  },
+  {
+    "unit": "100g",
+    "calories": 52,
+    "category": "fruit",
+    "name_uz": "Malina",
+    "name_en": "Raspberry",
+    "name_ru": "Малина"
+  },
+  {
+    "unit": "100g",
+    "calories": 299,
+    "category": "fruit",
+    "name_uz": "Mayiz",
+    "name_en": "Raisins",
+    "name_ru": "Изюм"
+  },
+  {
+    "unit": "100g",
+    "calories": 57,
+    "category": "fruit",
+    "name_uz": "Nok",
+    "name_en": "Pear",
+    "name_ru": "Груша"
+  },
+  {
+    "unit": "100g",
+    "calories": 48,
+    "category": "fruit",
+    "name_uz": "O‘rik",
+    "name_en": "Apricot",
+    "name_ru": "Абрикос"
+  },
+  {
+    "unit": "100g",
+    "calories": 241,
+    "category": "fruit",
+    "name_uz": "O‘rik quritilgan",
+    "name_en": "Dried apricots",
+    "name_ru": "Сушеные абрикосы"
+  },
+  {
+    "unit": "100g",
+    "calories": 52,
+    "category": "fruit",
+    "name_uz": "Olma",
+    "name_en": "Apple",
+    "name_ru": "Яблоко"
+  },
+  {
+    "unit": "100g",
+    "calories": 243,
+    "category": "fruit",
+    "name_uz": "Olma quritilgan",
+    "name_en": "Dried apples",
+    "name_ru": "Сушеные яблоки"
+  },
+  {
+    "unit": "100g",
+    "calories": 33,
+    "category": "fruit",
+    "name_uz": "Qulupnay",
+    "name_en": "Strawberry",
+    "name_ru": "Клубника"
+  },
+  {
+    "unit": "100g",
+    "calories": 39,
+    "category": "fruit",
+    "name_uz": "Shaftoli",
+    "name_en": "Peach",
+    "name_ru": "персик;"
+  },
+  {
+    "unit": "100g",
+    "calories": 115,
+    "category": "fruit",
+    "name_uz": "Zaytun",
+    "name_en": "Olive",
+    "name_ru": "Олив"
+  },
+  {
+    "unit": "100g",
+    "calories": 130,
+    "category": "grain",
+    "name_uz": "Guruch",
+    "name_en": "Rice",
+    "name_ru": "Рис"
+  },
+  {
+    "unit": "100g",
+    "calories": 365,
+    "category": "grain",
+    "name_uz": "Jo‘xori",
+    "name_en": "Corn",
+    "name_ru": "Кукуруза"
+  },
+  {
+    "unit": "100g",
+    "calories": 365,
+    "category": "grain",
+    "name_uz": "Jo‘xori uni",
+    "name_en": "Oatmeal",
+    "name_ru": "Овсянка"
+  },
+  {
+    "unit": "100g",
+    "calories": 150,
+    "category": "grain",
+    "name_uz": "Lasagna",
+    "name_en": "Lasagna",
+    "name_ru": "Лазанья"
+  },
+  {
+    "unit": "100g",
+    "calories": 131,
+    "category": "grain",
+    "name_uz": "Makaron",
+    "name_en": "Pasta",
+    "name_ru": "Макароны"
+  },
+  {
+    "unit": "100g",
+    "calories": 86,
+    "category": "grain",
+    "name_uz": "Makkajo‘xori",
+    "name_en": "Corn",
+    "name_ru": "Кукуруза"
+  },
+  {
+    "unit": "100g",
+    "calories": 265,
+    "category": "grain",
+    "name_uz": "Non oq",
+    "name_en": "White bread",
+    "name_ru": "Белый хлеб"
+  },
+  {
+    "unit": "100g",
+    "calories": 230,
+    "category": "grain",
+    "name_uz": "Non qora",
+    "name_en": "Black bread",
+    "name_ru": "Чёрный хлеб"
+  },
+  {
+    "unit": "100g",
+    "calories": 160,
+    "category": "grain",
+    "name_uz": "Pasta (pomidor sous bilan)",
+    "name_en": "Pasta (with tomato sauce)",
+    "name_ru": "Паста (с томатным соусом)"
+  },
+  {
+    "unit": "100g",
+    "calories": 130,
+    "category": "grain",
+    "name_uz": "Qaynatilgan guruch",
+    "name_en": "Boiled rice",
+    "name_ru": "Вареный рис"
+  },
+  {
+    "unit": "100g",
+    "calories": 131,
+    "category": "grain",
+    "name_uz": "Qaynatilgan makaron",
+    "name_en": "Boiled pasta",
+    "name_ru": "Отварные макароны"
+  },
+  {
+    "unit": "100g",
+    "calories": 230,
+    "category": "grain",
+    "name_uz": "Qora non",
+    "name_en": "Black bread",
+    "name_ru": "Черный хлеб"
+  },
+  {
+    "unit": "100g",
+    "calories": 131,
+    "category": "grain",
+    "name_uz": "Spagetti",
+    "name_en": "spaghetti",
+    "name_ru": "Спагетти"
+  },
+  {
+    "unit": "100g",
+    "calories": 347,
+    "category": "legumes",
+    "name_uz": "Lobya",
+    "name_en": "Beans",
+    "name_ru": "Фасоль"
+  },
+  {
+    "unit": "100g",
+    "calories": 164,
+    "category": "legumes",
+    "name_uz": "No‘xat",
+    "name_en": "Chickpeas",
+    "name_ru": "Нут"
+  },
+  {
+    "unit": "100g",
+    "calories": 127,
+    "category": "legumes",
+    "name_uz": "Qaynatilgan loviya",
+    "name_en": "Boiled beans",
+    "name_ru": "Варёные бобы"
+  },
+  {
+    "unit": "100g",
+    "calories": 164,
+    "category": "legumes",
+    "name_uz": "Qaynatilgan no‘xat",
+    "name_en": "Boiled peas",
+    "name_ru": "Вареный горох"
+  },
+  {
+    "unit": "100g",
+    "calories": 208,
+    "category": "meat",
+    "name_uz": "Baliq (losos)",
+    "name_en": "Salmon",
+    "name_ru": "Лосось"
+  },
+  {
+    "unit": "100g",
+    "calories": 205,
+    "category": "meat",
+    "name_uz": "Baliq (skumbriya)",
+    "name_en": "Fish (mackerel)",
+    "name_ru": "Рыба (скумбрия)"
+  },
+  {
+    "unit": "100g",
+    "calories": 132,
+    "category": "meat",
+    "name_uz": "Baliq (tuna)",
+    "name_en": "Fish (tuna)",
+    "name_ru": "Рыба (тунец)"
+  },
+  {
+    "unit": "100g",
+    "calories": 99,
+    "category": "meat",
+    "name_uz": "Krevetka",
+    "name_en": "Shrimp",
+    "name_ru": "Креветка"
+  },
+  {
+    "unit": "100g",
+    "calories": 250,
+    "category": "meat",
+    "name_uz": "Mol go‘shti",
+    "name_en": "Beef",
+    "name_ru": "Говядина"
+  },
+  {
+    "unit": "100g",
+    "calories": 250,
+    "category": "meat",
+    "name_uz": "Mol go‘shti (qaynatilgan)",
+    "name_en": "Beef (boiled)",
+    "name_ru": "Говядина (вареная)"
+  },
+  {
+    "unit": "100g",
+    "calories": 120,
+    "category": "meat",
+    "name_uz": "Pangasius",
+    "name_en": "Pangasius",
+    "name_ru": "Пангасиус"
+  },
+  {
+    "unit": "100g",
+    "calories": 208,
+    "category": "meat",
+    "name_uz": "Qaynatilgan losos",
+    "name_en": "Boiled salmon",
+    "name_ru": "Отварной лосось"
+  },
+  {
+    "unit": "100g",
+    "calories": 250,
+    "category": "meat",
+    "name_uz": "Qaynatilgan mol go‘shti",
+    "name_en": "Boiled beef",
+    "name_ru": "Отварная говядина"
+  },
+  {
+    "unit": "100g",
+    "calories": 120,
+    "category": "meat",
+    "name_uz": "Qaynatilgan pangasius",
+    "name_en": "Boiled pangasius",
+    "name_ru": "Вареный пангасиус"
+  },
+  {
+    "unit": "100g",
+    "calories": 208,
+    "category": "meat",
+    "name_uz": "Qaynatilgan sardina",
+    "name_en": "Boiled sardine",
+    "name_ru": "Вареные сардины"
+  },
+  {
+    "unit": "100g",
+    "calories": 165,
+    "category": "meat",
+    "name_uz": "Qaynatilgan tovuqli go‘sht",
+    "name_en": "Boiled chicken meat",
+    "name_ru": "Варёное куриное мясо"
+  },
+  {
+    "unit": "100g",
+    "calories": 165,
+    "category": "meat",
+    "name_uz": "Ryaba (tovuq go‘shti)",
+    "name_en": "Ryaba (chicken)",
+    "name_ru": "Ряба (курица)"
+  },
+  {
+    "unit": "100g",
+    "calories": 208,
+    "category": "meat",
+    "name_uz": "Sardina (konserva)",
+    "name_en": "Sardines (canned)",
+    "name_ru": "Сардины (консервированные)"
+  },
+  {
+    "unit": "100g",
+    "calories": 165,
+    "category": "meat",
+    "name_uz": "Tovuqli go‘sht",
+    "name_en": "Chicken",
+    "name_ru": "Курица"
+  },
+  {
+    "unit": "100g",
+    "calories": 536,
+    "category": "processed_food",
+    "name_uz": "Chips",
+    "name_en": "Chips",
+    "name_ru": "Чипсы"
+  },
+  {
+    "unit": "100g",
+    "calories": 452,
+    "category": "processed_food",
+    "name_uz": "Donut",
+    "name_en": "Donut",
+    "name_ru": "Пончик"
+  },
+  {
+    "unit": "100g",
+    "calories": 228,
+    "category": "processed_food",
+    "name_uz": "Kakao (chang)",
+    "name_en": "Cocoa (powder)",
+    "name_ru": "Какао (порошок)"
+  },
+  {
+    "unit": "100g",
+    "calories": 228,
+    "category": "processed_food",
+    "name_uz": "Kakao kukuni",
+    "name_en": "Cocoa powder",
+    "name_ru": "Какао-порошок"
+  },
+  {
+    "unit": "100g",
+    "calories": 546,
+    "category": "processed_food",
+    "name_uz": "Kakao shokolad",
+    "name_en": "Cocoa chocolate",
+    "name_ru": "Какао-шоколад"
+  },
+  {
+    "unit": "100g",
+    "calories": 400,
+    "category": "processed_food",
+    "name_uz": "Kek",
+    "name_en": "Cake",
+    "name_ru": "Торт"
+  },
+  {
+    "unit": "100g",
+    "calories": 304,
+    "category": "processed_food",
+    "name_uz": "Med",
+    "name_en": "Med",
+    "name_ru": "Номер медзаписи"
+  },
+  {
+    "unit": "100g",
+    "calories": 304,
+    "category": "processed_food",
+    "name_uz": "Med (tabiiy)",
+    "name_en": "Med (natural)",
+    "name_ru": "Мед (натуральный)"
+  },
+  {
+    "unit": "100g",
+    "calories": 207,
+    "category": "processed_food",
+    "name_uz": "Muzqaymoq",
+    "name_en": "ice cream",
+    "name_ru": "Мороженое"
+  },
+  {
+    "unit": "100g",
+    "calories": 230,
+    "category": "processed_food",
+    "name_uz": "Muzqaymoq (shokoladli)",
+    "name_en": "Ice cream (chocolate)",
+    "name_ru": "Мороженое (шоколадное)"
+  },
+  {
+    "unit": "100g",
+    "calories": 207,
+    "category": "processed_food",
+    "name_uz": "Muzqaymoq (sutli)",
+    "name_en": "Ice cream (milk)",
+    "name_ru": "Мороженое (молоко)"
+  },
+  {
+    "unit": "100g",
+    "calories": 502,
+    "category": "processed_food",
+    "name_uz": "Pechene",
+    "name_en": "Cookies",
+    "name_ru": "Печенье"
+  },
+  {
+    "unit": "100g",
+    "calories": 502,
+    "category": "processed_food",
+    "name_uz": "Pechene (quritilgan)",
+    "name_en": "Biscuits (dried)",
+    "name_ru": "Печенье (сухое)"
+  },
+  {
+    "unit": "100g",
+    "calories": 502,
+    "category": "processed_food",
+    "name_uz": "Pechene (yupqa)",
+    "name_en": "Biscuit (thin)",
+    "name_ru": "Тонкое печенье"
+  },
+  {
+    "unit": "100g",
+    "calories": 502,
+    "category": "processed_food",
+    "name_uz": "Pechenye (shokoladli)",
+    "name_en": "Cookies (chocolate)",
+    "name_ru": "Печенье (шоколадное)"
+  },
+  {
+    "unit": "100g",
+    "calories": 304,
+    "category": "processed_food",
+    "name_uz": "Qaynatilgan med",
+    "name_en": "Boiled med",
+    "name_ru": "Вареное мясо"
+  },
+  {
+    "unit": "10g",
+    "calories": 40,
+    "category": "processed_food",
+    "name_uz": "Qaynatilgan shakar",
+    "name_en": "Boiled sugar",
+    "name_ru": "Вареный сахар"
+  },
+  {
+    "unit": "100g",
+    "calories": 312,
+    "category": "processed_food",
+    "name_uz": "Qovurilgan kartoshka",
+    "name_en": "fried potatoes",
+    "name_ru": "Жареный картофель"
+  },
+  {
+    "unit": "10g",
+    "calories": 40,
+    "category": "processed_food",
+    "name_uz": "Shakar",
+    "name_en": "Sugar",
+    "name_ru": "Сахар"
+  },
+  {
+    "unit": "100g",
+    "calories": 400,
+    "category": "processed_food",
+    "name_uz": "Shakar (qadoqlangan)",
+    "name_en": "Sugar (packaged)",
+    "name_ru": "Сахар (в упаковке)"
+  },
+  {
+    "unit": "100g",
+    "calories": 546,
+    "category": "processed_food",
+    "name_uz": "Shokolad",
+    "name_en": "chocolate",
+    "name_ru": "Шоколад"
+  },
+  {
+    "unit": "100g",
+    "calories": 535,
+    "category": "processed_food",
+    "name_uz": "Sutli shokolad",
+    "name_en": "Milk chocolate",
+    "name_ru": "Молочный шоколад"
+  },
+  {
+    "unit": "100g",
+    "calories": 450,
+    "category": "processed_food",
+    "name_uz": "Tort",
+    "name_en": "cake",
+    "name_ru": "Торт"
+  },
+  {
+    "unit": "100g",
+    "calories": 450,
+    "category": "processed_food",
+    "name_uz": "Tort (shokoladli)",
+    "name_en": "Cake (chocolate)",
+    "name_ru": "Торт (шоколадный)"
+  },
+  {
+    "unit": "100g",
+    "calories": 300,
+    "category": "processed_meat",
+    "name_uz": "Kolbasa",
+    "name_en": "Sausage",
+    "name_ru": "Колбаса"
+  },
+  {
+    "unit": "100g",
+    "calories": 95,
+    "category": "processed_meat",
+    "name_uz": "Krab stick",
+    "name_en": "Crab stick",
+    "name_ru": "Крабовые палочки"
+  },
+  {
+    "unit": "100g",
+    "calories": 300,
+    "category": "processed_meat",
+    "name_uz": "Sosiska",
+    "name_en": "Sausage",
+    "name_ru": "Сосиски"
+  },
+  {
+    "unit": "100g",
+    "calories": 76,
+    "category": "protein",
+    "name_uz": "Qaynatilgan tofu",
+    "name_en": "Boiled tofu",
+    "name_ru": "Вареный тофу"
+  },
+  {
+    "unit": "1 pcs",
+    "calories": 78,
+    "category": "protein",
+    "name_uz": "Qaynatilgan tuxum",
+    "name_en": "Boiled egg",
+    "name_ru": "Варёное яйцо"
+  },
+  {
+    "unit": "1 pcs",
+    "calories": 17,
+    "category": "protein",
+    "name_uz": "Qaynatilgan tuxum oqi",
+    "name_en": "Boiled egg white",
+    "name_ru": "Вареный яичный белок"
+  },
+  {
+    "unit": "1 pcs",
+    "calories": 55,
+    "category": "protein",
+    "name_uz": "Qaynatilgan tuxum sarig‘i",
+    "name_en": "Boiled egg yolk",
+    "name_ru": "Вареный яичный желток"
+  },
+  {
+    "unit": "100g",
+    "calories": 144,
+    "category": "protein",
+    "name_uz": "Qovurilgan tofu",
+    "name_en": "Fried tofu",
+    "name_ru": "Жареный тофу"
+  },
+  {
+    "unit": "100g",
+    "calories": 76,
+    "category": "protein",
+    "name_uz": "Tofu",
+    "name_en": "Tofu",
+    "name_ru": "Тофу"
+  },
+  {
+    "unit": "1 pcs",
+    "calories": 70,
+    "category": "protein",
+    "name_uz": "Tuxum",
+    "name_en": "Egg",
+    "name_ru": "Яйцо"
+  },
+  {
+    "unit": "1 pcs",
+    "calories": 17,
+    "category": "protein",
+    "name_uz": "Tuxum oqi",
+    "name_en": "Egg white",
+    "name_ru": "Яичный белок"
+  },
+  {
+    "unit": "1 pcs",
+    "calories": 55,
+    "category": "protein",
+    "name_uz": "Tuxum sarig‘i",
+    "name_en": "Egg yolk",
+    "name_ru": "Яичный желток"
+  },
+  {
+    "unit": "100g",
+    "calories": 100,
+    "category": "sauce",
+    "name_uz": "Ketchup",
+    "name_en": "ketchup",
+    "name_ru": "Кетчуп"
+  },
+  {
+    "unit": "100g",
+    "calories": 680,
+    "category": "sauce",
+    "name_uz": "Mayonez",
+    "name_en": "Mayonnaise",
+    "name_ru": "Майонез"
+  },
+  {
+    "unit": "100g",
+    "calories": 53,
+    "category": "sauce",
+    "name_uz": "Soya sosu",
+    "name_en": "Soy sauce",
+    "name_ru": "Соевый соус"
+  },
+  {
+    "unit": "100g",
+    "calories": 53,
+    "category": "sauce",
+    "name_uz": "Soya sousi",
+    "name_en": "Soy sauce",
+    "name_ru": "Соевый соус"
+  },
+  {
+    "unit": "100g",
+    "calories": 579,
+    "category": "seed",
+    "name_uz": "Bodom",
+    "name_en": "Almonds",
+    "name_ru": "Миндаль"
+  },
+  {
+    "unit": "100g",
+    "calories": 579,
+    "category": "seed",
+    "name_uz": "Qaynatilgan badam",
+    "name_en": "Boiled almonds",
+    "name_ru": "Вареный миндаль"
+  },
+  {
+    "unit": "100g",
+    "calories": 559,
+    "category": "seed",
+    "name_uz": "Qaynatilgan qovoq urug‘i",
+    "name_en": "Boiled pumpkin seeds",
+    "name_ru": "Варёные тыквенные семечки"
+  },
+  {
+    "unit": "100g",
+    "calories": 654,
+    "category": "seed",
+    "name_uz": "Qaynatilgan yong‘oq",
+    "name_en": "Boiled walnuts",
+    "name_ru": "Вареные грецкие орехи"
+  },
+  {
+    "unit": "100g",
+    "calories": 559,
+    "category": "seed",
+    "name_uz": "Qovoq urug‘i",
+    "name_en": "Pumpkin seeds",
+    "name_ru": "Тыквенные семечки"
+  },
+  {
+    "unit": "100g",
+    "calories": 654,
+    "category": "seed",
+    "name_uz": "Yong‘oq",
+    "name_en": "Walnuts",
+    "name_ru": "Грецкий орех"
+  },
+  {
+    "unit": "100g",
+    "calories": 16,
+    "category": "vegetable",
+    "name_uz": "Bodring",
+    "name_en": "Cucumber",
+    "name_ru": "Огурец"
+  },
+  {
+    "unit": "100g",
+    "calories": 16,
+    "category": "vegetable",
+    "name_uz": "Bodring (qaynatilgan)",
+    "name_en": "Cucumber (boiled)",
+    "name_ru": "Огурец (вареный)"
+  },
+  {
+    "unit": "100g",
+    "calories": 16,
+    "category": "vegetable",
+    "name_uz": "Bodring (yangi)",
+    "name_en": "Cucumber (fresh)",
+    "name_ru": "Огурец (свежий)"
+  },
+  {
+    "unit": "100g",
+    "calories": 16,
+    "category": "vegetable",
+    "name_uz": "Bodring pyuresi",
+    "name_en": "Cucumber puree",
+    "name_ru": "Огуречное пюре"
+  },
+  {
+    "unit": "100g",
+    "calories": 34,
+    "category": "vegetable",
+    "name_uz": "Brokkoli",
+    "name_en": "Broccoli",
+    "name_ru": "Брокколи"
+  },
+  {
+    "unit": "100g",
+    "calories": 35,
+    "category": "vegetable",
+    "name_uz": "Brokolli pyuresi",
+    "name_en": "Broccoli puree",
+    "name_ru": "пюре из брокколи"
+  },
+  {
+    "unit": "100g",
+    "calories": 25,
+    "category": "vegetable",
+    "name_uz": "Karam",
+    "name_en": "Cabbage",
+    "name_ru": "Капуста"
+  },
+  {
+    "unit": "100g",
+    "calories": 25,
+    "category": "vegetable",
+    "name_uz": "Karam (yangi)",
+    "name_en": "Cabbage (fresh)",
+    "name_ru": "Капуста (свежая)"
+  },
+  {
+    "unit": "100g",
+    "calories": 41,
+    "category": "vegetable",
+    "name_uz": "Karrot pyuresi",
+    "name_en": "Carrot puree",
+    "name_ru": "Морковное пюре"
+  },
+  {
+    "unit": "100g",
+    "calories": 77,
+    "category": "vegetable",
+    "name_uz": "Kartoshka (pishgan)",
+    "name_en": "Potatoes (cooked)",
+    "name_ru": "Картофель (вареный)"
+  },
+  {
+    "unit": "100g",
+    "calories": 40,
+    "category": "vegetable",
+    "name_uz": "Piyoz",
+    "name_en": "Onion",
+    "name_ru": "Лук"
+  },
+  {
+    "unit": "100g",
+    "calories": 18,
+    "category": "vegetable",
+    "name_uz": "Pomidor",
+    "name_en": "Tomato",
+    "name_ru": "Помидор"
+  },
+  {
+    "unit": "100g",
+    "calories": 18,
+    "category": "vegetable",
+    "name_uz": "Pomidor (qaynatilgan)",
+    "name_en": "Tomatoes (boiled)",
+    "name_ru": "Помидоры (вареные)"
+  },
+  {
+    "unit": "100g",
+    "calories": 18,
+    "category": "vegetable",
+    "name_uz": "Pomidor pyuresi",
+    "name_en": "Tomato puree",
+    "name_ru": "Томатное пюре"
+  },
+  {
+    "unit": "100g",
+    "calories": 16,
+    "category": "vegetable",
+    "name_uz": "Qaynatilgan bodring pyuresi",
+    "name_en": "Boiled cucumber puree",
+    "name_ru": "Пюре из вареных огурцов"
+  },
+  {
+    "unit": "100g",
+    "calories": 34,
+    "category": "vegetable",
+    "name_uz": "Qaynatilgan brokkoli",
+    "name_en": "Boiled broccoli",
+    "name_ru": "Отварная брокколи"
+  },
+  {
+    "unit": "100g",
+    "calories": 34,
+    "category": "vegetable",
+    "name_uz": "Qaynatilgan brokkoli pyuresi",
+    "name_en": "Boiled broccoli puree",
+    "name_ru": "Пюре из вареной брокколи"
+  },
+  {
+    "unit": "100g",
+    "calories": 25,
+    "category": "vegetable",
+    "name_uz": "Qaynatilgan karam",
+    "name_en": "Boiled cabbage",
+    "name_ru": "Отварная капуста"
+  },
+  {
+    "unit": "100g",
+    "calories": 25,
+    "category": "vegetable",
+    "name_uz": "Qaynatilgan karam pyuresi",
+    "name_en": "Boiled cabbage puree",
+    "name_ru": "Пюре из вареной капусты"
+  },
+  {
+    "unit": "100g",
+    "calories": 41,
+    "category": "vegetable",
+    "name_uz": "Qaynatilgan karrot pyuresi",
+    "name_en": "Boiled carrot puree",
+    "name_ru": "Пюре из вареной моркови"
+  },
+  {
+    "unit": "100g",
+    "calories": 77,
+    "category": "vegetable",
+    "name_uz": "Qaynatilgan kartoshka",
+    "name_en": "Boiled potatoes",
+    "name_ru": "Вареный картофель"
+  },
+  {
+    "unit": "100g",
+    "calories": 40,
+    "category": "vegetable",
+    "name_uz": "Qaynatilgan piyoz",
+    "name_en": "Boiled onions",
+    "name_ru": "Вареный лук"
+  },
+  {
+    "unit": "100g",
+    "calories": 18,
+    "category": "vegetable",
+    "name_uz": "Qaynatilgan pomidor pyuresi",
+    "name_en": "Boiled tomato puree",
+    "name_ru": "Вареное томатное пюре"
+  },
+  {
+    "unit": "100g",
+    "calories": 26,
+    "category": "vegetable",
+    "name_uz": "Qaynatilgan qovoq",
+    "name_en": "Boiled pumpkin",
+    "name_ru": "Варёная тыква"
+  },
+  {
+    "unit": "100g",
+    "calories": 41,
+    "category": "vegetable",
+    "name_uz": "Qaynatilgan sabzi",
+    "name_en": "Boiled carrots",
+    "name_ru": "Вареная морковь"
+  },
+  {
+    "unit": "100g",
+    "calories": 86,
+    "category": "vegetable",
+    "name_uz": "Qaynatilgan shirin kartoshka",
+    "name_en": "Boiled sweet potatoes",
+    "name_ru": "Отварной сладкий картофель"
+  },
+  {
+    "unit": "100g",
+    "calories": 40,
+    "category": "vegetable",
+    "name_uz": "Qora qalampir",
+    "name_en": "Black pepper",
+    "name_ru": "Черный перец"
+  },
+  {
+    "unit": "100g",
+    "calories": 26,
+    "category": "vegetable",
+    "name_uz": "Qovoq",
+    "name_en": "Pumpkin",
+    "name_ru": "Тыква"
+  },
+  {
+    "unit": "100g",
+    "calories": 41,
+    "category": "vegetable",
+    "name_uz": "Sabzi",
+    "name_en": "Carrot",
+    "name_ru": "Морковь"
+  },
+  {
+    "unit": "100g",
+    "calories": 27,
+    "category": "vegetable",
+    "name_uz": "Sariq qalampir",
+    "name_en": "<x id=\"1\"/>Yellow Chillies<x id=\"2\"/>",
+    "name_ru": "Желтый перец"
+  },
+  {
+    "unit": "100g",
+    "calories": 18,
+    "category": "vegetable",
+    "name_uz": "Shalap (pomidorli)",
+    "name_en": "Salad (with tomatoes)",
+    "name_ru": "Салат (с помидорами)"
+  },
+  {
+    "unit": "100g",
+    "calories": 86,
+    "category": "vegetable",
+    "name_uz": "Shirin kartoshka",
+    "name_en": "Yam",
+    "name_ru": "сладкий картофель"
+  }
+]

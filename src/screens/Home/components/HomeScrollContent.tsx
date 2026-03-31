@@ -1,5 +1,5 @@
-import { GenerateMealCard } from "@/components/GenerateMealCard/GenerateMealCard";
 import FoodTracker from "@/components/FoodTracker/FoodTracker";
+import { GenerateMealCard } from "@/components/GenerateMealCard/GenerateMealCard";
 import StepTracker from "@/components/StepTracker/StepTracker";
 import { WaterTracker } from "@/components/WaterTracker/WaterTracker";
 import React from "react";
@@ -40,6 +40,7 @@ export function HomeScrollContent({
       ref={scrollRef}
       showsVerticalScrollIndicator={false}
       nestedScrollEnabled={Platform.OS === "android"}
+      contentContainerStyle={{ paddingBottom: 150 }}
     >
       <Header metrics={metrics} />
       <FoodTracker
@@ -62,4 +63,3 @@ export function HomeScrollContent({
     </ScrollView>
   );
 }
-

@@ -1,5 +1,3 @@
-import { AppText } from "@/components/AppText";
-import { Image } from "expo-image";
 import { TouchableOpacity, View } from "react-native";
 
 import BackIcon2 from "@/assets/icons/BackIcon2";
@@ -7,10 +5,12 @@ import { styles } from "../FoodScreen.styles";
 
 export function FoodHeader({
   onBackPress,
-  onInfoPress,
+  onHistoryPress,
+  children,
 }: {
   onBackPress: () => void;
-  onInfoPress: () => void;
+  onHistoryPress: () => void;
+  children?: React.ReactNode;
 }) {
   return (
     <View style={styles.header}>
@@ -22,15 +22,18 @@ export function FoodHeader({
         <BackIcon2 />
       </TouchableOpacity>
 
-      <AppText size={28} weight="bold" color="#F9FAFB">
-        Food Tracker
-      </AppText>
+      {children}
 
-      <TouchableOpacity style={styles.headerRight} onPress={onInfoPress} activeOpacity={0.8}>
-        <Image
-          source={require("../../../assets/images/info.webp")}
-          style={styles.infoIcon}
-        />
+      <TouchableOpacity
+        style={styles.headerRight}
+        onPress={onHistoryPress}
+        activeOpacity={0.8}
+      >
+        <View style={styles.historyIconWrap}>
+          <View style={styles.historyIconLine} />
+          <View style={styles.historyIconLine} />
+          <View style={styles.historyIconLine} />
+        </View>
       </TouchableOpacity>
     </View>
   );

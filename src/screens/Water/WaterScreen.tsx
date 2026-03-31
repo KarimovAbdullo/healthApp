@@ -4,6 +4,7 @@ import {
 } from "@/utils/waterStorage";
 import { useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Animated, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
@@ -27,6 +28,7 @@ const GLASS_OPTIONS: GlassOption[] = [
 ];
 
 export default function WaterScreen() {
+  const { t } = useTranslation();
   const router = useRouter();
 
   const dispatch = useAppDispatch();
@@ -92,7 +94,7 @@ export default function WaterScreen() {
           color="#9CA3AF"
           style={styles.tapText}
         >
-          Tap a glass to add water
+          {t("water.tapGlass")}
         </AppText>
 
         <WaterSelectedAmount

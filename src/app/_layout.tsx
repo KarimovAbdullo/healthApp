@@ -6,13 +6,17 @@ import {
 import { useFonts } from "expo-font";
 import * as NavigationBar from "expo-navigation-bar";
 import { Stack } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import { Platform } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import "react-native-reanimated";
 
+import { LanguageModalProvider } from "@/contexts/LanguageModalContext";
 import { useColorScheme } from "@/hooks/use-color-scheme";
+import "@/i18n";
+import { loadSavedLanguage } from "@/i18n";
 import { AppProviders } from "@/store/providers";
 
 if (__DEV__) {
@@ -23,6 +27,8 @@ if (__DEV__) {
 export const unstable_settings = {
   anchor: "(tabs)",
 };
+
+void SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -42,21 +48,34 @@ export default function RootLayout() {
     }
   }, []);
 
+  useEffect(() => {
+    if (fontsLoaded) {
+      SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  useEffect(() => {
+    void loadSavedLanguage();
+  }, []);
+
   if (!fontsLoaded) {
     return null;
   }
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
+      <StatusBar style="light" />
+
       <AppProviders>
-        <ThemeProvider
-          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-        >
-          <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          </Stack>
-          <StatusBar style="auto" />
-        </ThemeProvider>
+        <LanguageModalProvider>
+          <ThemeProvider
+            value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+          >
+            <Stack screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            </Stack>
+          </ThemeProvider>
+        </LanguageModalProvider>
       </AppProviders>
     </GestureHandlerRootView>
   );

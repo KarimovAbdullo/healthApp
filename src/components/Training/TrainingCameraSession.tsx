@@ -19,6 +19,7 @@ import { useAppDispatch } from "@/store/hooks";
 import { addFitnessRepsForExerciseDate } from "@/store/slices/dailyResultsSlice";
 import moment from "moment";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import type { Landmark } from "react-native-mediapipe";
 import {
   ImageBackground,
@@ -52,6 +53,7 @@ type Props = {
 };
 
 export function TrainingCameraSession({ exercise, onClose }: Props) {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const {
     hasPermission: hasCameraPermission,
@@ -218,9 +220,9 @@ export function TrainingCameraSession({ exercise, onClose }: Props) {
       <SafeAreaView style={styles.safe}>
         {!allMediaPermissionsGranted ? (
           <View style={styles.permsWrap}>
-            <Text style={styles.permsTitle}>Camera permission required</Text>
+            <Text style={styles.permsTitle}>{t("trainingCamera.cameraPermissionRequired")}</Text>
             <Text style={styles.permsText}>
-              To use this feature, you need to enable camera permission.
+              {t("trainingCamera.cameraPermissionHelp")}
             </Text>
             <Pressable
               style={styles.permsBtn}
@@ -231,17 +233,19 @@ export function TrainingCameraSession({ exercise, onClose }: Props) {
               }
             >
               <Text style={styles.permsBtnText}>
-                {didRequestPermission ? "Open settings" : "Allow permission"}
+                {didRequestPermission
+                  ? t("trainingCamera.openSettings")
+                  : t("trainingCamera.allowPermission")}
               </Text>
             </Pressable>
             <Pressable style={styles.backLink} onPress={handleClose}>
-              <Text style={styles.backLinkText}>← Exercise list</Text>
+              <Text style={styles.backLinkText}>← {t("trainingCamera.exerciseList")}</Text>
             </Pressable>
           </View>
         ) : (
           <View style={styles.cameraWrap} onLayout={onCameraLayout}>
             <Pressable style={styles.closeBtn} onPress={handleClose}>
-              <Text style={styles.closeBtnText}>← Back</Text>
+              <Text style={styles.closeBtnText}>← {t("trainingCamera.back")}</Text>
             </Pressable>
 
             <MediapipeCamera
@@ -260,10 +264,10 @@ export function TrainingCameraSession({ exercise, onClose }: Props) {
                 <Text style={styles.hudLabel}>{exercise.title}</Text>
                 <Text style={styles.hudCount}>
                   {Math.max(0, targetReps - repCount)}
-                  <Text style={styles.hudSlash}> left</Text>
+                  <Text style={styles.hudSlash}> {t("trainingCamera.left")}</Text>
                 </Text>
                 {repComplete ? (
-                  <Text style={styles.hudDone}>Completed</Text>
+                  <Text style={styles.hudDone}>{t("trainingCamera.completed")}</Text>
                 ) : (
                   <Text style={styles.hudHint}>{exercise.hint}</Text>
                 )}
@@ -272,7 +276,7 @@ export function TrainingCameraSession({ exercise, onClose }: Props) {
                   onPress={resetSession}
                   hitSlop={8}
                 >
-                  <Text style={styles.resetBtnText}>Restart</Text>
+                  <Text style={styles.resetBtnText}>{t("trainingCamera.restart")}</Text>
                 </Pressable>
               </View>
             </View>
@@ -284,7 +288,9 @@ export function TrainingCameraSession({ exercise, onClose }: Props) {
               }
             >
               <Text style={styles.flipBtnText}>
-                {cameraFacing === "front" ? "Rear camera" : "Front camera"}
+                {cameraFacing === "front"
+                  ? t("trainingCamera.rearCamera")
+                  : t("trainingCamera.frontCamera")}
               </Text>
             </Pressable>
           </View>

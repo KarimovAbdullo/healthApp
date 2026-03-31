@@ -1,5 +1,6 @@
 import { AppText } from "@/components/AppText";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { TouchableOpacity } from "react-native";
 
 import { styles } from "../WaterScreen.styles";
@@ -13,6 +14,7 @@ export function WaterActionButtons({
   onConfirm: () => void;
   onClear: () => void;
 }) {
+  const { t } = useTranslation();
   return (
     <>
       <TouchableOpacity
@@ -25,7 +27,7 @@ export function WaterActionButtons({
         disabled={totalSelected === 0}
       >
         <AppText weight="bold" color="#0F172A">
-          Add Water
+          {t("water.addWater")}
         </AppText>
       </TouchableOpacity>
 
@@ -35,7 +37,7 @@ export function WaterActionButtons({
         activeOpacity={0.8}
       >
         <AppText size={13} weight="medium" color="#E5E7EB">
-          Clear
+          {t("water.clear")}
         </AppText>
       </TouchableOpacity>
     </>

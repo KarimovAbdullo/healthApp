@@ -1,6 +1,7 @@
 import { AppText } from "@/components/AppText";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
+import { useTranslation } from "react-i18next";
 import {
   ImageSourcePropType,
   StyleSheet,
@@ -29,6 +30,7 @@ const FoodTracker = ({
   style,
   onLogPress,
 }: Props) => {
+  const { t } = useTranslation();
   const safeTotal = totalCalories > 0 ? totalCalories : 1;
   const filledProgress = Math.min(1, current / safeTotal);
   const isDone = current >= totalCalories && totalCalories > 0;
@@ -55,7 +57,7 @@ const FoodTracker = ({
           <View style={styles.rightColumn}>
             <View style={styles.headerRow}>
               <AppText size={14} weight="semibold" color="#F9FAFB">
-                Daily Food Tracker
+                {t("tracker.dailyFoodTracker")}
               </AppText>
             </View>
 
@@ -63,7 +65,7 @@ const FoodTracker = ({
               {isDone ? (
                 <View style={styles.doneRow}>
                   <AppText size={16} weight="semibold" color="#22C55E">
-                    Done
+                    {t("common.done")}
                   </AppText>
                   <Image
                     source={doneImg}
@@ -98,7 +100,7 @@ const FoodTracker = ({
             </View>
           </View>
           <View style={styles.rightSection}>
-            <LogWaterButton onPress={onLogPress} text="Log Food" />
+            <LogWaterButton onPress={onLogPress} text={t("tracker.logFood")} />
           </View>
         </View>
       </LinearGradient>

@@ -2,6 +2,7 @@ import { AppText } from "@/components/AppText";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
+import { useTranslation } from "react-i18next";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 
 type Props = {
@@ -15,6 +16,7 @@ export default function StepTracker({
   goalSteps,
   onPress,
 }: Props) {
+  const { t } = useTranslation();
   const safeGoal = goalSteps > 0 ? goalSteps : 1;
   const progress = Math.min(1, currentSteps / safeGoal);
   const percent = Math.round(progress * 100);
@@ -39,10 +41,10 @@ export default function StepTracker({
             />
             <View>
               <AppText size={17} weight="semibold" color="#F9FAFB">
-                Step Tracker
+                {t("tracker.stepTracker")}
               </AppText>
               <AppText size={12} color="rgba(229,231,235,0.85)">
-                Monitor your daily step count
+                {t("tracker.monitorDailyStepCount")}
               </AppText>
             </View>
           </View>
@@ -57,7 +59,7 @@ export default function StepTracker({
         <View style={styles.innerCard}>
           <View style={styles.valuesRow}>
             <AppText size={14} weight="bold" color="#F9FAFB">
-              {currentSteps.toLocaleString()} Steps Today
+              {currentSteps.toLocaleString()} {t("tracker.stepsToday")}
             </AppText>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <Image
@@ -65,7 +67,7 @@ export default function StepTracker({
                 style={styles.icons}
               />
               <AppText size={12} color="#DDD6FE">
-                Goal: {goalSteps.toLocaleString()} steps
+                {t("tracker.goal")}: {goalSteps.toLocaleString()} {t("tracker.steps")}
               </AppText>
             </View>
           </View>

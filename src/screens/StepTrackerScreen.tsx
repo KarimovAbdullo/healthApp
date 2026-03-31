@@ -19,6 +19,7 @@ import moment from "moment";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Animated,
   AppState,
@@ -35,6 +36,7 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 const GOAL_METERS = 3000;
 
 export default function StepTrackerScreen() {
+  const { t } = useTranslation();
   const router = useRouter();
   const dispatch = useAppDispatch();
   const profile = useAppSelector((s) => s.profile);
@@ -219,11 +221,11 @@ export default function StepTrackerScreen() {
     setPermissionGranted(capability.granted);
 
     if (!capability.available) {
-      setErrorText("Pedometer is not available on this device.");
+      setErrorText(t("stepTraining.pedometerUnavailable"));
       return;
     }
     if (!capability.granted) {
-      setErrorText("Pedometer permission is required.");
+      setErrorText(t("stepTraining.pedometerPermissionRequired"));
       return;
     }
 
@@ -249,9 +251,9 @@ export default function StepTrackerScreen() {
     setErrorText("");
     const opened = await Linking.openSettings();
     if (!opened) {
-      setErrorText("Unable to open app settings. Please open it manually.");
+      setErrorText(t("stepTraining.unableOpenSettings"));
     }
-  }, []);
+  }, [t]);
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -277,10 +279,7 @@ export default function StepTrackerScreen() {
             color="#F9FAFB"
             style={styles.headerTitle}
           >
-            Step{" "}
-            <AppText size={22} weight="bold" color="#FACC15">
-              Tracker
-            </AppText>
+            {t("tracker.stepTracker")}
           </AppText>
           <View style={styles.placeholder} />
         </View>
@@ -323,7 +322,7 @@ export default function StepTrackerScreen() {
           color="#F9FAFB"
           style={styles.goalText}
         >
-          Goal:{" "}
+          {t("stepTraining.goal")}:{" "}
           <AppText size={25} weight="bold" color="#FACC15">
             {GOAL_METERS.toLocaleString()} m
           </AppText>
@@ -340,15 +339,15 @@ export default function StepTrackerScreen() {
           />
           {!isReady ? (
             <AppText size={14} color="#CBD5E1" style={styles.note}>
-              Loading...
+              {t("stepTraining.loading")}
             </AppText>
           ) : !deviceSupported ? (
             <AppText size={14} color="#FCA5A5" style={styles.note}>
-              This device does not support pedometer.
+              {t("stepTraining.deviceUnsupported")}
             </AppText>
           ) : !permissionGranted ? (
             <AppText size={14} color="#FCA5A5" style={styles.note}>
-              Allow motion/fitness permission to use step tracking.
+              {t("stepTraining.allowMotionPermission")}
             </AppText>
           ) : errorText ? (
             <AppText size={14} color="#FCA5A5" style={styles.note}>
@@ -357,8 +356,8 @@ export default function StepTrackerScreen() {
           ) : (
             <AppText size={13} color="#CBD5E1" style={styles.note}>
               {isRunning
-                ? "Masofa faqat telefon hisoblagan to‘liq qadamlardan keladi — odatda har qadam ~0.6–0.8 m. Birinchi yangilanish yurib, qadam tan olingach darhol ko‘rinadi (GPS emas)."
-                : "Boshlash uchun START bosing"}
+                ? t("stepTraining.distanceHint")
+                : t("stepTraining.pressStart")}
             </AppText>
           )}
 
@@ -379,7 +378,11 @@ export default function StepTrackerScreen() {
             disabled={!isReady}
           >
             <AppText size={26} color="#111827">
-              {isRunning ? "STOP" : !permissionGranted ? "ALLOW PERMISSION" : "START"}
+              {isRunning
+                ? t("stepTraining.stop")
+                : !permissionGranted
+                  ? t("stepTraining.allowPermission")
+                  : t("stepTraining.start")}
             </AppText>
           </TouchableOpacity>
         </View>

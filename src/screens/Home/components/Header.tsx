@@ -1,6 +1,7 @@
 import HideIcon from "@/assets/icons/hideIcon";
 import ShowIcon from "@/assets/icons/showIcon";
 import { AppText } from "@/components/AppText";
+import { useLanguageModal } from "@/contexts/LanguageModalContext";
 import GlassTabBar from "@/components/GlowButton/GlowButton";
 import { getBodyCategory } from "@/utils/bodyMetrics";
 import { Image } from "expo-image";
@@ -15,6 +16,7 @@ import {
   View,
   type LayoutChangeEvent,
 } from "react-native";
+import { useTranslation } from "react-i18next";
 import Animated, {
   interpolate,
   interpolateColor,
@@ -105,11 +107,13 @@ const bodyImagesFemale = {
 const headerBgImg = require("../../../assets/images/hh.png");
 
 const Header = ({ metrics }: HeaderProps) => {
+  const { t, i18n } = useTranslation();
+  const { openLanguageModal } = useLanguageModal();
   const [isInfoExpanded, setIsInfoExpanded] = useState(true);
   const expandAnim = useSharedValue(1);
   const collapsedHeightSV = useSharedValue(220);
 
-  const name = metrics?.name ?? "Friend";
+  const name = metrics?.name ?? t("home.friend");
   const weight = metrics?.weightKg ?? 110;
   const height = metrics?.heightCm ?? 170;
   const category = getBodyCategory(weight, height);
@@ -187,7 +191,7 @@ const Header = ({ metrics }: HeaderProps) => {
             >
               <View style={styles.headerTopRow}>
                 <AppText variant="subtitle" weight="medium" color="#E5E7EB">
-                  Welcome{" "}
+                  {t("home.welcome")}{" "}
                   <AppText
                     variant="title"
                     weight="bold"
@@ -197,6 +201,15 @@ const Header = ({ metrics }: HeaderProps) => {
                     {name}
                   </AppText>
                 </AppText>
+                <TouchableOpacity
+                  onPress={openLanguageModal}
+                  activeOpacity={0.85}
+                  style={styles.languageBtn}
+                >
+                  <AppText size={12} weight="semibold" color="#F8FAFC">
+                    {i18n.language.toUpperCase()}
+                  </AppText>
+                </TouchableOpacity>
               </View>
 
               <View style={{ flexDirection: "row", width: "60%" }}>
@@ -210,7 +223,7 @@ const Header = ({ metrics }: HeaderProps) => {
                       }}
                     >
                       <AppText size={12} color="black" style={{ marginRight: 4 }}>
-                        Weight:
+                        {t("home.weight")}:
                       </AppText>
                       <AppText size={10} weight="semibold" color="black">
                         {weight} kg
@@ -230,7 +243,7 @@ const Header = ({ metrics }: HeaderProps) => {
                       }}
                     >
                       <AppText size={12} color="black" style={{ marginRight: 4 }}>
-                        Height:
+                        {t("home.height")}:
                       </AppText>
                       <AppText size={10} weight="semibold" color="black">
                         {height} cm
@@ -258,7 +271,7 @@ const Header = ({ metrics }: HeaderProps) => {
                 <Text
                   style={{ fontSize: 12, fontWeight: "bold", color: "black" }}
                 >
-                  {isInfoExpanded ? "Hide info" : "Show info"}
+                  {isInfoExpanded ? t("home.hideInfo") : t("home.showInfo")}
                 </Text>
                 <View style={{ marginLeft: 4 }}>
                   {isInfoExpanded ? <HideIcon /> : <ShowIcon />}
@@ -332,6 +345,17 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 4,
+  },
+  languageBtn: {
+    minWidth: 44,
+    height: 28,
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.35)",
+    backgroundColor: "rgba(15,23,42,0.5)",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 8,
   },
   editButtonWrapper: {
     marginLeft: 8,

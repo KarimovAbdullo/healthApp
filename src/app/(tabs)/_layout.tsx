@@ -1,10 +1,13 @@
+import type { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { Tabs } from "expo-router";
 import { Redirect, Href } from "expo-router";
+import { useTranslation } from "react-i18next";
 
 import { AnimatedTabBar } from "@/components/AnimatedTabBar";
 import { useAppSelector } from "@/store/hooks";
 
 export default function TabLayout() {
+  const { t } = useTranslation();
   const profile = useAppSelector((s) => s.profile);
   if (!profile) {
     return <Redirect href={"/confirm" as Href} />;
@@ -12,15 +15,15 @@ export default function TabLayout() {
 
   return (
     <Tabs
-      tabBar={(props) => <AnimatedTabBar {...props} />}
+      tabBar={(props: BottomTabBarProps) => <AnimatedTabBar {...props} />}
       screenOptions={{
         headerShown: false,
       }}
     >
-      <Tabs.Screen name="index" options={{ title: "Home" }} />
-      <Tabs.Screen name="results" options={{ title: "Results" }} />
-      <Tabs.Screen name="traning" options={{ title: "Traning" }} />
-      <Tabs.Screen name="profile" options={{ title: "Profile" }} />
+      <Tabs.Screen name="index" options={{ title: t("tabs.home") }} />
+      <Tabs.Screen name="results" options={{ title: t("tabs.results") }} />
+      <Tabs.Screen name="traning" options={{ title: t("tabs.training") }} />
+      <Tabs.Screen name="profile" options={{ title: t("tabs.profile") }} />
     </Tabs>
   );
 }

@@ -1,4 +1,5 @@
 import { AppText } from "@/components/AppText";
+import { useLanguageModal } from "@/contexts/LanguageModalContext";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { clearDailyResults } from "@/store/slices/dailyResultsSlice";
 import { clearFoodTracking } from "@/store/slices/foodSlice";
@@ -9,11 +10,14 @@ import { persistor } from "@/store/store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Modal, ScrollView, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "./ProfileScreen.styles";
 
 export function ProfileScreen() {
+  const { t } = useTranslation();
+  const { openLanguageModal } = useLanguageModal();
   const router = useRouter();
   const dispatch = useAppDispatch();
   const profile = useAppSelector((s) => s.profile);
@@ -52,33 +56,33 @@ export function ProfileScreen() {
         <ScrollView>
           <View style={styles.header}>
             <AppText style={styles.headerTitle}>
-              {profile?.name || "User"}
+              {profile?.name || t("profile.user")}
             </AppText>
             <AppText style={styles.headerSubtitle}>
-              {profile?.age} yrs • {profile?.weightKg} kg
+              {profile?.age} {t("profile.yearsShort")} • {profile?.weightKg} kg
             </AppText>
           </View>
 
           <View style={styles.content}>
-            <AppText style={styles.sectionTitle}>Profile Info</AppText>
+            <AppText style={styles.sectionTitle}>{t("profile.profileInfo")}</AppText>
 
             <View style={styles.card}>
-              <AppText color="black">Name: {profile?.name}</AppText>
-              <AppText color="black">Height: {profile?.heightCm} cm</AppText>
-              <AppText color="black">Weight: {profile?.weightKg} kg</AppText>
-              <AppText color="black">Gender: {profile?.gender}</AppText>
+              <AppText color="black">{t("profile.name")}: {profile?.name}</AppText>
+              <AppText color="black">{t("profile.height")}: {profile?.heightCm} cm</AppText>
+              <AppText color="black">{t("profile.weight")}: {profile?.weightKg} kg</AppText>
+              <AppText color="black">{t("profile.gender")}: {profile?.gender}</AppText>
             </View>
 
             <AppText style={[styles.sectionTitle, { marginTop: 24 }]}>
-              Settings
+              {t("profile.settings")}
             </AppText>
 
-            <Item title="🌐 Change Language" onPress={() => {}} />
-            <Item title="💬 Contact Support" onPress={() => {}} />
-            <Item title="🚫 Remove Ads (advertising)" onPress={() => {}} />
+            <Item title={`🌐 ${t("profile.changeLanguage")}`} onPress={openLanguageModal} />
+            <Item title={`💬 ${t("profile.contactSupport")}`} onPress={() => {}} />
+            <Item title={`🚫 ${t("profile.removeAds")}`} onPress={() => {}} />
 
             <Item
-              title="🗑 Clear Profile"
+              title={`🗑 ${t("profile.clearProfile")}`}
               danger
               onPress={() => setShowConfirm(true)}
             />
@@ -89,10 +93,10 @@ export function ProfileScreen() {
       <Modal visible={showConfirm} transparent animationType="fade">
         <View style={styles.modalOverlay}>
           <View style={styles.modalBox}>
-            <AppText style={styles.modalTitle}>Confirm</AppText>
+            <AppText style={styles.modalTitle}>{t("profile.confirm")}</AppText>
 
             <AppText style={styles.modalText}>
-              All data will be deleted.
+              {t("profile.deleteAllData")}
             </AppText>
 
             <View style={styles.modalActions}>
@@ -100,7 +104,7 @@ export function ProfileScreen() {
                 style={[styles.btn, styles.btnOutline]}
                 onPress={() => setShowConfirm(false)}
               >
-                <AppText style={styles.btnText}>Cancel</AppText>
+                <AppText style={styles.btnText}>{t("common.cancel")}</AppText>
               </TouchableOpacity>
 
               <TouchableOpacity
@@ -108,7 +112,7 @@ export function ProfileScreen() {
                 onPress={clearAllData}
               >
                 <AppText style={[styles.btnText, styles.btnTextWhite]}>
-                  Delete
+                  {t("profile.delete")}
                 </AppText>
               </TouchableOpacity>
             </View>

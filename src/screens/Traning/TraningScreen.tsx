@@ -6,6 +6,7 @@ import {
 } from "@/constants/trainingExercises";
 import { useAppSelector } from "@/store/hooks";
 import { useCallback, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 
 function adjustedReps(base: number, gender?: "male" | "female", age?: number): number {
@@ -16,6 +17,7 @@ function adjustedReps(base: number, gender?: "male" | "female", age?: number): n
 }
 
 export default function TraningScreen() {
+  const { t } = useTranslation();
   const profile = useAppSelector((s) => s.profile);
   const [activeExercise, setActiveExercise] =
     useState<TrainingExerciseDef | null>(null);
@@ -23,13 +25,34 @@ export default function TraningScreen() {
   const exercises = useMemo(() => {
     return TRAINING_EXERCISES.map((ex) => {
       const reps = adjustedReps(ex.targetReps, profile?.gender, profile?.age);
+      const localizedTitle =
+        ex.id === "squat"
+          ? t("training.exercises.squat")
+          : ex.id === "press"
+            ? t("training.exercises.crunch")
+            : t("training.exercises.pushup");
+      const localizedBadge =
+        ex.id === "squat"
+          ? t("training.exercises.set1")
+          : ex.id === "press"
+            ? t("training.exercises.set2")
+            : t("training.exercises.set3");
+      const localizedHint =
+        ex.id === "squat"
+          ? t("training.exercises.hintSquat")
+          : ex.id === "press"
+            ? t("training.exercises.hintPress")
+            : t("training.exercises.hintPushup");
       return {
         ...ex,
+        title: localizedTitle,
+        badge: localizedBadge,
+        hint: localizedHint,
         targetReps: reps,
-        subtitle: `${reps} reps`,
+        subtitle: `${reps} ${t("training.reps")}`,
       };
     });
-  }, [profile?.age, profile?.gender]);
+  }, [profile?.age, profile?.gender, t]);
 
   const handleCloseSession = useCallback(() => {
     setActiveExercise(null);

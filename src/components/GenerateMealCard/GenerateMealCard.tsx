@@ -1,6 +1,7 @@
 import { AppText } from "@/components/AppText";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
+import { useTranslation } from "react-i18next";
 import {
   ImageSourcePropType,
   StyleSheet,
@@ -33,6 +34,7 @@ const STAR_POSITIONS: {
 ];
 
 export function GenerateMealCard({ onPress }: Props) {
+  const { t } = useTranslation();
   return (
     <View style={styles.wrap}>
       <LinearGradient
@@ -62,11 +64,10 @@ export function GenerateMealCard({ onPress }: Props) {
 
         <View style={styles.centerCol} pointerEvents="none">
           <AppText size={18} weight="bold" color="#F9FAFB" style={styles.title}>
-            Generate Daily Meal Plan
+            {t("tracker.generateDailyMealPlan")}
           </AppText>
           <AppText size={12} color="rgba(226,232,240,0.88)" style={styles.desc}>
-            Get a personalized daily meal plan tailored just for you based on
-            your dietary needs.
+            {t("tracker.mealPlanDesc")}
           </AppText>
         </View>
 
@@ -78,7 +79,7 @@ export function GenerateMealCard({ onPress }: Props) {
             style={styles.btn}
           >
             <AppText size={15} weight="bold" color="#FFFFFF">
-              Generate Plan
+              {t("tracker.generatePlan")}
             </AppText>
           </LinearGradient>
         </TouchableOpacity>

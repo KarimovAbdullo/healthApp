@@ -4,7 +4,8 @@ import {
 } from "@/constants/trainingExercises";
 import { useAppSelector } from "@/store/hooks";
 import { LinearGradient } from "expo-linear-gradient";
-import moment from "moment";
+import * as moment from "moment";
+import { useTranslation } from "react-i18next";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { TrainingExerciseCard } from "./TrainingExerciseCard";
 import { useMemo } from "react";
@@ -18,6 +19,7 @@ export function TrainingExercisePicker({
   onSelect,
   exercises = TRAINING_EXERCISES,
 }: Props) {
+  const { t } = useTranslation();
   const usageStartDate = useAppSelector((s) => s.dailyResults.usageStartDate);
   const fitnessByExercise = useAppSelector(
     (s) => s.dailyResults.fitnessRepsByDateByExercise ?? {},
@@ -46,9 +48,9 @@ export function TrainingExercisePicker({
         contentContainerStyle={styles.scroll}
         showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.heading}>Daily exercises</Text>
+        <Text style={styles.heading}>{t("training.dailyExercises")}</Text>
         <Text style={styles.subheading}>
-          These are the exercises you have to do every day.
+          {t("training.dailyExercisesDesc")}
         </Text>
         {exercises.map((ex) => {
           const todayReps = fitnessByExercise[today]?.[ex.id] ?? 0;

@@ -1,11 +1,13 @@
 import { AppText } from "@/components/AppText";
 import { Image } from "expo-image";
+import { useTranslation } from "react-i18next";
 import { TouchableOpacity, View } from "react-native";
 
 import BackIcon2 from "@/assets/icons/BackIcon2";
 import { styles } from "../WaterScreen.styles";
 
 export function WaterHeader({ onBackPress }: { onBackPress: () => void }) {
+  const { t } = useTranslation();
   const onInfoPress = () => {
     console.log("info pressed");
   };
@@ -17,7 +19,7 @@ export function WaterHeader({ onBackPress }: { onBackPress: () => void }) {
 
       <View style={styles.headerTitleWrap}>
         <AppText variant="title" weight="bold" color="#F9FAFB">
-          Log Water
+          {t("water.logWater")}
         </AppText>
       </View>
 

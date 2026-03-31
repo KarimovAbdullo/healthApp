@@ -4,8 +4,9 @@ import type { RootState } from "@/store/store";
 import type { FoodItemLog } from "@/utils/foodStorage";
 import type { StepSession } from "@/utils/storage";
 import { LinearGradient } from "expo-linear-gradient";
-import moment from "moment";
+import * as moment from "moment";
 import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   FlatList,
   Pressable,
@@ -16,13 +17,6 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export type ResultsCategory = "food" | "water" | "steps" | "fitness";
-
-const CATEGORIES: { id: ResultsCategory; label: string }[] = [
-  { id: "food", label: "Food track" },
-  { id: "water", label: "Water track" },
-  { id: "steps", label: "Step track" },
-  { id: "fitness", label: "Fitness track" },
-];
 
 function totalFoodCalories(items: FoodItemLog[]): number {
   return Math.round(
@@ -100,11 +94,19 @@ function buildRows(
 }
 
 export function ResultsScreen() {
+  const { t } = useTranslation();
   const [category, setCategory] = useState<ResultsCategory>("food");
   const food = useAppSelector((s) => s.food);
   const water = useAppSelector((s) => s.water);
   const dailyResults = useAppSelector((s) => s.dailyResults);
   const stepSession = useAppSelector((s) => s.stepSession);
+
+  const categories: { id: ResultsCategory; label: string }[] = [
+    { id: "food", label: t("results.foodTrack") },
+    { id: "water", label: t("results.waterTrack") },
+    { id: "steps", label: t("results.stepTrack") },
+    { id: "fitness", label: t("results.fitnessTrack") },
+  ];
 
   const rows = useMemo(
     () =>
@@ -118,20 +120,25 @@ export function ResultsScreen() {
   );
 
   const usageStartDate = dailyResults.usageStartDate;
+  const displayUnit = (unit: string) => {
+    if (unit === "steps") return t("tracker.steps");
+    if (unit === "reps") return t("training.reps");
+    return unit;
+  };
 
   const subtitle = useMemo(() => {
     if (!usageStartDate) {
-      return "History starts after you confirm your profile. Days with no activity show as 0.";
+      return t("results.historyStarts");
     }
-    return `From ${moment(usageStartDate, "YYYY-MM-DD").format("D MMM YYYY")} — days without activity show as 0.`;
-  }, [usageStartDate]);
+    return `${t("results.fromPrefix")} ${moment(usageStartDate, "YYYY-MM-DD").format("D MMM YYYY")} - ${t("results.noActivityHint")}`;
+  }, [t, usageStartDate]);
 
   return (
     <View style={styles.root}>
       <SafeAreaView style={styles.safe} edges={["top"]}>
         <View style={styles.header}>
           <AppText variant="title" weight="bold" color="#F8FAFC">
-            Results
+            {t("results.title")}
           </AppText>
           <AppText size={13} color="#94A3B8" style={styles.subtitle}>
             {subtitle}
@@ -147,7 +154,7 @@ export function ResultsScreen() {
                   showsHorizontalScrollIndicator={false}
                   contentContainerStyle={styles.tabsRow}
                 >
-                  {CATEGORIES.map((c) => {
+                  {categories.map((c) => {
                     const active = c.id === category;
                     return (
                       <Pressable
@@ -204,7 +211,7 @@ export function ResultsScreen() {
                 </AppText>
 
                 <AppText size={12} color="#CBD5E1" style={{ marginLeft: 4 }}>
-                  {item.unit}
+                  {displayUnit(item.unit)}
                 </AppText>
               </View>
             </LinearGradient>
